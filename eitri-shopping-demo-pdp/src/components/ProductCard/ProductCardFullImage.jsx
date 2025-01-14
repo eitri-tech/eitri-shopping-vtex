@@ -4,10 +4,8 @@ import icon360 from '../../assets/images/icon-360.png'
 import WishlistIcon from '../WishlistIcon/WishlistIcon'
 import { useTranslation } from 'eitri-i18n'
 
-export default function ProductCardVertical(props) {
+export default function ProductCardFullImage(props) {
 	const {
-		ratingValue,
-		ratingsCount,
 		listPrice,
 		image,
 		name,
@@ -19,12 +17,11 @@ export default function ProductCardVertical(props) {
 		onAddToCart,
 		onRemoveFromCart,
 		loadingCartOp,
-		badge,
 		loadingWishlistOp,
 		isOnWishlist,
 		onAddToWishlist,
 		onRemoveFromWishlist,
-		hasImage360
+		showListItem
 	} = props
 
 	const { t } = useTranslation()
@@ -68,43 +65,12 @@ export default function ProductCardVertical(props) {
 	return (
 		<View
 			position='relative'
-			backgroundColor={Vtex?.configs?.account === 'rihappynovo' || 'accent-100'}
+			backgroundColor={'accent-100'}
 			minWidth={width || 'auto'}
 			maxWidth={width || 'auto'}
 			borderRadius='small'
-			padding='small'
 			elevation='low'>
 			<View direction='column'>
-				{badge ? (
-					<View
-						maxHeight='27px'
-						minHeight='27px'
-						borderRadius='pill'
-						width='fit-content'
-						backgroundColor={'positive-300'}
-						paddingHorizontal='large'
-						paddingVertical='quark'>
-						<Text
-							fontWeight='bold'
-							fontFamily='Baloo 2'>
-							{badge}
-						</Text>
-					</View>
-				) : (
-					<View height='27px' />
-				)}
-				{hasImage360 && (
-					<View
-						position='absolute'
-						top='5px'
-						right='5px'>
-						<Image
-							src={icon360}
-							width='24px'
-							height='24px'
-						/>
-					</View>
-				)}
 				<View
 					position='relative'
 					display='flex'
@@ -113,93 +79,107 @@ export default function ProductCardVertical(props) {
 					justifyContent='center'
 					borderRadius='micro'
 					alignItems='center'
-					height='143px'
-					minHeight='143px'
-					maxHeight='143px'>
-					<Image
-						src={image}
-						maxWidth='100%'
-						maxHeight='100%'
-						borderRadius='micro'
+					height='240px'
+					minHeight='240px'
+					maxHeight='240px'>
+					<View
+						width='100%'
+						height='100%'
+						backgroundImage={image}
+						backgroundSize='cover'
+						backgroundPositionY='center'
+						backgroundPositionX='center'
+						borderRadiusRightTop='micro'
+						borderRadiusLeftTop='micro'
 					/>
-				</View>
-				<View
-					marginTop='small'
-					display='flex'
-					justifyContent='between'
-					maxHeight='36px'
-					minHeight='36px'
-					gap={4}>
-					<Text
-						lineClamp={3}
-						fontWeight='medium'
-						fontSize='extra-small'>
-						{name}
-					</Text>
-					{/* {loadingWishlistOp ? (
-						<View
-							position='relativo'
-							width='34px'
-							height='24px'>
-							<View
-								position='absolute'
-								right='-17px'>
-								<Loading width='70px' />
-							</View>
-						</View>
-					) : ( */}
-					<Touchable
-						disabled={loadingWishlistOp}
-						onPress={onPressWishlist}
-						zIndex={98}>
-						<WishlistIcon checked={isOnWishlist} />
-					</Touchable>
+					<View
+						position='absolute'
+						top='5px'
+						right='5px'
+						width='30px'
+						height='30px'
+						display='flex'
+						alignItems='center'
+						justifyContent='center'
+						borderRadius='circular'
+						backgroundColor='accent-100'>
+						<Touchable
+							disabled={loadingWishlistOp}
+							onPress={onPressWishlist}
+							zIndex={98}>
+							<WishlistIcon checked={isOnWishlist} />
+						</Touchable>
+					</View>
 				</View>
 
-				<View
-					direction='column'
-					gap={2}
-					marginTop='nano'>
-					{listPrice ? (
+				<View padding='small'>
+					<View
+						marginTop='small'
+						display='flex'
+						justifyContent='between'
+						maxHeight='36px'
+						minHeight='36px'
+						gap={4}>
 						<Text
-							textDecoration='line-through'
-							fontWeight='bold'
-							color='neutral-500'
-							fontSize='nano'>
-							{listPrice}
+							lineClamp={2}
+							fontWeight='medium'
+							fontSize='extra-small'>
+							{name}
 						</Text>
-					) : (
-						<View height='16px' />
-					)}
+					</View>
 
-					<Text
-						fontWeight='bold'
-						color='primary-700'
-						fontSize='small'>
-						{price}
-					</Text>
+					<View
+						direction='column'
+						gap={2}
+						marginTop='nano'>
+						{showListItem && (
+							<>
+								{listPrice ? (
+									<Text
+										textDecoration='line-through'
+										fontWeight='bold'
+										color='neutral-500'
+										fontSize='nano'>
+										{listPrice}
+									</Text>
+								) : (
+									<View height='16px' />
+								)}
+							</>
+						)}
 
-					{installments ? (
 						<Text
 							fontWeight='bold'
-							color='neutral-500'
-							fontSize='nano'>
-							{installments}
+							color='primary-700'
+							fontSize='small'>
+							{price}
 						</Text>
-					) : (
-						<View height='16px' />
-					)}
+
+						{installments ? (
+							<Text
+								fontWeight='bold'
+								color='neutral-500'
+								fontSize='nano'>
+								{installments}
+							</Text>
+						) : (
+							<View height='16px' />
+						)}
+					</View>
+
+					<View>{}</View>
 				</View>
+
 				<Touchable
-					marginTop='nano'
 					height='36px'
 					width='100%'
-					borderRadius='pill'
 					display='flex'
 					justifyContent='center'
 					alignItems='center'
-					borderColor={'primary-700'}
+					borderColor='primary-700'
 					borderWidth='hairline'
+					borderRadiusRightBottom='micro'
+					borderRadiusLeftBottom='micro'
 					backgroundColor={loadingCartOp ? 'neutral-100' : 'primary-700'}
 					zIndex={99}
 					onPress={onPressAddToCart}>
@@ -210,7 +190,7 @@ export default function ProductCardVertical(props) {
 							color='background-color'
 							fontWeight='medium'
 							fontSize='extra-small'>
-							{isInCart ? t('productCardVertical.cart') : t('productCardVertical.buy')}
+							{isInCart ? t('productCardVertical.txtSeeCart') : t('productCardVertical.txtBuy')}
 						</Text>
 					)}
 				</Touchable>

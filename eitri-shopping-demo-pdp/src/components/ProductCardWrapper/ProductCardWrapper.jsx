@@ -1,8 +1,8 @@
 import ProductCardVertical from '../ProductCard/ProductCardVertical'
 import { useLocalShoppingCart } from '../../providers/LocalCart'
 import { openProduct } from '../../services/NavigationService'
-import { addToWishlist, checkItem, removeItemFromWishlist } from '../../services/CustomerService'
-import { formatPrice } from '../../utils/Util'
+import { addToWishlist, checkItemInWishlist, removeItemFromWishlist } from '../../services/customerService'
+import { formatAmount } from '../../utils/utils'
 import { findSpecificationValue } from '../../services/ProductService'
 import { Vtex } from 'eitri-shopping-vtex-shared'
 import ProductCardFullImage from '../ProductCard/ProductCardFullImage'
@@ -33,7 +33,7 @@ export default function ProductCardWrapper(props) {
 
 	const checkItemOnWishlist = async () => {
 		try {
-			const { inList, listId } = await checkItem(vtexProduct.productId)
+			const { inList, listId } = await checkItemInWishlist(vtexProduct.productId)
 			if (inList) {
 				setIsOnWishlist(true)
 				setWishListId(listId)
@@ -55,14 +55,14 @@ export default function ProductCardWrapper(props) {
 
 		if (!maxInstallments || maxInstallments?.NumberOfInstallments === 1) return ''
 
-		return `em até ${maxInstallments?.NumberOfInstallments}x ${formatPrice(maxInstallments?.Value, locale, currency)}`
+		return `em até ${maxInstallments?.NumberOfInstallments}x ${formatAmount(maxInstallments?.Value, locale, currency)}`
 	}
 
 	const getListPrice = () => {
 		if (sellerDefault?.commertialOffer.Price === sellerDefault?.commertialOffer.ListPrice) {
 			return ''
 		} else {
-			return formatPrice(sellerDefault?.commertialOffer.ListPrice, locale, currency)
+			return formatAmount(sellerDefault?.commertialOffer.ListPrice, locale, currency)
 		}
 	}
 
@@ -138,7 +138,7 @@ export default function ProductCardWrapper(props) {
 				image={item?.images?.[0]?.imageUrl}
 				badge={getBadge()}
 				listPrice={getListPrice()}
-				price={formatPrice(sellerDefault?.commertialOffer.Price, locale, currency)}
+				price={formatAmount(sellerDefault?.commertialOffer.Price, locale, currency)}
 				installments={formatInstallments(sellerDefault)}
 				onAddToCart={onAddToCart}
 				onRemoveFromCart={onRemoveFromCart}
@@ -163,7 +163,7 @@ export default function ProductCardWrapper(props) {
 			image={item?.images?.[0]?.imageUrl}
 			badge={getBadge()}
 			listPrice={getListPrice()}
-			price={formatPrice(sellerDefault?.commertialOffer.Price, locale, currency)}
+			price={formatAmount(sellerDefault?.commertialOffer.Price, locale, currency)}
 			installments={formatInstallments(sellerDefault)}
 			onAddToCart={onAddToCart}
 			onRemoveFromCart={onRemoveFromCart}

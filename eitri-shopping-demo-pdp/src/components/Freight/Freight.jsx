@@ -178,7 +178,6 @@ export default function Freight(props) {
 											<View
 												display='flex'
 												alignItems='center'
-												justifyContent='center'
 												width='100%'
 												paddingHorizontal='small'>
 												<Text

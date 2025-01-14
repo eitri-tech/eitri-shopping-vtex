@@ -1,11 +1,22 @@
 import { formatAmount } from '../../utils/utils'
 import ProductCardVertical from '../ProductCard/ProductCardVertical'
 import { Spacing } from 'eitri-shopping-demo-shared'
+import ProductCardWrapper from '../ProductCardWrapper/ProductCardWrapper'
 
 export default function ProductCarousel(props) {
 	const [currentSlide, setCurrentSlide] = useState(0)
 
-	const { products, reviewsRate, addToCart, isProductInCart, navigateCart, navigateToProduct, borderColor, locale, currency } = props
+	const {
+		products,
+		reviewsRate,
+		addToCart,
+		isProductInCart,
+		navigateCart,
+		navigateToProduct,
+		borderColor,
+		locale,
+		currency
+	} = props
 
 	let pairedItems = []
 
@@ -62,17 +73,26 @@ export default function ProductCarousel(props) {
 							const { average, count } = getRatingInfo(item?.productId)
 							const isProductInCart = isOnCart(item?.productId)
 							return (
-								<ProductCardVertical
+								<ProductCardWrapper
 									key={item?.productId}
+									vtexProduct={item}
 									listPrice={
 										item?.items[0]?.sellers[0]?.commertialOffer?.ListPrice !==
 										item?.items[0]?.sellers[0]?.commertialOffer?.Price
-											? formatAmount(item?.items[0]?.sellers[0]?.commertialOffer?.ListPrice, locale, currency)
+											? formatAmount(
+													item?.items[0]?.sellers[0]?.commertialOffer?.ListPrice,
+													locale,
+													currency
+												)
 											: null
 									}
 									image={item?.items[0]?.images[0]?.imageUrl}
 									name={item?.productName || item?.name}
-									price={formatAmount(item?.items[0]?.sellers[0]?.commertialOffer?.Price, locale, currency)}
+									price={formatAmount(
+										item?.items[0]?.sellers[0]?.commertialOffer?.Price,
+										locale,
+										currency
+									)}
 									width={'48%'}
 									ratingValue={average}
 									ratingsCount={count}
