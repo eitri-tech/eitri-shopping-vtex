@@ -1,9 +1,9 @@
 {
   "ecommerceProvider": "VTEX",
   "providerInfo": {
-    "account": "euentregobr",
-    "faststore": "mormaiishop",
-    "host": "https://euentregobr.myvtex.com",
+    "account": "worldwine",
+    "faststore": "worldwine",
+    "host": "https://www.worldwine.com.br",
     "vtexCmsUrl": "https://euentregobr.myvtex.com"
   },
   "appConfigs": {
