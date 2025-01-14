@@ -1,0 +1,68 @@
+{
+	"home": {
+		"labelHello": "Olá",
+		"labelLeave": "Sair",
+		"labelMyFavorites": "Meus favoritos",
+		"labelEditFavorites": "Adicione ou edite seus favoritos",
+		"labelMyAccount": "Minha conta",
+		"labelConfig": "Informações pessoais e configurações",
+		"labelMyOrders": "Meus pedidos",
+		"labelHistoryOders": "Confira todo o histórico dos seus pedidos",
+	},
+	"passwordReset": {
+		"messageRecovery": "* Vamos te mandar uma mensagem com um código para recuperar senha",
+		"sendButton": "Enviar código",
+		"messageError": "Houve um erro ao enviar o código de recuperação de senha. Tente novamente mais tarde.",
+		"recoveryPass": "Recuperação de senha",
+		"headerText": "Senha",
+		"forgotPass": "Esqueceu a senha?",
+		"setEmail": "Digite seu e-mail"
+	},
+	"passwordResetCode": {
+		"messageEmail": "Digite sual senha de 6 dígitos enviado para o email",
+		"sendButton": "Continuar",
+		"headerText": "Senha",
+		"forgotPass": "Esqueceu a senha?",
+	},
+	"passwordResetNewPass": {
+		"headerText": "Senha",
+		"forgotPass": "Esqueceu a senha?",
+		"newPass": "Nova senha",
+		"confirmPass": "Confirme a senha",
+		"sendButton": "Continuar",
+		"messageError": "Houve um erro ao redefinir a senha. Tente novamente mais tarde.",
+	},
+	"signIn": {
+		"errosSendAccess": "erro ao enviar email",
+		"errorInvalidUser": "Usuário ou senha inválidos",
+		"wrongCredentials": "Token incorreto",
+		"verifyAgain": "Verifique as informaçoes e tente novamente",
+		"headerText": "Entrar",
+		"welcome": "Bem vindo de volta!",
+		"formName": "Nome de usuário ou e-mail",
+		"formPass": "Senha",
+		"formEmail": "Email",
+		"labelButton": "Login",
+		"labelAccessWithCode": "Login com código de acesso",
+		"forgotPass": "Esqueceu a senha?",
+		"noRegister": "Não tenho cadastro",
+		"formCodeVerification": "Código de verificação",
+		"textSendCode": "Enviar código",
+		"textResendCode": "Reenviar código",
+		"labelLoginWithPass": "Login com email e senha"
+	},
+	"orderStatusBadge": {
+		"cancel": "Cancelando pedido",
+		"complete": "Pedido completo",
+		"approved": "Pagamento aprovado",
+		"pending": "Aguardando pagamento",
+		"requestCancel": "Pedido cancelamento",
+		"canceled": "Cancelado",
+		"waitAuthorization": "Esperando autorizaçao",
+		"authorizeFulfillment": "Autorizado formulario",
+		"windowCancel": "Janela de cancelamento",
+		"readyInvoicing": "pronto para nota fiscal",
+		"invoice": "Gerar nota fiscal",
+		"created": "Criado"
+	}
+}
