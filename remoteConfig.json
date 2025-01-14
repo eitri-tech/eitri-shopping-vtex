@@ -1,0 +1,52 @@
+{
+  "ecommerceProvider": "VTEX",
+  "providerInfo": {
+    "account": "euentregobr",
+    "faststore": "eitri-dummy",
+    "host": "https://euentregobr.myvtex.com",
+    "vtexCmsUrl": "https://euentregobr.myvtex.com"
+  },
+  "appConfigs": {
+    "statusBarTextColor": "white",
+    "useScrollEffect": true,
+    "showSearchBar": true,
+    "headerLogo": "https://console.eitri.tech/assets/logo-dark-CpI6qVKD.svg",
+    "headerBackgroundColor": "primary-500",
+    "headerContentColor": "accent-100"
+  },
+  "eitriConfig": {
+    "mainApp": "eitri-shopping-demo-home",
+    "bottomNavItems": [
+      {
+        "slug": "eitri-shopping-demo-home",
+        "initParams": {
+          "tabIndex": 0
+        }
+      },
+      {
+        "slug": "eitri-shopping-demo-home",
+        "initParams": {
+          "tabIndex": 1,
+          "route": "Categories"
+        }
+      },
+      {
+        "slug": "eitri-shopping-demo-cart",
+        "initParams": {
+          "tabIndex": 2
+        }
+      },
+      {
+        "slug": "eitri-shopping-demo-account",
+        "initParams": {
+          "tabIndex": 3
+        }
+      }
+    ]
+  },
+  "storePreferences": {
+    "displayCompanyName": "",
+    "currencyCode": "BRL",
+    "locale": "pt-BR"
+  }
+}
