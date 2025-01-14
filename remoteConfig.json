@@ -2,7 +2,7 @@
   "ecommerceProvider": "VTEX",
   "providerInfo": {
     "account": "euentregobr",
-    "faststore": "eitri-dummy",
+    "faststore": "mormaiishop",
     "host": "https://euentregobr.myvtex.com",
     "vtexCmsUrl": "https://euentregobr.myvtex.com"
   },
