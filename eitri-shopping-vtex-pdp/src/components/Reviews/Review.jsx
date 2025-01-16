@@ -1,4 +1,4 @@
-import { Divisor } from 'eitri-shopping-demo-shared'
+import { Divisor } from 'eitri-shopping-vtex-components-shared'
 import Rating from '../Rating/Rating';
 import { useTranslation } from 'eitri-i18n'
 

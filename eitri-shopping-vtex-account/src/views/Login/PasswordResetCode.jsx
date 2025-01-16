@@ -1,7 +1,7 @@
 import CButton from '../../components/CButton/CButton'
 import CodeInput from '../../components/PasswordResetCode/CodeInput'
 import BigTitle from '../../components/BigTitle/BigTitle'
-import { HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-demo-shared'
+import { HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-vtex-components-shared'
 import { navigate, PAGES } from '../../services/NavigationService'
 import { useTranslation } from 'eitri-i18n'
 

@@ -1,4 +1,4 @@
-import { Loading } from 'eitri-shopping-demo-shared'
+import { Loading } from 'eitri-shopping-vtex-components-shared'
 import ProductCardWrapper from '../ProductCardWrapper/ProductCardWrapper'
 import ShelfOfProductsCarousel from './components/ShelfOfProductsCarousel'
 import Eitri from 'eitri-bifrost'

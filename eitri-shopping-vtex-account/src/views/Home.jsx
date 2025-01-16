@@ -1,5 +1,5 @@
 import { App } from 'eitri-shopping-vtex-shared'
-import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-demo-shared'
+import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
 import iconLogout from '../assets/icons/logout.svg'
 import Eitri from 'eitri-bifrost'
 import CButton from '../components/CButton/CButton'

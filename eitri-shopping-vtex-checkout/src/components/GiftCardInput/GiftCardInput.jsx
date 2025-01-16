@@ -1,4 +1,4 @@
-import { Loading } from 'eitri-shopping-demo-shared'
+import { Loading } from 'eitri-shopping-vtex-components-shared'
 import { useLocalShoppingCart } from '../../providers/LocalCart'
 import { useTranslation } from 'eitri-i18n'
 

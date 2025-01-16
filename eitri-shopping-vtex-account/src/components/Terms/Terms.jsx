@@ -1,5 +1,5 @@
 import { getTerms } from '../../services/BonifiqService/BonifiqService'
-import { Loading } from 'eitri-shopping-demo-shared'
+import { Loading } from 'eitri-shopping-vtex-components-shared'
 
 
 export default function Terms(props) {

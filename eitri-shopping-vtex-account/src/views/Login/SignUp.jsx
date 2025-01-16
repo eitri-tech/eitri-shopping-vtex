@@ -1,5 +1,5 @@
 import Eitri from 'eitri-bifrost'
-import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-demo-shared'
+import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
 import userIcon from '../../assets/icons/user.svg'
 import CInput from '../../components/CInput/CInput'
 import CButton from '../../components/CButton/CButton'

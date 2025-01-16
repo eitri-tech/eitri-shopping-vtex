@@ -1,4 +1,4 @@
-import { CustomButton, HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-demo-shared'
+import { CustomButton, HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-vtex-components-shared'
 import { closeEitriApp } from '../services/navigationService'
 import cartImage from '../assets/images/cart-01.svg'
 import { useTranslation } from 'eitri-i18n'

@@ -1,6 +1,6 @@
 import { getWishlist, removeFromWishlist } from '../services/CustomerService'
 import WishlistItem from '../components/WishlistItem/WishlistItem'
-import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-demo-shared'
+import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
 import NoItem from '../components/NoItem/NoItem'
 import { sendPageView } from '../services/TrackingService'
 

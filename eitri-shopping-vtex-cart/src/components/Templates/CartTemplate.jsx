@@ -1,5 +1,5 @@
 import Eitri from 'eitri-bifrost'
-import { Loading } from 'eitri-shopping-demo-shared'
+import { Loading } from 'eitri-shopping-vtex-components-shared'
 import emptyCart from '../../assets/images/cart-01.svg'
 import EmptyCart from '../EmptyCart/EmptyCart'
 import Cart from '../Cart/Cart'

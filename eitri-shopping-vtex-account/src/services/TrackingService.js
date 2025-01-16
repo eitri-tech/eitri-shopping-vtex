@@ -1,4 +1,4 @@
-import { Tracking } from 'eitri-shopping-demo-shared'
+import { Tracking } from 'eitri-shopping-vtex-components-shared'
 
 export const startTrackingService = async () => {
 	try {

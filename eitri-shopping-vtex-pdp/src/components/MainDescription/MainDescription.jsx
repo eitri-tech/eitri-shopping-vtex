@@ -1,5 +1,5 @@
 import Rating from '../Rating/Rating'
-import { Spacing } from 'eitri-shopping-demo-shared'
+import { Spacing } from 'eitri-shopping-vtex-components-shared'
 import TagsComponent from '../Tags/TagsComponent'
 import { formatAmount } from '../../utils/utils'
 import { useTranslation } from 'eitri-i18n'

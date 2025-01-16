@@ -1,5 +1,5 @@
 import Eitri from 'eitri-bifrost'
-import { Spacing, Loading } from 'eitri-shopping-demo-shared'
+import { Spacing, Loading } from 'eitri-shopping-vtex-components-shared'
 import { useTranslation } from 'eitri-i18n'
 
 export default function Coupon(props) {

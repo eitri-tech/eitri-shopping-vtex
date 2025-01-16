@@ -1,4 +1,4 @@
-import { Spacing, CustomButton } from 'eitri-shopping-demo-shared'
+import { Spacing, CustomButton } from 'eitri-shopping-vtex-components-shared'
 
 export default function ModalConfirm(props) {
 	const { text, showModal, removeItem, closeModal } = props

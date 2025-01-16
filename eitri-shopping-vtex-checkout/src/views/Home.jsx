@@ -2,7 +2,7 @@ import { useLocalShoppingCart } from '../providers/LocalCart'
 import { crash, crashLog, startTrackingService } from '../services/trackingService'
 import Eitri from 'eitri-bifrost'
 import { App } from 'eitri-shopping-vtex-shared'
-import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-demo-shared'
+import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
 import { saveCartIdOnStorage } from '../services/cartService'
 import { useTranslation } from 'eitri-i18n'
 

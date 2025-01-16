@@ -1,4 +1,4 @@
-import { Spacing, Divisor } from 'eitri-shopping-demo-shared'
+import { Spacing, Divisor } from 'eitri-shopping-vtex-components-shared'
 import { useTranslation } from 'eitri-i18n'
 
 export default function Information(props) {

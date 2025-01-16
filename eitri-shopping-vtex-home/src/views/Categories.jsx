@@ -1,4 +1,4 @@
-import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-demo-shared'
+import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
 import { getCmsContent } from '../services/CmsService'
 import { getMappedComponent } from '../utils/getMappedComponent'
 import Eitri from 'eitri-bifrost'

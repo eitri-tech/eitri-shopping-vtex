@@ -1,6 +1,6 @@
 import Eitri from 'eitri-bifrost'
 import { App, Vtex } from 'eitri-shopping-vtex-shared'
-import { Loading, HeaderTemplate, HEADER_TYPE, Spacing, CustomButton, Divisor } from 'eitri-shopping-demo-shared'
+import { Loading, HeaderTemplate, HEADER_TYPE, Spacing, CustomButton, Divisor } from 'eitri-shopping-vtex-components-shared'
 import { openCart } from '../services/NavigationService'
 import { useLocalShoppingCart } from '../providers/LocalCart'
 import { crash, crashLog, sendViewItem, startTrackingService } from '../services/trackingService'

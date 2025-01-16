@@ -1,6 +1,6 @@
 import { getHistory } from '../../services/BonifiqService/BonifiqService'
 import formatDate from '../../utils/Date'
-import { Loading } from 'eitri-shopping-demo-shared'
+import { Loading } from 'eitri-shopping-vtex-components-shared'
 
 export default function History(props) {
     const { publicId } = props

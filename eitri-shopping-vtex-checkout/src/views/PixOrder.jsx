@@ -2,7 +2,7 @@ import pixImg from '../assets/images/pix.png'
 import Eitri from 'eitri-bifrost'
 import { setScreenView, logEvent } from '../services/trackingService'
 import { Vtex } from 'eitri-shopping-vtex-shared'
-import { CustomButton } from 'eitri-shopping-demo-shared'
+import { CustomButton } from 'eitri-shopping-vtex-components-shared'
 import { clearCart } from '../services/cartService'
 import { useTranslation } from 'eitri-i18n'
 

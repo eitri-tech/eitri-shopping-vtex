@@ -1,7 +1,7 @@
 import CartItem from '../CartItem/CartItem'
 import AlertItem from '../AlertItem/AlertItem'
 import CartSummary from '../CartSummary/CartSummary'
-import {  Spacing } from 'eitri-shopping-demo-shared'
+import {  Spacing } from 'eitri-shopping-vtex-components-shared'
 import { useLocalShoppingCart } from '../../providers/LocalCart'
 import Freight from '../Freight/Freight'
 import ModalOfferingGender from '../ModalOfferingGender/ModalOfferingGender'

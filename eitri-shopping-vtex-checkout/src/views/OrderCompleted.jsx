@@ -1,5 +1,5 @@
 import { setScreenView } from '../services/trackingService'
-import { Spacing, CustomButton, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-demo-shared'
+import { Spacing, CustomButton, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
 import { goHome, openAccount } from '../services/navigationService'
 import { useTranslation } from 'eitri-i18n'
 

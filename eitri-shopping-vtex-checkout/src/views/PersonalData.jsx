@@ -1,6 +1,6 @@
 import Eitri from 'eitri-bifrost'
 import CheckoutInput from '../components/Checkout/CheckoutInput'
-import { CustomButton, Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-demo-shared'
+import { CustomButton, Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
 import { useLocalShoppingCart } from '../providers/LocalCart'
 import { getUserByEmail, registerToNotify } from '../services/cartService'
 import { sendPageView } from '../services/trackingService'

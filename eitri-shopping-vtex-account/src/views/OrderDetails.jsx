@@ -1,5 +1,5 @@
 import { Vtex } from 'eitri-shopping-vtex-shared'
-import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-demo-shared'
+import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
 import formatDate, { formatDateDaysMonthYear } from '../utils/Date'
 import OrderStatusBadge from '../components/OrderList/OrderStatusBadge'
 import OrderProductCard from '../components/OrderList/OrderProductCard'

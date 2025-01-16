@@ -1,6 +1,6 @@
 import { formatAmount } from '../../utils/utils'
 import ProductCardVertical from '../ProductCard/ProductCardVertical'
-import { Spacing } from 'eitri-shopping-demo-shared'
+import { Spacing } from 'eitri-shopping-vtex-components-shared'
 import ProductCardWrapper from '../ProductCardWrapper/ProductCardWrapper'
 
 export default function ProductCarousel(props) {

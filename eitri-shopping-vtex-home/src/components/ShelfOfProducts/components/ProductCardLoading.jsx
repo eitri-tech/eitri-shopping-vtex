@@ -1,4 +1,4 @@
-import { Loading } from 'eitri-shopping-demo-shared'
+import { Loading } from 'eitri-shopping-vtex-components-shared'
 
 export default function ProductCardLoading(props) {
 	const { width, gap } = props

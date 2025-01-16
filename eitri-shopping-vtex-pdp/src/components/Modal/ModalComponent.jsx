@@ -1,4 +1,4 @@
-import { CustomButton, Divisor } from 'eitri-shopping-demo-shared'
+import { CustomButton, Divisor } from 'eitri-shopping-vtex-components-shared'
 import ProductCarousel from '../ProductCarousel/ProductCarousel'
 import { useTranslation } from 'eitri-i18n'
 

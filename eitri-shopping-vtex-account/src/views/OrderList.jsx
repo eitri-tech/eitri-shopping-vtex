@@ -1,6 +1,6 @@
 import Eitri from 'eitri-bifrost'
 import { Vtex } from 'eitri-shopping-vtex-shared'
-import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-demo-shared'
+import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
 import formatDate, { formatDateDaysMonthYear } from '../utils/Date'
 import OrderListDetails from '../components/OrderList/OrderListDetails'
 import OrderProductCard from '../components/OrderList/OrderProductCard'

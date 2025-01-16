@@ -5,7 +5,7 @@ import CButton from '../components/CButton/CButton'
 import { getCustomerData, setCustomerData } from '../services/CustomerService'
 import { sendPageView } from '../services/TrackingService'
 import Eitri from 'eitri-bifrost'
-import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-demo-shared'
+import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
 
 export default function EditProfile(props) {
 	const [user, setUser] = useState({})

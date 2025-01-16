@@ -1,6 +1,6 @@
 import CollapsableView from './components/CollapsableView'
 import SelectableTouchable from './components/SelectableTouchable'
-import { Loading } from 'eitri-shopping-demo-shared'
+import { Loading } from 'eitri-shopping-vtex-components-shared'
 import { useTranslation } from 'eitri-i18n'
 
 export default function CategoryPageModal(props) {

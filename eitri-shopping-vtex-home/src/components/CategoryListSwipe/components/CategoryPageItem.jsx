@@ -1,4 +1,4 @@
-import { HeaderReturn } from 'eitri-shopping-demo-shared'
+import { HeaderReturn } from 'eitri-shopping-vtex-components-shared'
 
 export default function CategoryPageItem(props) {
 	const { item, goToItem } = props

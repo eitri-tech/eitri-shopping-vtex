@@ -1,4 +1,4 @@
-import { CustomButton, Spacing, Divisor } from 'eitri-shopping-demo-shared'
+import { CustomButton, Spacing, Divisor } from 'eitri-shopping-vtex-components-shared'
 import { useTranslation } from 'eitri-i18n'
 import { formatAmountInCents } from '../../utils/utils'
 

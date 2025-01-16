@@ -1,5 +1,5 @@
 import Eitri from 'eitri-bifrost'
-import { HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-demo-shared'
+import { HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-vtex-components-shared'
 import { useLocalShoppingCart } from '../providers/LocalCart'
 import HomeTemplate from '../components/templates/HomeTemplate'
 import { getCmsContent } from '../services/CmsService'

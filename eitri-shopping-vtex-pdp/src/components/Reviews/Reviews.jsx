@@ -1,4 +1,4 @@
-import { Divisor, Loading, Spacing } from 'eitri-shopping-demo-shared'
+import { Divisor, Loading, Spacing } from 'eitri-shopping-vtex-components-shared'
 import Review from './Review'
 import { useTranslation } from 'eitri-i18n'
 

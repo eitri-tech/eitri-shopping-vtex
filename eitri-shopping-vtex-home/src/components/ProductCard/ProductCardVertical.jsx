@@ -1,5 +1,5 @@
 import { Vtex } from 'eitri-shopping-vtex-shared'
-import { Loading } from 'eitri-shopping-demo-shared'
+import { Loading } from 'eitri-shopping-vtex-components-shared'
 import icon360 from '../../assets/images/icon-360.png'
 import WishlistIcon from '../WishlistIcon/WishlistIcon'
 import { useTranslation } from 'eitri-i18n'

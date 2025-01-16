@@ -1,6 +1,6 @@
 import Eitri from 'eitri-bifrost'
 import { openCart } from '../services/NavigationService'
-import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-demo-shared'
+import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
 import { useLocalShoppingCart } from '../providers/LocalCart'
 import { getCmsContent } from '../services/CmsService'
 import { getMappedComponent } from '../utils/getMappedComponent'

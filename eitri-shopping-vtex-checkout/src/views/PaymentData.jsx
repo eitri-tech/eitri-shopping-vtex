@@ -1,4 +1,4 @@
-import { CustomButton, Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-demo-shared'
+import { CustomButton, Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
 import Eitri from 'eitri-bifrost'
 import { useLocalShoppingCart } from '../providers/LocalCart'
 import PaymentMethods from '../components/Methods/PaymentMethods'

@@ -1,7 +1,7 @@
 import trash from '../../assets/images/trash-01.svg'
 import Quantity from '../Quantity/Quantity'
 import SaveButton from '../SaveButton/SaveButton'
-import { Spacing, Loading } from 'eitri-shopping-demo-shared'
+import { Spacing, Loading } from 'eitri-shopping-vtex-components-shared'
 import { addToWishlist, checkWishlistItem, removeItemFromWishlist } from '../../services/customerService'
 import ModalConfirm from '../ModalConfirm/ModalConfirm'
 import { useTranslation } from 'eitri-i18n'

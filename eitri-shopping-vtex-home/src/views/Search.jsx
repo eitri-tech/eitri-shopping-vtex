@@ -1,5 +1,5 @@
 import { Vtex } from 'eitri-shopping-vtex-shared'
-import { HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-demo-shared'
+import { HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-vtex-components-shared'
 import { getProductsByFacets, getProductsByLagacySearch, mountLegacyPath } from '../services/ProductService'
 import SearchInput from '../components/SearchInput/SearchInput'
 import PristineView from '../components/PageSearchComponents/PristineView'

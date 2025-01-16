@@ -1,5 +1,5 @@
 import Eitri from 'eitri-bifrost'
-import { Divisor, HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-demo-shared'
+import { Divisor, HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
 import { getObjectives, getPoints, getRewards, login, rescuePoints } from '../services/BonifiqService/BonifiqService'
 import Terms from '../components/Terms/Terms'
 import Information from '../components/Information/Information'

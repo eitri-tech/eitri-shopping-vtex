@@ -1,6 +1,6 @@
 /*prettier-ignore*/
 import { Vtex } from 'eitri-shopping-vtex-shared'
-import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-demo-shared'
+import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
 
 import {
 	getPossibleByFacets,

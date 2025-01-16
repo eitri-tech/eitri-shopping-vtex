@@ -1,4 +1,4 @@
-import { CustomButton } from 'eitri-shopping-demo-shared'
+import { CustomButton } from 'eitri-shopping-vtex-components-shared'
 import { useTranslation } from 'eitri-i18n'
 import {useLocalShoppingCart} from "../../providers/LocalCart";
 import {openCart} from "../../services/NavigationService";

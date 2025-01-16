@@ -1,6 +1,6 @@
 import Eitri from 'eitri-bifrost'
 import BlogCard from './BlogCard'
-import { Loading } from 'eitri-shopping-demo-shared'
+import { Loading } from 'eitri-shopping-vtex-components-shared'
 import SwiperContent from '../SwiperContent'
 import { useTranslation } from 'eitri-i18n'
 

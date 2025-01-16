@@ -1,7 +1,7 @@
 import Eitri from 'eitri-bifrost'
 import { formatAmountInCents } from '../utils/utils'
 import { useLocalShoppingCart } from '../providers/LocalCart'
-import { CustomButton, Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-demo-shared'
+import { CustomButton, Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
 import { clearCart, startPayment } from '../services/cartService'
 import Recaptcha from '../services/Recaptcha'
 import UserData from '../components/FinishCart/UserData'

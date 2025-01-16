@@ -3,7 +3,7 @@ import lockIcon from '../../assets/icons/lock.svg'
 import CInput from '../../components/CInput/CInput'
 import CButton from '../../components/CButton/CButton'
 import Eitri from 'eitri-bifrost'
-import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-demo-shared'
+import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
 import {
 	doLogin,
 	getCustomerData,

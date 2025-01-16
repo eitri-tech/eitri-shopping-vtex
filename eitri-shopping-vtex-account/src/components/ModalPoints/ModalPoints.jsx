@@ -1,4 +1,4 @@
-import { Divisor, CustomButton, Spacing } from 'eitri-shopping-demo-shared'
+import { Divisor, CustomButton, Spacing } from 'eitri-shopping-vtex-components-shared'
 import Eitri from 'eitri-bifrost'
 
 // TODO - precisa internacionalizar?
