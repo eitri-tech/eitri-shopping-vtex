@@ -1,21 +1,17 @@
-import MultipleImageBanner from '../components/Banner/MultipleImageBanner'
-import ProductShelf from '../components/ProductShelf/ProductShelf'
-import ProductTiles from '../components/ProductTiles/ProductTiles'
-import CategoryShelf from '../components/CategoryShelf/CategoryShelf'
-import ScheduleCardShelf from '../components/Schedule/ScheduleCardShelf'
-import CategoryTree from '../components/CategoryTree/CategoryTree'
-import CategoryTiles from '../components/CategoryTiles/CategoryTiles'
-import BlogPostShelf from '../components/Blog/BlogPostShelf.jsx'
-import LastSeenProducts from '../components/LastSeenProducts/LastSeenProducts'
-import CategoryListSwipe from '../components/CategoryListSwipe/CategoryListSwipe'
+import Banner from '../components/CmsComponents/Banner/Banner'
+import ProductShelf from '../components/CmsComponents/ProductShelf/ProductShelf'
+import ProductTiles from '../components/CmsComponents/ProductTiles/ProductTiles'
+import CategoryShelf from '../components/CmsComponents/CategoryShelf/CategoryShelf'
+import CategoryTree from '../components/CmsComponents/CategoryTree/CategoryTree'
+import CategoryTiles from '../components/CmsComponents/CategoryTiles/CategoryTiles'
+import LastSeenProducts from '../components/CmsComponents/LastSeenProducts/LastSeenProducts'
+import CategoryListSwipe from '../components/CmsComponents/CategoryListSwipe/CategoryListSwipe'
 
 const componentMap = {
-	MultipleImageBanner: MultipleImageBanner,
+	MultipleImageBanner: Banner,
 	ProductTiles: ProductTiles,
 	ProductShelf: ProductShelf,
 	CategoryShelf: CategoryShelf,
-	WordPressCardList: BlogPostShelf,
-	ScheduleCardShelf: ScheduleCardShelf,
 	CategoryTree: CategoryTree,
 	CategoryTiles: CategoryTiles,
 	LastSeenProducts: LastSeenProducts,
@@ -35,7 +31,6 @@ export const getMappedComponent = (content, reloadKey) => {
 		return null
 	}
 
-	// console.log('Component >>>>>>>>>', content.name)
 	const key = content.id + (shouldReloadOnResume(content.name) ? reloadKey : '')
 
 	try {

@@ -1,10 +1,10 @@
-import { Vtex } from 'eitri-shopping-vtex-shared'
+import { Vtex, App } from 'eitri-shopping-vtex-shared'
 import Eitri from 'eitri-bifrost'
 
-export const getCmsContent = async (dataCms = {}) => {
+export const getCmsContent = async (contentType, pageName) => {
 	try {
+
 		const { faststore } = Vtex.configs
-		const { contentType, pageName } = dataCms
 
 		const cachedPage = await loadPageFromCache(faststore, contentType, pageName)
 

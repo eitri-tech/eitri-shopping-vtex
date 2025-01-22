@@ -1,10 +1,6 @@
 import { Vtex } from 'eitri-shopping-vtex-shared'
 import { CMS_PRODUCT_SORT } from '../utils/Constants'
 
-export const searchProductsByQuery = (term, options) => {
-	return Vtex.catalog.searchProduct(term, options)
-}
-
 export const autocompleteSuggestions = async value => {
 	return await Vtex.catalog.autoCompleteSuggestions(value)
 }
@@ -42,18 +38,4 @@ export const mountLegacyPath = (facets, numberOfItems = 8, page = 1, sort) => {
 	}
 
 	return path
-}
-
-export const findSpecificationValue = (product, specificationName) => {
-	if (!product || !specificationName) return ''
-	if (product[specificationName]) {
-		return product[specificationName]
-	}
-
-	const specification = product?.specificationGroups?.reduce((acc, specificationGroup) => {
-		if (acc) return acc
-		return specificationGroup?.specifications?.find(spec => spec.name === specificationName)
-	}, null)
-
-	return specification?.values ?? ''
 }

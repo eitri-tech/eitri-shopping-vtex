@@ -26,7 +26,6 @@ export default function SignIn(props) {
 
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
-	// const [rememberMe, setRememberMe] = useState(true)
 	const [loading, setLoading] = useState(false)
 
 	const [showLoginErrorAlert, setShowLoginErrorAlert] = useState(false)

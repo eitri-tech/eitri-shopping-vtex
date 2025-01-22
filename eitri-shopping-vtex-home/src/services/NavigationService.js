@@ -12,27 +12,19 @@ export const openCart = async cart => {
 	}
 }
 
-export const openMenu = async () => {
-	try {
-		// TODO: Adicionar navegaçao para o carrinho
-		// Eitri.nativeNavigation.open({
-		// 	slug: 'eitri-shopping-store-cart',
-		// 	initParams: { route: 'Cart', orderFormId: cart?.orderFormId, cart: cart }
-		// })
-		console.log('Navega para Menu')
-	} catch (e) {
-		console.error('navigate to Menu: Error trying to open Menu', e)
-	}
+export const openAccount = async (action) => {
+  Eitri.nativeNavigation.open({
+    slug: 'eitri-shopping-demo-account',
+    initParams: { action }
+  })
 }
 
 export const openProduct = async product => {
 	try {
 		Eitri.nativeNavigation.open({
 			slug: 'eitri-shopping-demo-pdp',
-			// workspaceId: 'e9f0cad3-5101-475a-8074-b6633497060e',
 			initParams: { product }
 		})
-		// console.log('Navega para PDP', product)
 	} catch (e) {
 		console.error('navigate to PDP: Error trying to open PDP', e)
 	}
@@ -42,10 +34,8 @@ export const openProductById = async productId => {
 	try {
 		Eitri.nativeNavigation.open({
 			slug: 'eitri-shopping-demo-pdp',
-			// workspaceId: 'e9f0cad3-5101-475a-8074-b6633497060e',
 			initParams: { productId }
 		})
-		console.log('Navega para PDP')
 	} catch (e) {
 		console.error('navigate to PDP: Error trying to open PDP', e)
 	}

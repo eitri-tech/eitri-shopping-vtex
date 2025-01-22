@@ -1,11 +1,12 @@
 import Eitri from 'eitri-bifrost'
 import { HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-vtex-components-shared'
 import { useLocalShoppingCart } from '../providers/LocalCart'
-import HomeTemplate from '../components/templates/HomeTemplate'
 import { getCmsContent } from '../services/CmsService'
 import { normalizePath, openCart } from '../services/NavigationService'
 import { startConfigure } from '../services/AppService'
 import { useTranslation } from 'eitri-i18n'
+import HomeSkeleton from "../components/HomeSkeleton/HomeSkeleton";
+import {getMappedComponent} from "../utils/getMappedComponent";
 
 export default function Home() {
 	const { cart, startCart } = useLocalShoppingCart()
@@ -32,8 +33,7 @@ export default function Home() {
 			let notificationPermissionStatus = await Eitri.notification.checkPermission()
 
 			if (notificationPermissionStatus.status === 'DENIED') {
-				const permissionStatus = await Eitri.notification.requestPermission()
-				console.log('requestNotificationPermission.status:', permissionStatus)
+				await Eitri.notification.requestPermission()
 			}
 		} catch (e) {
 			console.error('Erro ao solicitar permissão para notificação', e)
@@ -68,7 +68,6 @@ export default function Home() {
 		}
 
 		loadCms()
-
 		startCart()
 	}
 
@@ -118,7 +117,7 @@ export default function Home() {
 	}
 
 	const loadCms = async () => {
-		const { sections } = await getCmsContent({ contentType: 'home', pageName: 'home' })
+		const { sections } = await getCmsContent( 'home', 'home')
 		setCmsContent(sections)
 	}
 
@@ -134,6 +133,7 @@ export default function Home() {
 		<Window
 			topInset
 			bottomInset>
+
 			<HeaderTemplate
 				headerType={HEADER_TYPE.LOGO_SEARCH_AND_CART}
 				scrollEffect={true}
@@ -142,58 +142,15 @@ export default function Home() {
 				quantityOfItems={cart?.items?.length || 0}
 			/>
 
-			{/*<Loading*/}
-			{/*	fullScreen*/}
-			{/*	isLoading={!cmsContent}*/}
-			{/*/>*/}
+      <HomeSkeleton show={!cmsContent} />
 
-			<View
-				padding='large'
-				display={cmsContent ? 'none' : 'block'}>
-				<View
-					direction='column'
-					gap={16}>
-					<View
-						mode='skeleton'
-						width='100%'
-						height='100vw'
-						borderRadius='small'
-					/>
-					<View
-						direction='row'
-						gap={16}>
-						<View
-							mode='skeleton'
-							width='100%'
-							height={80}
-							borderRadius='small'
-						/>
-						<View
-							mode='skeleton'
-							width='100%'
-							height={80}
-							borderRadius='small'
-						/>
-						<View
-							mode='skeleton'
-							width='100%'
-							height={80}
-							borderRadius='small'
-						/>
-					</View>
-					<View
-						mode='skeleton'
-						width='100%'
-						height='100vw'
-						borderRadius='small'
-					/>
-				</View>
-			</View>
-			<HomeTemplate
-				reloadKey={key}
-				isReady={cmsContent}
-				cmsContent={cmsContent}
-			/>
+      <View
+        paddingBottom='large'
+        paddingTop='small'
+        direction='column'
+        gap={22}>
+        {cmsContent?.map(content => getMappedComponent(content, key))}
+      </View>
 		</Window>
 	)
 }

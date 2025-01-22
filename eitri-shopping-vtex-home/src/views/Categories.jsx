@@ -16,7 +16,7 @@ export default function Categories() {
 	}, [])
 
 	const loadCms = async () => {
-		const { sections } = await getCmsContent({ contentType: 'categories', pageName: 'categorias' })
+		const { sections } = await getCmsContent('categories', 'categorias')
 
 		if (sections && sections[0].provider === PROVIDER.DECO) {
 			const _sectionToCustom = sections?.find(

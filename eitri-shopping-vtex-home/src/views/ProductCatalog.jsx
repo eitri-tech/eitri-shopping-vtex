@@ -1,4 +1,3 @@
-/*prettier-ignore*/
 import { Vtex } from 'eitri-shopping-vtex-shared'
 import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
 
@@ -18,7 +17,6 @@ export default function ProductCatalog(props) {
 
 	const [initialLoading, setInitialLoading] = useState(true)
 	const [productLoading, setProductLoading] = useState(false)
-	const [facetsLoading, setFacetsLoading] = useState(false)
 
 	const [windowFilter, setWindowFilter] = useState(false)
 
@@ -184,14 +182,12 @@ export default function ProductCatalog(props) {
 	}
 
 	const loadFacetsOptions = async selectedFacets => {
-		setFacetsLoading(true)
 		const facetsPath = selectedFacets?.facets?.map(facet => `${facet.key}/${facet.value}`).join('/')
 		const facets = await getPossibleByFacets(facetsPath, {
 			query: selectedFacets?.query || selectedFacets?.q || ''
 		})
 
 		setFilterFacets(generateFilters(facets))
-		setFacetsLoading(false)
 	}
 
 	const _getProductsByFacets = async (selectedFacets, page) => {

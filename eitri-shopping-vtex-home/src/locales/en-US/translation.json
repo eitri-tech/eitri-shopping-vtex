@@ -8,9 +8,6 @@
 	"productCatalog": {
 		"title": "Catalog"
 	},
-	"blogPostShelf": {
-		"seeMore": "See more"
-	},
 	"categoryPageModal": {
 		"title": "Filters",
 		"clear": "Clear",
@@ -38,9 +35,6 @@
 	"shelfOfProducts": {
 		"loading": "Loading...",
 		"seeMore": "See more"
-	},
-	"liveShopCard": {
-		"watch": "Watch"
 	},
     "lists": {
       "title": "Sort by",

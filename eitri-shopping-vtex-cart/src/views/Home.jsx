@@ -3,10 +3,18 @@ import { App } from 'eitri-shopping-vtex-shared'
 import CartTemplate from '../components/Templates/CartTemplate'
 import { crashLog, sendPageView, startTrackingService } from '../services/trackingService'
 import { useLocalShoppingCart } from '../providers/LocalCart'
-import { HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-vtex-components-shared'
+import {HEADER_TYPE, HeaderTemplate, Spacing} from 'eitri-shopping-vtex-components-shared'
 import { navigateToCheckout } from '../services/navigationService'
 import { saveCartIdOnStorage } from '../services/cartService'
 import { useTranslation } from 'eitri-i18n'
+import AlertItem from "../components/AlertItem/AlertItem";
+import CartItem from "../components/CartItem/CartItem";
+import Freight from "../components/Freight/Freight";
+import Coupon from "../components/Coupon/Coupon";
+import CartSummary from "../components/CartSummary/CartSummary";
+import ModalOfferingGender from "../components/ModalOfferingGender/ModalOfferingGender";
+import InstallmentsMsg from "../components/InstallmentsMsg/InstallmentsMsg";
+import CartItemsContent from "../components/CartItemsContent/CartItemsContent";
 
 export default function Home(props) {
 	const { startCart, cart, cartIsLoading, changeQuantity, removeItem } = useLocalShoppingCart()
@@ -42,7 +50,7 @@ export default function Home(props) {
 			i18n.changeLanguage(lang)
 
 			setCurrencyProps({
-				locale: lang, 
+				locale: lang,
 				currency: remoteConfig?.storePreferences?.currencyCode || 'BRL'
 			})
 		} catch (e) {
@@ -62,21 +70,7 @@ export default function Home(props) {
 		}
 	}
 
-	const onChangeQuantityItem = async (quantity, index) => {
-		try {
-			changeQuantity(index, quantity)
-		} catch (e) {
-			console.log('Error onChangeQuantityItem==>', e)
-		}
-	}
 
-	const handleRemoveCartItem = async index => {
-		try {
-			removeItem(index)
-		} catch (error) {
-			console.error('Cart: handleRemoveCartItem Error', error)
-		}
-	}
 
 	const isValidToProceed = cart => {
 		if (!cart) return false
@@ -91,7 +85,9 @@ export default function Home(props) {
 		}
 	}
 
-	return (
+
+
+  return (
 		<Window bottomInset topInset>
 			<View
 				minHeight='100vh'
@@ -101,17 +97,59 @@ export default function Home(props) {
 					viewBackButton={showBackButton}
 					contentText={t('home.title')}
 				/>
-				<CartTemplate
-					cart={cart}
-					iconAlert='credit-card'
-					cartIsLoading={cartIsLoading}
-					appIsLoading={appIsLoading}
-					onChangeQuantityItem={onChangeQuantityItem}
-					handleRemoveCartItem={handleRemoveCartItem}
-					goToCheckout={goToCheckout}
-					locale={currencyProps.locale}
-					currency={currencyProps.currency}
-				/>
+
+        <View
+          display='flex'
+          direction='column'
+          width='100vw'>
+          <Spacing height={'10px'} />
+
+         <InstallmentsMsg />
+
+          <CartItemsContent />
+
+          <Freight
+            cart={cart}
+            changeCartAddress={changeCartAddress}
+            updateCartFreight={updateCartFreight}
+            locale={locale}
+            currency={currency}
+          />
+
+          {/*<Coupon*/}
+          {/*  cart={cart}*/}
+          {/*  addCoupon={addCoupon}*/}
+          {/*  removeCoupon={removeCoupon}*/}
+          {/*/>*/}
+
+          {/*<CartSummary*/}
+          {/*  itemsValue={itemsValue}*/}
+          {/*  shipping={shipping}*/}
+          {/*  discounts={discounts}*/}
+          {/*  totalValue={cart.value}*/}
+          {/*  goToCheckout={goToCheckout}*/}
+          {/*  locale={locale}*/}
+          {/*  currency={currency}*/}
+          {/*/>*/}
+
+          {/*<ModalOfferingGender*/}
+          {/*  show={showModalOfferingGender}*/}
+          {/*  onConfirm={addOfferingGender}*/}
+          {/*  onCancel={cancelAddOfferingGender}*/}
+          {/*/>*/}
+        </View>
+
+				{/*<CartTemplate*/}
+				{/*	cart={cart}*/}
+				{/*	iconAlert='credit-card'*/}
+				{/*	cartIsLoading={cartIsLoading}*/}
+				{/*	appIsLoading={appIsLoading}*/}
+				{/*	onChangeQuantityItem={onChangeQuantityItem}*/}
+				{/*	handleRemoveCartItem={handleRemoveCartItem}*/}
+				{/*	goToCheckout={goToCheckout}*/}
+				{/*	locale={currencyProps.locale}*/}
+				{/*	currency={currencyProps.currency}*/}
+				{/*/>*/}
 			</View>
 		</Window>
 	)

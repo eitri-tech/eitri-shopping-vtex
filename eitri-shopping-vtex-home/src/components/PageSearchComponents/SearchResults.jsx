@@ -1,5 +1,5 @@
 import { Loading } from "eitri-shopping-vtex-components-shared";
-import ProductCardWrapper from "../ProductCardWrapper/ProductCardWrapper";
+import ProductCard from "../ProductCard/ProductCard";
 import { useTranslation } from 'eitri-i18n'
 
 export default function SearchResults(props) {
@@ -18,12 +18,12 @@ export default function SearchResults(props) {
             index % 2 === 0 && (
               <View key={searchResults[index].productId} display="flex">
                 <View width="50%" paddingRight="nano">
-                  <ProductCardWrapper vtexProduct={searchResults[index]} locale={locale} currency={currency} />
+                  <ProductCard product={searchResults[index]} locale={locale} currency={currency} />
                 </View>
                 {searchResults[index + 1] && (
                   <View width="50%" paddingLeft="nano">
-                    <ProductCardWrapper
-                      vtexProduct={searchResults[index + 1]} locale={locale} currency={currency}
+                    <ProductCard
+                      product={searchResults[index + 1]} locale={locale} currency={currency}
                     />
                   </View>
                 )}

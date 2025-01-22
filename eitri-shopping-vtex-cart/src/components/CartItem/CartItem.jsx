@@ -16,7 +16,7 @@ export default function CartItem(props) {
 	const resizedImageUrl = item.imageUrl.replace('60-60', '200-200')
 
 	const { t } = useTranslation()
-	
+
 	useEffect(() => {
 		checkWishlist()
 	}, [])
@@ -138,7 +138,6 @@ export default function CartItem(props) {
 								<Quantity
 									quantity={item.quantity}
 									handleItemQuantity={handleQuantityOfItemsCart}
-									disable={message ? true : false}
 								/>
 							)}
 							{loadingWishlist ? (
@@ -166,7 +165,6 @@ export default function CartItem(props) {
 						</Touchable>
 					</View>
 				</View>
-				{/* TODO: melhorar mensagem de falta de estoque */}
 				{message && (
 					<View
 						display='flex'

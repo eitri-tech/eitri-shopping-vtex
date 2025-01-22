@@ -5,33 +5,26 @@ import Eitri from 'eitri-bifrost'
 import CButton from '../components/CButton/CButton'
 import { doLogout, getCustomerData, isLoggedIn } from '../services/CustomerService'
 import { navigate, PAGES } from '../services/NavigationService'
-import { sendPageView, startTrackingService } from '../services/TrackingService'
+import { sendPageView } from '../services/TrackingService'
 import { useTranslation } from 'eitri-i18n'
 import ProfileCardButton from '../components/ProfileCardButton/ProfileCardButton'
 
 export default function Home(props) {
+
+  const PAGE = 'Minha Conta'
+
 	const [isLoading, setIsLoading] = useState(true)
 	const [customerData, setCustomerData] = useState(props.customerData || {})
-	const { t, i18n } = useTranslation()
+	const { t } = useTranslation()
 
 	useEffect(() => {
-		startTrackingService()
 		const init = async () => {
-			await App.tryAutoConfigure({ verbose: false })
-
-			const remoteConfig = await Eitri.environment.getRemoteConfigs()
-			const lang = remoteConfig?.storePreferences?.locale || 'pt-BR'
-			i18n.changeLanguage(lang)
+			await App.tryAutoConfigure({ verbose: false, gaVerbose: true })
 
 			const initialInfos = await Eitri.getInitializationInfos()
 
 			if (initialInfos?.action === 'RequestLogin') {
 				navigate(PAGES.SIGNIN, { closeAppAfterLogin: true }, true)
-				return
-			}
-
-			if (initialInfos?.action === 'Points') {
-				navigate(PAGES.POINTS, { hideBackButton: true }, true)
 				return
 			}
 
@@ -46,7 +39,7 @@ export default function Home(props) {
 
 			setIsLoading(false)
 
-			sendPageView('Home my account')
+			sendPageView(PAGE)
 		}
 		init()
 	}, [])
@@ -66,7 +59,8 @@ export default function Home(props) {
 	return (
 		<Window
 			bottomInset
-			topInset>
+			topInset
+      title={PAGE}>
 			<Loading
 				fullScreen
 				isLoading={isLoading}
