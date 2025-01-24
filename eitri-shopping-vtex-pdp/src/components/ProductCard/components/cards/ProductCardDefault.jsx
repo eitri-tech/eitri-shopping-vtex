@@ -1,74 +1,31 @@
-import { Vtex } from 'eitri-shopping-vtex-shared'
 import { Loading } from 'eitri-shopping-vtex-components-shared'
-import icon360 from '../../assets/images/icon-360.png'
-import WishlistIcon from '../WishlistIcon/WishlistIcon'
+import WishlistIcon from '../../../WishlistIcon/WishlistIcon'
 import { useTranslation } from 'eitri-i18n'
 
-export default function ProductCardVertical(props) {
+export default function ProductCardDefault(props) {
 	const {
-		ratingValue,
-		ratingsCount,
-		listPrice,
-		image,
-		name,
-		price,
-		width,
-		installments,
-		isInCart,
-		onPress,
-		onAddToCart,
-		onRemoveFromCart,
-		loadingCartOp,
-		badge,
-		loadingWishlistOp,
-		isOnWishlist,
-		onAddToWishlist,
-		onRemoveFromWishlist,
-		hasImage360
+    listPrice,
+    image,
+    name,
+    price,
+    width,
+    installments,
+    isInCart,
+    loadingCartOp,
+    loadingWishlistOp,
+    isOnWishlist,
+    badge,
+    onPressOnCard,
+    onPressCartButton,
+    onPressOnWishlist
 	} = props
 
 	const { t } = useTranslation()
 
-	const onPressCard = () => {
-		if (onPress && typeof onPress === 'function') {
-			onPress()
-		}
-	}
-
-	const onPressAddToCart = () => {
-		if (loadingCartOp) return
-		if (isInCart) {
-			if (onRemoveFromCart && typeof onRemoveFromCart === 'function') {
-				onRemoveFromCart()
-			} else {
-				console.log('onRemoveFromCart not implemented')
-			}
-		} else if (onAddToCart && typeof onAddToCart === 'function') {
-			onAddToCart()
-		} else {
-			console.log('onAddToCart not implemented')
-		}
-	}
-
-	const onPressWishlist = () => {
-		if (loadingWishlistOp) return
-		if (isOnWishlist) {
-			if (onRemoveFromWishlist && typeof onRemoveFromWishlist === 'function') {
-				onRemoveFromWishlist()
-			} else {
-				console.log('onRemoveFromWishlist not implemented')
-			}
-		} else if (onAddToWishlist && typeof onAddToWishlist === 'function') {
-			onAddToWishlist()
-		} else {
-			console.log('onAddToWishlist not implemented')
-		}
-	}
-
 	return (
 		<View
 			position='relative'
-			backgroundColor={Vtex?.configs?.account === 'rihappynovo' || 'accent-100'}
+			backgroundColor={'accent-100'}
 			minWidth={width || 'auto'}
 			maxWidth={width || 'auto'}
 			borderRadius='small'
@@ -92,18 +49,6 @@ export default function ProductCardVertical(props) {
 					</View>
 				) : (
 					<View height='27px' />
-				)}
-				{hasImage360 && (
-					<View
-						position='absolute'
-						top='5px'
-						right='5px'>
-						<Image
-							src={icon360}
-							width='24px'
-							height='24px'
-						/>
-					</View>
 				)}
 				<View
 					position='relative'
@@ -136,21 +81,9 @@ export default function ProductCardVertical(props) {
 						fontSize='extra-small'>
 						{name}
 					</Text>
-					{/* {loadingWishlistOp ? (
-						<View
-							position='relativo'
-							width='34px'
-							height='24px'>
-							<View
-								position='absolute'
-								right='-17px'>
-								<Loading width='70px' />
-							</View>
-						</View>
-					) : ( */}
 					<Touchable
 						disabled={loadingWishlistOp}
-						onPress={onPressWishlist}
+						onPress={onPressOnWishlist}
 						zIndex={98}>
 						<WishlistIcon checked={isOnWishlist} />
 					</Touchable>
@@ -202,7 +135,7 @@ export default function ProductCardVertical(props) {
 					borderWidth='hairline'
 					backgroundColor={loadingCartOp ? 'neutral-100' : 'primary-700'}
 					zIndex={99}
-					onPress={onPressAddToCart}>
+					onPress={onPressCartButton}>
 					{loadingCartOp ? (
 						<Loading width='36px' />
 					) : (
@@ -217,7 +150,7 @@ export default function ProductCardVertical(props) {
 			</View>
 
 			<Touchable
-				onPress={onPressCard}
+				onPress={onPressOnCard}
 				position='absolute'
 				top='0'
 				bottom='0'

@@ -1,15 +1,13 @@
-import ProductCardVertical from '../ProductCard/ProductCardVertical'
-import { useLocalShoppingCart } from '../../providers/LocalCart'
-import { openProduct } from '../../services/NavigationService'
-import { addToWishlist, checkItemInWishlist, removeItemFromWishlist } from '../../services/customerService'
-import { formatAmount } from '../../utils/utils'
-import { findSpecificationValue } from '../../services/ProductService'
-import { Vtex } from 'eitri-shopping-vtex-shared'
-import ProductCardFullImage from '../ProductCard/ProductCardFullImage'
+import ProductCardDefault from './cards/ProductCardDefault'
+import { useLocalShoppingCart } from '../../../providers/LocalCart'
+import { openProduct } from '../../../services/NavigationService'
+import {addToWishlist, productOnWishlist, removeItemFromWishlist} from '../../../services/customerService'
+import { formatPrice } from '../../../utils/utils'
+import { App } from 'eitri-shopping-vtex-shared'
+import ProductCardFullImage from './cards/ProductCardFullImage'
 
 export default function ProductCardWrapper(props) {
-	const { vtexProduct, width, locale, currency } = props
-
+	const { vtexProduct, width } = props
 	const { addItem, removeItem, cart } = useLocalShoppingCart()
 
 	const [loadingCartOp, setLoadingCartOp] = useState(false)
@@ -18,8 +16,6 @@ export default function ProductCardWrapper(props) {
 	const [isOnWishlist, setIsOnWishlist] = useState(false)
 	const [wishListId, setWishListId] = useState(null)
 
-	const [ratingValue, setRatingValue] = useState(null)
-	const [ratingsCount, setRatingsCount] = useState(null)
 
 	useEffect(() => {
 		checkItemOnWishlist()
@@ -33,7 +29,7 @@ export default function ProductCardWrapper(props) {
 
 	const checkItemOnWishlist = async () => {
 		try {
-			const { inList, listId } = await checkItemInWishlist(vtexProduct.productId)
+			const { inList, listId } = await productOnWishlist(vtexProduct.productId)
 			if (inList) {
 				setIsOnWishlist(true)
 				setWishListId(listId)
@@ -55,14 +51,14 @@ export default function ProductCardWrapper(props) {
 
 		if (!maxInstallments || maxInstallments?.NumberOfInstallments === 1) return ''
 
-		return `em até ${maxInstallments?.NumberOfInstallments}x ${formatAmount(maxInstallments?.Value, locale, currency)}`
+		return `em até ${maxInstallments?.NumberOfInstallments}x ${formatPrice(maxInstallments?.Value)}`
 	}
 
 	const getListPrice = () => {
 		if (sellerDefault?.commertialOffer.Price === sellerDefault?.commertialOffer.ListPrice) {
 			return ''
 		} else {
-			return formatAmount(sellerDefault?.commertialOffer.ListPrice, locale, currency)
+			return formatPrice(sellerDefault?.commertialOffer.ListPrice)
 		}
 	}
 
@@ -80,19 +76,13 @@ export default function ProductCardWrapper(props) {
 
 	// Cart
 
-	const onAddToCart = async () => {
+	const addToCart = async () => {
 		setLoadingCartOp(true)
-		await addItem([
-			{
-				id: item?.itemId,
-				quantity: 1,
-				seller: sellerDefault?.sellerId
-			}
-		])
+		await addItem(item)
 		setLoadingCartOp(false)
 	}
 
-	const onRemoveFromCart = async () => {
+	const removeFromCart = async () => {
 		setLoadingCartOp(true)
 		const index = cart?.items?.findIndex(cartItem => cartItem.id === item?.itemId)
 		await removeItem(index)
@@ -126,58 +116,72 @@ export default function ProductCardWrapper(props) {
 
 	// Navigation
 
-	const goToProductDetail = () => {
-		openProduct(vtexProduct)
-	}
+  const onPressOnCard = () => {
+    openProduct(vtexProduct)
+  }
 
-	if (Vtex?.configs?.appConfigs?.productCard?.style === 'fullImage') {
+  const onPressOnWishlist = () => {
+    if (loadingWishlistOp) return
+    if (isOnWishlist) {
+      onRemoveFromWishlist()
+    } else {
+      onAddToWishlist()
+    }
+  }
+
+  const onPressCartButton = () => {
+    if (App?.configs?.appConfigs?.productCard?.buyGoesToPDP) {
+      openProduct(vtexProduct)
+      return
+    }
+    if (loadingCartOp) return
+    if (isItemOnCart()) {
+      removeFromCart()
+    } else {
+      addToCart()
+    }
+  }
+
+
+	if (App?.configs?.appConfigs?.productCard?.style === 'fullImage') {
 		return (
 			<ProductCardFullImage
-				showListItem={Vtex?.configs?.appConfigs?.productCard?.showListPrice ?? true}
 				name={item?.nameComplete || item?.name}
 				image={item?.images?.[0]?.imageUrl}
 				badge={getBadge()}
 				listPrice={getListPrice()}
-				price={formatAmount(sellerDefault?.commertialOffer.Price, locale, currency)}
+        showListItem={App?.configs?.appConfigs?.productCard?.showListPrice ?? true}
+				price={formatPrice(sellerDefault?.commertialOffer.Price)}
 				installments={formatInstallments(sellerDefault)}
-				onAddToCart={onAddToCart}
-				onRemoveFromCart={onRemoveFromCart}
-				loadingCartOp={loadingCartOp}
+        isInCart={isItemOnCart()}
+        isOnWishlist={isOnWishlist}
+        loadingWishlistOp={loadingWishlistOp}
+        loadingCartOp={loadingCartOp}
 				width={width}
-				onPress={goToProductDetail}
-				isInCart={isItemOnCart()}
-				loadingWishlistOp={loadingWishlistOp}
-				isOnWishlist={isOnWishlist}
-				onAddToWishlist={onAddToWishlist}
-				onRemoveFromWishlist={onRemoveFromWishlist}
-				ratingValue={ratingValue}
-				ratingsCount={ratingsCount}
-				hasImage360={findSpecificationValue(vtexProduct, 'imagem-360')}
+        onPressOnCard={onPressOnCard}
+        onPressCartButton={onPressCartButton}
+        onPressOnWishlist={onPressOnWishlist}
 			/>
 		)
 	}
 
 	return (
-		<ProductCardVertical
-			name={item?.nameComplete || item?.name}
-			image={item?.images?.[0]?.imageUrl}
-			badge={getBadge()}
-			listPrice={getListPrice()}
-			price={formatAmount(sellerDefault?.commertialOffer.Price, locale, currency)}
-			installments={formatInstallments(sellerDefault)}
-			onAddToCart={onAddToCart}
-			onRemoveFromCart={onRemoveFromCart}
-			loadingCartOp={loadingCartOp}
-			width={width}
-			onPress={goToProductDetail}
-			isInCart={isItemOnCart()}
-			loadingWishlistOp={loadingWishlistOp}
-			isOnWishlist={isOnWishlist}
-			onAddToWishlist={onAddToWishlist}
-			onRemoveFromWishlist={onRemoveFromWishlist}
-			ratingValue={ratingValue}
-			ratingsCount={ratingsCount}
-			hasImage360={findSpecificationValue(vtexProduct, 'imagem-360')}
+		<ProductCardDefault
+      name={item?.nameComplete || item?.name}
+      image={item?.images?.[0]?.imageUrl}
+      badge={getBadge()}
+      listPrice={getListPrice()}
+      showListItem={App?.configs?.appConfigs?.productCard?.showListPrice ?? true}
+      price={formatPrice(sellerDefault?.commertialOffer.Price)}
+      installments={formatInstallments(sellerDefault)}
+      isInCart={isItemOnCart()}
+      isOnWishlist={isOnWishlist}
+      loadingWishlistOp={loadingWishlistOp}
+      loadingCartOp={loadingCartOp}
+      width={width}
+      onPressOnCard={onPressOnCard}
+      onPressCartButton={onPressCartButton}
+      onPressOnWishlist={onPressOnWishlist}
 		/>
 	)
 }

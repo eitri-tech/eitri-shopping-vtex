@@ -1,14 +1,12 @@
-import Rating from '../Rating/Rating'
 import { Spacing } from 'eitri-shopping-vtex-components-shared'
-import TagsComponent from '../Tags/TagsComponent'
 import { formatAmount } from '../../utils/utils'
 import { useTranslation } from 'eitri-i18n'
 
 export default function MainDescription(props) {
-	const { product, reviewAverage, reviewCount, currentSku, locale, currency } = props
+	const { product, currentSku, locale, currency } = props
 
 	const { t } = useTranslation()
-	
+
 	const discoverInstallments = item => {
 		try {
 			const mainSeller = item.sellers.find(seller => seller.sellerDefault)
@@ -37,9 +35,6 @@ export default function MainDescription(props) {
 		<View
 			display='flex'
 			direction='column'>
-			<View display='flex'>
-				<TagsComponent product={product} />
-			</View>
 			<Spacing height='10px' />
 			<Text
 				fontSize='large'

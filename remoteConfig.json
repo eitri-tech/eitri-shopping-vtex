@@ -7,12 +7,42 @@
     "vtexCmsUrl": "https://euentregobr.myvtex.com"
   },
   "appConfigs": {
-    "statusBarTextColor": "white",
-    "useScrollEffect": true,
-    "showSearchBar": true,
-    "headerLogo": "https://console.eitri.tech/assets/logo-dark-CpI6qVKD.svg",
-    "headerBackgroundColor": "primary-500",
-    "headerContentColor": "accent-100"
+    "clarityId": "YOUR_CLARITY_ID",
+    "autoTriggerGAEvents": true,
+    "statusBarTextColor": "black",
+    "headerLogo": "",
+    "headerBackgroundColor": "secondary-500",
+    "headerContentColor": "neutral-900",
+    "productCard": {
+      "style": "fullImage",
+      "showListPrice": false,
+      "buyGoesToPDP": true
+    }
+  },
+  "storePreferences": {
+    "displayCompanyName": "World Wine",
+    "currencyCode": "BRL",
+    "locale": "pt-BR",
+    "segments": {
+      "campaigns": null,
+      "channel": "1",
+      "priceTables": null,
+      "regionId": null,
+      "utm_campaign": null,
+      "utm_source": "eitri-shop-source",
+      "utmi_campaign": null,
+      "currencyCode": "BRL",
+      "currencySymbol": "R$",
+      "countryCode": "BRA",
+      "cultureInfo": "pt-BR",
+      "admin_cultureInfo": "pt-BR",
+      "channelPrivacy": "public"
+    },
+    "marketingTag": "eitri-shop",
+    "salesChannel": "1"
+  },
+  "searchOptions": {
+    "legacySearch": false
   },
   "eitriConfig": {
     "mainApp": "eitri-shopping-demo-home",
@@ -43,10 +73,5 @@
         }
       }
     ]
-  },
-  "storePreferences": {
-    "displayCompanyName": "",
-    "currencyCode": "BRL",
-    "locale": "pt-BR"
   }
 }

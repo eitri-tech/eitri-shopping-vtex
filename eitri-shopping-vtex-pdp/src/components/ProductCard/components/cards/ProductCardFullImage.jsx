@@ -1,7 +1,5 @@
-import { Vtex } from 'eitri-shopping-vtex-shared'
 import { Loading } from 'eitri-shopping-vtex-components-shared'
-import icon360 from '../../assets/images/icon-360.png'
-import WishlistIcon from '../WishlistIcon/WishlistIcon'
+import WishlistIcon from '../../../WishlistIcon/WishlistIcon'
 import { useTranslation } from 'eitri-i18n'
 
 export default function ProductCardFullImage(props) {
@@ -13,54 +11,17 @@ export default function ProductCardFullImage(props) {
 		width,
 		installments,
 		isInCart,
-		onPress,
-		onAddToCart,
-		onRemoveFromCart,
 		loadingCartOp,
 		loadingWishlistOp,
 		isOnWishlist,
-		onAddToWishlist,
-		onRemoveFromWishlist,
-		showListItem
+		showListItem,
+    onPressOnCard,
+    onPressCartButton,
+    onPressOnWishlist
 	} = props
 
 	const { t } = useTranslation()
 
-	const onPressCard = () => {
-		if (onPress && typeof onPress === 'function') {
-			onPress()
-		}
-	}
-
-	const onPressAddToCart = () => {
-		if (loadingCartOp) return
-		if (isInCart) {
-			if (onRemoveFromCart && typeof onRemoveFromCart === 'function') {
-				onRemoveFromCart()
-			} else {
-				console.log('onRemoveFromCart not implemented')
-			}
-		} else if (onAddToCart && typeof onAddToCart === 'function') {
-			onAddToCart()
-		} else {
-			console.log('onAddToCart not implemented')
-		}
-	}
-
-	const onPressWishlist = () => {
-		if (loadingWishlistOp) return
-		if (isOnWishlist) {
-			if (onRemoveFromWishlist && typeof onRemoveFromWishlist === 'function') {
-				onRemoveFromWishlist()
-			} else {
-				console.log('onRemoveFromWishlist not implemented')
-			}
-		} else if (onAddToWishlist && typeof onAddToWishlist === 'function') {
-			onAddToWishlist()
-		} else {
-			console.log('onAddToWishlist not implemented')
-		}
-	}
 
 	return (
 		<View
@@ -105,7 +66,7 @@ export default function ProductCardFullImage(props) {
 						backgroundColor='accent-100'>
 						<Touchable
 							disabled={loadingWishlistOp}
-							onPress={onPressWishlist}
+							onPress={onPressOnWishlist}
 							zIndex={98}>
 							<WishlistIcon checked={isOnWishlist} />
 						</Touchable>
@@ -182,7 +143,7 @@ export default function ProductCardFullImage(props) {
 					borderRadiusLeftBottom='micro'
 					backgroundColor={loadingCartOp ? 'neutral-100' : 'primary-700'}
 					zIndex={99}
-					onPress={onPressAddToCart}>
+					onPress={onPressCartButton}>
 					{loadingCartOp ? (
 						<Loading width='36px' />
 					) : (
@@ -190,14 +151,14 @@ export default function ProductCardFullImage(props) {
 							color='background-color'
 							fontWeight='medium'
 							fontSize='extra-small'>
-							{isInCart ? t('productCardVertical.txtSeeCart') : t('productCardVertical.txtBuy')}
+							{isInCart ? t('productCardVertical.cart') : t('productCardVertical.buy')}
 						</Text>
 					)}
 				</Touchable>
 			</View>
 
 			<Touchable
-				onPress={onPressCard}
+				onPress={onPressOnCard}
 				position='absolute'
 				top='0'
 				bottom='0'

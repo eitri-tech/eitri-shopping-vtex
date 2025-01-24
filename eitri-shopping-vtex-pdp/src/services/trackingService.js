@@ -1,13 +1,6 @@
 import Eitri from 'eitri-bifrost'
 import { Tracking } from 'eitri-shopping-vtex-components-shared'
 
-export const startTrackingService = async () => {
-	try {
-		Tracking.tryAutoConfigure()
-	} catch (e) {
-		console.error('Erro ao iniciar tracking service', e)
-	}
-}
 
 export const sendViewItem = async product => {
 	const _item = product.items[0]
