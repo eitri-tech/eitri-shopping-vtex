@@ -1,12 +1,15 @@
 import Eitri from 'eitri-bifrost'
 import { App, Vtex } from 'eitri-shopping-vtex-shared'
-import { Loading, HeaderTemplate, HEADER_TYPE, Spacing, CustomButton, Divisor } from 'eitri-shopping-vtex-components-shared'
+import { Loading, HeaderTemplate, HEADER_TYPE, Spacing } from 'eitri-shopping-vtex-components-shared'
 import { openCart } from '../services/NavigationService'
 import { useLocalShoppingCart } from '../providers/LocalCart'
-import { crash, crashLog, sendViewItem, startTrackingService } from '../services/trackingService'
-import { findSpecificationValue, getProductById, markLastViewedProduct } from '../services/productService'
-import { addToWishlist, checkItemInWishlist, removeItemFromWishlist } from '../services/customerService'
-import { useTranslation } from 'eitri-i18n'
+import { crash, crashLog, sendViewItem } from '../services/trackingService'
+import { getProductById, markLastViewedProduct } from '../services/productService'
+import {
+  addToWishlist,
+  productOnWishlist,
+  removeItemFromWishlist
+} from '../services/customerService'
 import ImageCarousel from '../components/ImageCarousel/ImageCarousel'
 import MainDescription from '../components/MainDescription/MainDescription'
 import SkuSelector from '../components/SkuSelector/SkuSelector'
@@ -16,18 +19,15 @@ import DescriptionComponent from '../components/Description/DescriptionComponent
 import Reviews from '../components/Reviews/Reviews'
 import ActionButton from '../components/ActionButton/ActionButton'
 import RelatedProducts from '../components/RelatedProducts/RelatedProducts'
-import Image3d from '../components/Image3d/Image3d'
 
-export default function Home(props) {
+export default function Home() {
 	const { startCart, cart } = useLocalShoppingCart()
-	const { i18n } = useTranslation()
 
 	const [product, setProduct] = useState(null)
 	const [isLoading, setIsLoading] = useState(null)
 	const [configLoaded, setConfigLoaded] = useState(false)
 	const [loadingWishlist, setLoadingWishlist] = useState(true)
 	const [itemWishlistId, setItemWishlistId] = useState(-1)
-	const [currencyProps, setCurrencyProps] = useState({})
 	const [currentSku, setCurrentSku] = useState(null)
 
 	useEffect(() => {
@@ -62,9 +62,6 @@ export default function Home(props) {
 
 		setConfigLoaded(true)
 
-		const remoteConfig = await Eitri.environment.getRemoteConfigs()
-		const lang = remoteConfig?.storePreferences?.locale || 'pt-BR'
-		i18n.changeLanguage(lang)
 		// setCurrencyProps({
 		//   locale: lang,
 		//   currency: remoteConfig?.storePreferences?.currencyCode || 'BRL'
@@ -141,7 +138,7 @@ export default function Home(props) {
 
 	const checkIfIsFavorite = async productId => {
 		setLoadingWishlist(true)
-		const { inList, listId } = await checkItemInWishlist(productId)
+		const { inList, listId } = await productOnWishlist(productId)
 		if (inList) {
 			setItemWishlistId(listId)
 		}
@@ -172,8 +169,6 @@ export default function Home(props) {
 			{product && (
 				<View>
 					<ImageCarousel currentSku={currentSku} />
-
-					<Image3d frameUrl={findSpecificationValue(product, 'imagem-360')?.[0]} />
 
 					<View padding='large'>
 						<MainDescription

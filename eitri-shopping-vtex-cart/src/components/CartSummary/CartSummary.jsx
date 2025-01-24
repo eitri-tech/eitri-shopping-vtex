@@ -1,15 +1,43 @@
 import { CustomButton, Spacing, Divisor } from 'eitri-shopping-vtex-components-shared'
 import { useTranslation } from 'eitri-i18n'
 import { formatAmountInCents } from '../../utils/utils'
+import {useLocalShoppingCart} from "../../providers/LocalCart";
+import {navigateToCheckout} from "../../services/navigationService";
 
 export default function CartSummary(props) {
-	const { itemsValue, shipping, discounts, totalValue, goToCheckout, locale, currency } = props
+  const { cart } = useLocalShoppingCart()
 
 	const [collapsed, setCollapsed] = useState(true)
 
+  const [itemsValue, setItemsValue] = useState({ value: null })
+  const [shipping, setShipping] = useState({ value: null })
+  const [discounts, setDiscounts] = useState({ value: null })
+
 	const { t } = useTranslation()
 
-	return (
+  useEffect(() => {
+    if (!cart) return
+    setItemsValue(getTotalizerById(cart.totalizers, 'Items'))
+    setShipping(getTotalizerById(cart.totalizers, 'Shipping'))
+    setDiscounts(getTotalizerById(cart.totalizers, 'Discounts'))
+  }, [cart])
+
+  const getTotalizerById = (totalizers, id) => totalizers.find(item => item.id === id)
+
+  const goToCheckout = async () => {
+    if (isValidToProceed(cart)) {
+      navigateToCheckout(cart?.orderFormId)
+    }
+  }
+
+  const isValidToProceed = cart => {
+    if (!cart) return false
+    if (!cart?.items) return false
+    if (cart?.shipping?.shippingUnavailable) return false
+    return cart?.items.length !== 0
+  }
+
+  return (
 		<>
 			<View
 				backgroundColor='background-color'
@@ -46,7 +74,7 @@ export default function CartSummary(props) {
 										fontSize='small'>
 										{t('cartSummary.txtSubtotal')}
 									</Text>
-									<Text fontSize='small'>{formatAmountInCents(itemsValue.value, locale, currency)}</Text>
+									<Text fontSize='small'>{formatAmountInCents(itemsValue.value)}</Text>
 								</View>
 							)}
 							{discounts?.value && (
@@ -59,10 +87,10 @@ export default function CartSummary(props) {
 										fontSize='small'>
 										{t('cartSummary.txtDiscount')}
 									</Text>
-									<Text fontSize='small'>{formatAmountInCents(discounts.value, locale, currency)}</Text>
+									<Text fontSize='small'>{formatAmountInCents(discounts.value)}</Text>
 								</View>
 							)}
-							{shipping?.value && (
+							{shipping && (
 								<View
 									display='flex'
 									justifyContent='between'
@@ -72,10 +100,10 @@ export default function CartSummary(props) {
 										fontSize='small'>
 										{t('cartSummary.txtDelivery')}
 									</Text>
-									<Text fontSize='small'>{formatAmountInCents(shipping.value, locale, currency)}</Text>
+									<Text fontSize='small'>{formatAmountInCents(shipping.value)}</Text>
 								</View>
 							)}
-							{totalValue && (
+							{cart?.value && (
 								<View
 									display='flex'
 									justifyContent='between'
@@ -90,7 +118,7 @@ export default function CartSummary(props) {
 										fontSize='medium'
 										fontWeight='bold'
 										color='secondary-500'>
-										{formatAmountInCents(totalValue, locale, currency)}
+										{formatAmountInCents(cart.value)}
 									</Text>
 								</View>
 							)}

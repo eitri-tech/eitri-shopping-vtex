@@ -1,4 +1,4 @@
-import ProductCardWrapper from '../../ProductCardWrapper/ProductCardWrapper'
+import ProductCard from '../../ProductCard/ProductCard'
 import ProductCardLoading from './ProductCardLoading'
 
 export default function ShelfOfProductsCarousel(props) {
@@ -43,8 +43,8 @@ export default function ShelfOfProductsCarousel(props) {
 										width='50%'
 										paddingLeft='large'
 										paddingRight='nano'>
-										<ProductCardWrapper
-											vtexProduct={page[0]}
+										<ProductCard
+                      product={page[0]}
 											locale={locale}
 											currency={currency}
 										/>
@@ -54,8 +54,8 @@ export default function ShelfOfProductsCarousel(props) {
 											width='50%'
 											paddingRight='large'
 											paddingLeft='nano'>
-											<ProductCardWrapper
-												vtexProduct={page[1]}
+											<ProductCard
+												product={page[1]}
 												locale={locale}
 												currency={currency}
 											/>

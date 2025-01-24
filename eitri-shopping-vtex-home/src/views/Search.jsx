@@ -1,10 +1,10 @@
+import Eitri from 'eitri-bifrost'
 import { Vtex } from 'eitri-shopping-vtex-shared'
 import { HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-vtex-components-shared'
 import { getProductsByFacets, getProductsByLagacySearch, mountLegacyPath } from '../services/ProductService'
 import SearchInput from '../components/SearchInput/SearchInput'
 import PristineView from '../components/PageSearchComponents/PristineView'
 import SearchResults from '../components/PageSearchComponents/SearchResults'
-import Eitri from 'eitri-bifrost'
 import FacetsModal from '../components/FacetsModal/FacetsModal'
 import { useLocalShoppingCart } from '../providers/LocalCart'
 

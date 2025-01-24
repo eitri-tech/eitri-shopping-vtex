@@ -6,7 +6,7 @@ let CheckLoginPromise = null
 export const requestLogin = () => {
 	return new Promise((resolve, reject) => {
 		Eitri.nativeNavigation.open({
-			slug: 'eitri-shopping-demo-account',
+			slug: 'account',
 			initParams: { action: 'RequestLogin' }
 		})
 		CheckLoginPromise = null
@@ -20,20 +20,6 @@ export const isLoggedIn = async () => {
 	}
 	CheckLoginPromise = Vtex.customer.isLoggedIn()
 	return CheckLoginPromise
-}
-
-export const checkItemInWishlist = async productId => {
-	if (!(await isLoggedIn())) {
-		return { inList: false }
-	}
-	const result = await Vtex.wishlist.checkItem(productId)
-	const inList = result?.data?.checkList?.inList
-	if (inList) {
-		const listId = result?.data?.checkList?.listIds?.[0]
-		return { inList, listId }
-	} else {
-		return { inList }
-	}
 }
 
 export const removeItemFromWishlist = async id => {
@@ -50,4 +36,18 @@ export const addToWishlist = async (productId, title, sku) => {
 	} else {
 		return await Vtex.wishlist.addItem(productId, title, sku)
 	}
+}
+
+export const productOnWishlist = async productId => {
+  if (!(await isLoggedIn())) {
+    return { inList: false }
+  }
+  const result = await Vtex.wishlist.checkItem(productId)
+  const inList = result?.data?.checkList?.inList
+  if (inList) {
+    const listId = result?.data?.checkList?.listIds?.[0]
+    return { inList, listId }
+  } else {
+    return { inList }
+  }
 }

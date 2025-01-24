@@ -1,5 +1,5 @@
 import { Loading } from 'eitri-shopping-vtex-components-shared'
-import ProductCardWrapper from '../ProductCardWrapper/ProductCardWrapper'
+import ProductCard from '../ProductCard/ProductCard'
 import ShelfOfProductsCarousel from './components/ShelfOfProductsCarousel'
 import Eitri from 'eitri-bifrost'
 import { useTranslation } from 'eitri-i18n'
@@ -139,8 +139,8 @@ export default function ShelfOfProducts(props) {
 							<View
 								scrollSnapAlign='start'
 								scrollMarginLeft={gap}>
-								<ProductCardWrapper
-									vtexProduct={product}
+								<ProductCard
+                  product={product}
 									key={product?.productId}
 									width='188px'
 									locale={currencyProps.locale}

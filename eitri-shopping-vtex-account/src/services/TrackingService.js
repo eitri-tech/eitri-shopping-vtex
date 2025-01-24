@@ -1,14 +1,7 @@
-import { Tracking } from 'eitri-shopping-vtex-components-shared'
-
-export const startTrackingService = async () => {
-	try {
-		Tracking.tryAutoConfigure()
-	} catch (e) {}
-}
+import { Tracking } from 'eitri-shopping-vtex-shared'
 
 export const sendPageView = async pageName => {
-	Tracking.ga.gtag('event', 'page_view', {
-		page_title: `[account] ${pageName}`,
-		page_path: pageName
-	})
+  try {
+    Tracking.ga.logScreenView(pageName)
+  } catch (e) {}
 }

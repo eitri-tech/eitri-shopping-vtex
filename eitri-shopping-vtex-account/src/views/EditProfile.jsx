@@ -1,4 +1,3 @@
-import Title from '../components/Title/Title'
 import CInput from '../components/CInput/CInput'
 import formatDate from '../utils/Date'
 import CButton from '../components/CButton/CButton'

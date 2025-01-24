@@ -1,4 +1,4 @@
-import { setScreenView } from '../services/trackingService'
+import { sendPageView } from '../services/trackingService'
 import { Spacing, CustomButton, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
 import { goHome, openAccount } from '../services/navigationService'
 import { useTranslation } from 'eitri-i18n'
@@ -8,7 +8,7 @@ export default function OrderCompleted(props) {
 	const { t } = useTranslation()
 
 	useEffect(() => {
-		setScreenView('OrderCompleted')
+    sendPageView('OrderCompleted')
 	}, [])
 
 	return (

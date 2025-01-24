@@ -1,4 +1,16 @@
 import Eitri from 'eitri-bifrost'
+import { App } from 'eitri-shopping-vtex-shared'
+
+
+export const formatPrice = (price, _locale, _currency) => {
+  if (!price) return ''
+
+  const locale = _locale || App?.configs?.storePreferences?.locale || 'pt-BR'
+  const currency = _currency || App?.configs?.storePreferences?.currencyCode || 'BRL'
+
+  return price.toLocaleString(locale, { style: 'currency', currency: currency })
+}
+
 export const formatAmount = (amount, locale='pt-BR', currency='BRL') => {
 	if (typeof amount !== 'number') {
 		return ''
@@ -141,11 +153,9 @@ export const openNativeProduct = product => {
 	}
 
 	Eitri.nativeNavigation.open({
-		slug: 'eitri-shopping-store-catalog',
+		slug: 'catalog',
 		initParams: { route: 'product', product: product }
 	})
-	//	Eitri.nativeNavigation.open({ workspaceId: '5ea28033-a4fe-40bd-b51e-f76c6f1899d9', initParams: { route: "product", product: product } })
-	// para abrir o produto no app nativo
 }
 
 export const formatDate = date => {

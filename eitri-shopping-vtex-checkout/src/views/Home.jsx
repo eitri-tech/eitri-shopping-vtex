@@ -1,5 +1,4 @@
 import { useLocalShoppingCart } from '../providers/LocalCart'
-import { crash, crashLog, startTrackingService } from '../services/trackingService'
 import Eitri from 'eitri-bifrost'
 import { App } from 'eitri-shopping-vtex-shared'
 import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
@@ -9,11 +8,10 @@ import { useTranslation } from 'eitri-i18n'
 export default function Home() {
 	const { startCart } = useLocalShoppingCart()
 
-	const { t, i18n } = useTranslation()
+	const { t } = useTranslation()
 
 	useEffect(() => {
 		startHome()
-		startTrackingService()
 	}, [])
 
 	const startHome = async () => {
@@ -51,12 +49,8 @@ export default function Home() {
 	const loadConfigs = async () => {
 		try {
 			await App.tryAutoConfigure({ verbose: false })
-			const remoteConfig = await Eitri.environment.getRemoteConfigs()
-			const lang = remoteConfig?.storePreferences?.locale || 'pt-BR'
-			i18n.changeLanguage(lang)
 		} catch (e) {
-			crashLog('Erro ao buscar configurações', e)
-			crash()
+			console.log('Error ao buscar configurações', e)
 		}
 	}
 

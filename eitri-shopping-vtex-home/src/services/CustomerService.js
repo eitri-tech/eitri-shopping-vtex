@@ -1,14 +1,12 @@
 import { Vtex } from 'eitri-shopping-vtex-shared'
 import Eitri from 'eitri-bifrost'
+import {openAccount} from "./NavigationService";
 
 let CheckLoginPromise = null
 
 export const requestLogin = () => {
 	return new Promise((resolve, reject) => {
-		Eitri.nativeNavigation.open({
-			slug: 'eitri-shopping-demo-account',
-			initParams: { action: 'RequestLogin' }
-		})
+    openAccount('RequestLogin')
 		CheckLoginPromise = null
 		Eitri.navigation.setOnResumeListener(resolve)
 	})
@@ -22,7 +20,7 @@ export const isLoggedIn = async () => {
 	return CheckLoginPromise
 }
 
-export const checkItem = async productId => {
+export const productOnWishlist = async productId => {
 	if (!(await isLoggedIn())) {
 		return { inList: false }
 	}

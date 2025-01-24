@@ -16,10 +16,7 @@ export default function LandingPage(props) {
 	const loadCms = async () => {
 		try {
 			const landingPageName = props?.location?.state?.landingPageName
-			const { sections, settings } = await getCmsContent({
-				contentType: 'landingPage',
-				pageName: landingPageName
-			})
+			const { sections, settings } = await getCmsContent( 'landingPage', landingPageName)
 			setCmsContent(sections)
 			setLadingPageLogo(settings?.imageLogo?.logoUrl)
 			setIsLoading(false)

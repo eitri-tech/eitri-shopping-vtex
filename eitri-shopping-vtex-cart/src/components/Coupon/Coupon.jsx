@@ -1,11 +1,14 @@
 import Eitri from 'eitri-bifrost'
 import { Spacing, Loading } from 'eitri-shopping-vtex-components-shared'
 import { useTranslation } from 'eitri-i18n'
+import {useLocalShoppingCart} from "../../providers/LocalCart";
+import {addCoupon, removeCoupon} from "../../services/cartService";
 
 export default function Coupon(props) {
-	const { cart, addCoupon, removeCoupon } = props
 
-	const [coupon, setCoupon] = useState('')
+  const { cart } = useLocalShoppingCart()
+
+  const [coupon, setCoupon] = useState('')
 	const [appliedCoupon, setAppliedCoupon] = useState('')
 	const [invalidCoupon, setInvalidCoupon] = useState(false)
 	const [couponTextAlert, setCouponTextAlert] = useState('')
@@ -24,7 +27,7 @@ export default function Coupon(props) {
 		} else {
 			const errorMessage = cart?.messages || [];
 			const couponError = coupon && errorMessage.find(message => message.text.includes(coupon));
-	
+
 			if (couponError) {
 				if (couponError.code === 'couponNotFound') {
 					setCouponTextAlert(t('coupon.txtInvalidCoupon'));
@@ -55,7 +58,9 @@ export default function Coupon(props) {
 		removeCoupon()
 	}
 
-	return (
+  if (!cart) return null
+
+  return (
 		<View>
 			<View
 				paddingTop='medium'

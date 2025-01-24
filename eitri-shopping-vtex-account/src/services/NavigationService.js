@@ -10,14 +10,13 @@ export const PAGES = {
 	LOGIN: '/Login/Login',
 	EDIT_PROFILE: '/EditProfile',
 	ORDER_LIST: '/OrderList',
-	WISH_LIST: '/WishList',
-	POINTS: '/Points'
+	WISH_LIST: '/WishList'
 }
 
 export const openProduct = async product => {
 	try {
 		Eitri.nativeNavigation.open({
-			slug: 'eitri-shopping-demo-pdp',
+			slug: 'pdp',
 			initParams: { product }
 		})
 	} catch (e) {
@@ -26,8 +25,5 @@ export const openProduct = async product => {
 }
 
 export const navigate = (page, state = {}, replace = false) => {
-	Eitri.environment.getName().then( env => {
-		if (env === 'dev') console.log(`Nav to ${page}`)
-	})
 	return Eitri.navigation.navigate({ path: page, state, replace })
 }

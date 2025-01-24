@@ -18,7 +18,6 @@ export const getWhoSawAlsoSaw = async productId => {
 }
 
 export const markLastViewedProduct = async product => {
-	console.log('markLastViewedProduct', product.productId)
 
 	const key = `last-seen-products`
 

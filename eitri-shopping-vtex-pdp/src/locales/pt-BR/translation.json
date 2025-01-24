@@ -39,8 +39,8 @@
 		"txtWhoSaw": "Quem viu esta, viu também:"
 	},
 	"productCardVertical": {
-		"txtSeeCart": "ver Carrinho",
-		"txtBuy": "comprar"
+		"cart": "ver Carrinho",
+		"buy": "comprar"
 	},
 	"review": {
 		"txtOpnion": "Cliente não escreveu uma avaliação, apenas deu a nota do produto.",
