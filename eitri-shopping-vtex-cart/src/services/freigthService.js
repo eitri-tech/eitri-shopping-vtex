@@ -52,31 +52,6 @@ export const setNewAddress = async (cart, postalCode) => {
 	}
 }
 
-export const updateAddress = async (cart, address) => {
-	const { addressId } = address
-
-	const logisticsInfo = generateLogisticInfoPayload(
-		addressId,
-		cart?.logisticsInfo?.map(logInfo => {
-			return {
-				itemIndex: logInfo.itemIndex,
-				deliveryChannel: logInfo.selectedDeliveryChannel,
-				id: logInfo.selectedSla
-			}
-		})
-	)
-
-	const selectedAddresses = generateSelectedAddressesPayload(address)
-
-	const newCart = await Vtex.checkout.setLogisticInfo({
-		logisticsInfo: logisticsInfo,
-		clearAddressIfPostalCodeNotFound: false,
-		selectedAddresses: selectedAddresses
-	})
-
-	return newCart
-}
-
 const generateLogisticInfoPayload = (addressId, shippingOptions) => {
 	return shippingOptions?.map(option => {
 		return {
@@ -141,48 +116,4 @@ const generateSelectedAddressesPayload = address => {
 			addressQuery: ''
 		}
 	]
-}
-
-export const simulateFreight = async (cart, zipCode) => {
-	try {
-		const address = await Vtex.checkout.resolveZipCode(zipCode)
-		const { postalCode, city, state, street, neighborhood, country, geoCoordinates } = address
-
-		const itemsPayload = cart.items.map(item => {
-			return { id: item.id, quantity: item.quantity, seller: item.seller }
-		})
-
-		const cartSimulationPayload = {
-			items: itemsPayload,
-			shippingData: {
-				selectedAddresses: [
-					{
-						addressType: '',
-						receiverName: '',
-						addressId: '',
-						isDisposable: true,
-						postalCode: postalCode,
-						city: city,
-						state: state,
-						country: country,
-						street: street,
-						number: null,
-						neighborhood: neighborhood,
-						complement: null,
-						reference: null,
-						geoCoordinates: geoCoordinates
-					}
-				]
-			}
-		}
-
-		const result = await Vtex.cart.simulateCart(cartSimulationPayload)
-		const freightOptions = cartShippingResolver({
-			shippingData: { address: true, logisticsInfo: result.logisticsInfo }
-		})
-		return freightOptions
-	} catch (error) {
-		console.error('Error fetching freight simulation', error)
-		throw error
-	}
 }

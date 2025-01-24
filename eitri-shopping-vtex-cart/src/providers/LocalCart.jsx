@@ -28,43 +28,43 @@ export default function CartProvider({ children }) {
 	}
 
 	const startCart = async () => {
-		executeCartOperation(getCart)
+		return executeCartOperation(getCart)
 	}
 
 	const addItem = async payload => {
-		executeCartOperation(addItemToCart, payload)
+    return executeCartOperation(addItemToCart, payload)
 	}
 
 	const addOffering = async (orderFormId, itemIndex, offeringId) => {
-		executeCartOperation(addItemOffer, orderFormId, itemIndex, offeringId)
+    return executeCartOperation(addItemOffer, orderFormId, itemIndex, offeringId)
 	}
 
 	const removeOffering = async (orderFormId, itemIndex, offeringId) => {
-		executeCartOperation(removeItemOffer, orderFormId, itemIndex, offeringId)
+    return executeCartOperation(removeItemOffer, orderFormId, itemIndex, offeringId)
 	}
 
 	const changeQuantity = async (index, newQuantity) => {
-		executeCartOperation(changeItemQuantity, index, newQuantity)
+    return executeCartOperation(changeItemQuantity, index, newQuantity)
 	}
 
 	const removeItem = async index => {
-		executeCartOperation(removeCartItem, index)
+    return executeCartOperation(removeCartItem, index)
 	}
 
 	const changeCartAddress = async (cart, zipCode) => {
-		executeCartOperation(setNewAddress, cart, zipCode)
+    return executeCartOperation(setNewAddress, cart, zipCode)
 	}
 
 	const updateCartFreight = async (cart, option) => {
-		executeCartOperation(setFreight, cart, option)
+    return executeCartOperation(setFreight, cart, option)
 	}
 
 	const applyCouponToCart = async coupon => {
-		executeCartOperation(addCoupon, coupon)
+    return executeCartOperation(addCoupon, coupon)
 	}
 
 	const removeCouponToCart = async () => {
-		executeCartOperation(removeCoupon)
+    return executeCartOperation(removeCoupon)
 	}
 
 	return (

@@ -3,7 +3,7 @@ import Eitri from 'eitri-bifrost'
 export const requestLogin = () => {
 	return new Promise((resolve, reject) => {
 		Eitri.nativeNavigation.open({
-			slug: 'eitri-shopping-demo-account',
+			slug: 'account',
 			initParams: { action: 'RequestLogin' }
 		})
 		Eitri.navigation.setOnResumeListener(resolve)
@@ -21,7 +21,7 @@ export const goHome = () => {
 export const openAccount = async (product) => {
 	try {
 		Eitri.nativeNavigation.open({
-			slug: 'eitri-shopping-demo-account',
+			slug: 'account',
 			initParams: { action: 'OrderList' }
 		})
 	} catch (e) {

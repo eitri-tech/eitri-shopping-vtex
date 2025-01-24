@@ -1,5 +1,4 @@
 import { Vtex } from 'eitri-shopping-vtex-shared'
-import { crashLog } from './trackingService'
 import adaptCart from '../adapters/CartAdapter'
 
 const resolveCustomizedOptions = item => {
@@ -64,17 +63,14 @@ export const getCart = async () => {
 		return await Vtex.cart.getCurrentOrCreateCart()
 	} catch (error) {
 		console.log('Erro ao buscar carrinho', error)
-		crashLog('Erro ao buscar carrinho', error)
 	}
 }
 
 export const addItemToCart = async payload => {
 	try {
-		// TODO: Quando adicionar um item já existente, aumentar a quantidade
 		return await Vtex.checkout.addItem(payload)
 	} catch (error) {
 		console.log('Erro ao adicionar item ao carrinho', error)
-		crashLog('Erro ao adicionar item ao carrinho', error)
 	}
 }
 
@@ -99,7 +95,6 @@ export const changeItemQuantity = async (index, newQuantity) => {
 		return await Vtex.cart.changeItemQuantity(index, newQuantity)
 	} catch (error) {
 		console.log('Erro ao adicionar item ao carrinho', error)
-		crashLog('Erro ao adicionar item ao carrinho', error)
 	}
 }
 
@@ -108,7 +103,6 @@ export const removeCartItem = async index => {
 		return await Vtex.cart.removeItem(index)
 	} catch (error) {
 		console.log('Erro ao remover item do carrinho', error)
-		crashLog('Erro ao remover item do carrinho', error)
 	}
 }
 
@@ -120,6 +114,3 @@ export const removeCoupon = async () => {
 	return await Vtex.checkout.addPromoCode('')
 }
 
-export const nextItemToCustomize = cart => {
-	return cart.items.find(item => item.hasCustomizeOption && !item.alreadyCustomized)
-}

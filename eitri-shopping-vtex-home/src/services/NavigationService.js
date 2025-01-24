@@ -3,7 +3,7 @@ import Eitri from 'eitri-bifrost'
 export const openCart = async cart => {
 	try {
 		Eitri.nativeNavigation.open({
-			slug: 'eitri-shopping-demo-cart',
+			slug: 'cart',
 			initParams: { orderFormId: cart?.orderFormId }
 		})
 		console.log('Navega para carrinho')
@@ -14,7 +14,7 @@ export const openCart = async cart => {
 
 export const openAccount = async (action) => {
   Eitri.nativeNavigation.open({
-    slug: 'eitri-shopping-demo-account',
+    slug: 'account',
     initParams: { action }
   })
 }
@@ -22,7 +22,7 @@ export const openAccount = async (action) => {
 export const openProduct = async product => {
 	try {
 		Eitri.nativeNavigation.open({
-			slug: 'eitri-shopping-demo-pdp',
+			slug: 'pdp',
 			initParams: { product }
 		})
 	} catch (e) {
@@ -33,7 +33,7 @@ export const openProduct = async product => {
 export const openProductById = async productId => {
 	try {
 		Eitri.nativeNavigation.open({
-			slug: 'eitri-shopping-demo-pdp',
+			slug: 'pdp',
 			initParams: { productId }
 		})
 	} catch (e) {

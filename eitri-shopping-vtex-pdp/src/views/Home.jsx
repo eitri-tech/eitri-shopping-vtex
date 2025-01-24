@@ -27,7 +27,6 @@ export default function Home(props) {
 	const [configLoaded, setConfigLoaded] = useState(false)
 	const [loadingWishlist, setLoadingWishlist] = useState(true)
 	const [itemWishlistId, setItemWishlistId] = useState(-1)
-	const [currencyProps, setCurrencyProps] = useState({})
 	const [currentSku, setCurrentSku] = useState(null)
 
 	useEffect(() => {

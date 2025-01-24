@@ -141,11 +141,9 @@ export const openNativeProduct = product => {
 	}
 
 	Eitri.nativeNavigation.open({
-		slug: 'eitri-shopping-store-catalog',
+		slug: 'catalog',
 		initParams: { route: 'product', product: product }
 	})
-	//	Eitri.nativeNavigation.open({ workspaceId: '5ea28033-a4fe-40bd-b51e-f76c6f1899d9', initParams: { route: "product", product: product } })
-	// para abrir o produto no app nativo
 }
 
 export const formatDate = date => {

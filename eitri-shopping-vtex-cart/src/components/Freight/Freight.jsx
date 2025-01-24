@@ -1,18 +1,18 @@
 import Eitri from 'eitri-bifrost'
 import { Loading } from 'eitri-shopping-vtex-components-shared'
 import { useTranslation } from 'eitri-i18n'
+import {useLocalShoppingCart} from "../../providers/LocalCart";
 
 export default function Freight(props) {
-	const { cart, changeCartAddress, updateCartFreight, locale, currency } = props
 
-	const [zipCode, setZipCode] = useState('')
+  const { cart, changeCartAddress, updateCartFreight } = useLocalShoppingCart()
+
+  const [zipCode, setZipCode] = useState('')
 	const [shipping, setShipping] = useState(null)
 	const [isUnavailable, setIsUnavailable] = useState(false)
 	const [messagesError, setMessagesError] = useState([])
 	const [isLoading, setIsLoading] = useState(false)
-
 	const [selectedOption, setSelectedOption] = useState('')
-
 	const [error, setError] = useState(false)
 
 	const { t } = useTranslation()
@@ -109,9 +109,10 @@ export default function Freight(props) {
 		)
 	}
 
+  if (!cart) return null
+
 	return (
-		<View>
-			<View padding='medium'>
+    <View padding='medium'>
 				<Text
 					fontSize='medium'
 					fontWeight='bold'>
@@ -181,7 +182,7 @@ export default function Freight(props) {
 						<Text color={'tertiary-700'}>{error}</Text>
 					</View>
 				)}
-				{shipping ? (
+				{shipping && (
 					<View
 						display='flex'
 						direction='column'
@@ -255,16 +256,7 @@ export default function Freight(props) {
 							</View>
 						))}
 					</View>
-				) : (
-					<Touchable onPress={() => console.log('Não sei meu frete clicado')}>
-						<Text
-							color='secondary-300'
-							textDecoration='underline'>
-							{t('freight.txtUnknow')}
-						</Text>
-					</Touchable>
 				)}
 			</View>
-		</View>
 	)
 }

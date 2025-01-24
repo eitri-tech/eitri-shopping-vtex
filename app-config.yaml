@@ -1,0 +1,66 @@
+#miess
+#application-id: 'e0e65e56-0183-4cdf-bd88-373408f5cccb'
+#arno
+#application-id: '9fec29b7-f016-49fb-9451-940a23d86eb8'
+#eletrolux
+# application-id: '6fdf83c7-a3bf-4f4f-8333-2ff0aaf2782e'
+#shopclub
+# application-id: '5f1f0a3d-25d6-4605-a530-132e8c7c8cfe'
+#Francesca
+# application-id: 'a97456a0-d361-476a-aa0f-1e3f0ed81cc4'
+#Rihappy
+# application-id: '99e6c9a9-7e52-4368-ad20-fec833c37eb7'
+# OfficeDepot: '5a6d1402-f931-4272-8cef-de5e836df7fa'
+# Casas Pedro: 190f8c0c-4247-403f-b020-668c059201d2
+# Americanas: 9fc8420c-1bd3-4425-8481-730eb537354a
+# Lojas Torra: b8165780-e7e6-4283-af8c-fe3dce502117
+# Farmaconde: 5a679c22-2748-426e-b8be-caecfc6613d4
+# Venancio: da49310a-bb57-4c91-baa7-ef790c9b5fa5
+# Dimensional: d6ea589f-a78a-44bf-a33a-bd9d3ba7196b
+
+application-id: 'b8165780-e7e6-4283-af8c-fe3dce502117'
+
+eitri-luminus: '1.71.0'
+eitri-bifrost: '2.9.0'
+eitri-apps:
+    # home: # alias
+    #   - path: "./eitri-shopping-home" # caminho do eitri-app
+    #   - workspace: home-ws # se comentar o workspace, sobe o que está publicado
+    - alias: eitri-shopping-vtex-components-shared
+      path: './_eitri-shopping-vtex-components-shared'
+      workspace: shared
+      shared: true
+#    - alias: home
+#      path: './eitri-shopping-vtex-home'
+#      workspace: HOME
+#      focus: true
+#    - alias: account
+#      path: './eitri-shopping-vtex-account'
+#      workspace: account
+#      focus: true
+    - alias: pdp
+      path: "./eitri-shopping-vtex-pdp"
+      workspace: PRODUCT
+      focus: true
+#    - alias: cart
+#      path: "./eitri-shopping-vtex-cart"
+#      workspace: CART
+#      focus: true
+#    - alias: account
+#      path: "./eitri-shopping-demo-account"
+#      workspace: DEFAULT
+#      focus: false
+#    - alias: cart
+#      path: './eitri-shopping-demo-cart'
+#      workspace: CART
+#      focus: false
+#    - alias: checkout
+#      path: './eitri-shopping-demo-checkout'
+#      workspace: CHECKOUT
+#      focus: false
+initialization-params:
+   type: 'string'
+   value: 'orderFormId=7e0dbf489fd24a908a9245763ced817b&productId=1007447'
+#  initialization-params:
+#    type: "string"
+#    value: "tabIndex=1"
