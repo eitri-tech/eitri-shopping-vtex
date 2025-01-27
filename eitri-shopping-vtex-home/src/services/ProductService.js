@@ -1,5 +1,6 @@
 import { Vtex } from 'eitri-shopping-vtex-shared'
 import { CMS_PRODUCT_SORT } from '../utils/Constants'
+import { resolveSortParam } from "./helpers/resolveSortParam";
 
 export const autocompleteSuggestions = async value => {
 	return await Vtex.catalog.autoCompleteSuggestions(value)
@@ -7,6 +8,25 @@ export const autocompleteSuggestions = async value => {
 
 export const getProductsByFacets = async (facets, options) => {
 	return await Vtex.catalog.getProductsByFacets(facets, options)
+}
+
+/*
+* {
+*  facets: Array<{ key: string, value: string }>
+*  query: string
+*  sort: string
+*  page: number
+* }
+*
+* */
+export const getProductsService = async (params, page) => {
+  const facetsPath = params?.facets?.map(facet => `${facet.key}/${facet.value}`).join('/')
+  const options = {
+    query: params?.query || params?.q || '',
+    page: page ?? 1,
+    sort: resolveSortParam(params.sort)
+  }
+  return await Vtex.catalog.getProductsByFacets(facetsPath, options)
 }
 
 export const getPossibleByFacets = async (facets, options) => {

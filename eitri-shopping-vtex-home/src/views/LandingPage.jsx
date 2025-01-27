@@ -8,7 +8,6 @@ import { useTranslation } from 'eitri-i18n'
 
 export default function LandingPage(props) {
 	const [cmsContent, setCmsContent] = useState(null)
-	const [ladingPageLogo, setLadingPageLogo] = useState('')
 	const [isLoading, setIsLoading] = useState(true)
 
 	const { t } = useTranslation()
@@ -16,9 +15,8 @@ export default function LandingPage(props) {
 	const loadCms = async () => {
 		try {
 			const landingPageName = props?.location?.state?.landingPageName
-			const { sections, settings } = await getCmsContent( 'landingPage', landingPageName)
+			const { sections } = await getCmsContent( 'landingPage', landingPageName)
 			setCmsContent(sections)
-			setLadingPageLogo(settings?.imageLogo?.logoUrl)
 			setIsLoading(false)
 		} catch (e) {
 			setIsLoading(false)
@@ -57,19 +55,6 @@ export default function LandingPage(props) {
 				paddingVertical='large'
 				direction='column'
 				gap='32px'>
-				{ladingPageLogo && (
-					<View
-						width='100%'
-						display='flex'
-						alignItems='center'
-						justifyContent='center'>
-						<Image
-							src={ladingPageLogo}
-							maxHeight='52px'
-						/>
-					</View>
-				)}
-
 				{cmsContent?.map(content => getMappedComponent(content))}
 			</View>
 		</Window>

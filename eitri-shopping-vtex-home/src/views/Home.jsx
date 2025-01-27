@@ -5,17 +5,15 @@ import { getCmsContent } from '../services/CmsService'
 import { normalizePath, openCart } from '../services/NavigationService'
 import { startConfigure } from '../services/AppService'
 import { useTranslation } from 'eitri-i18n'
-import HomeSkeleton from "../components/HomeSkeleton/HomeSkeleton";
-import {getMappedComponent} from "../utils/getMappedComponent";
+import { getMappedComponent } from "../utils/getMappedComponent"
+import HomeSkeleton from "../components/HomeSkeleton/HomeSkeleton"
 
 export default function Home() {
 	const { cart, startCart } = useLocalShoppingCart()
+  const { t, i18n } = useTranslation()
 
-	const [cmsContent, setCmsContent] = useState(null)
-
+  const [cmsContent, setCmsContent] = useState(null)
 	const [key, setKey] = useState(new Date().getTime())
-
-	const { t, i18n } = useTranslation()
 
 	useEffect(() => {
 		window.scroll(0, 0)
@@ -28,7 +26,24 @@ export default function Home() {
 		})
 	}, [])
 
-	const requestNotificationPermission = async () => {
+  const startHome = async () => {
+    startConfigure()
+      .then(resolveRedirectAndCartAndCms)
+      .catch(e => {
+        console.error('Error startConfigure: ', e)
+      })
+
+    Eitri.navigation.setOnResumeListener(() => {
+      const currentTime = new Date().getTime()
+      setKey(currentTime)
+    })
+
+    const remoteConfig = await Eitri.environment.getRemoteConfigs()
+    const lang = remoteConfig?.storePreferences?.locale || 'pt-BR'
+    i18n.changeLanguage(lang)
+  }
+
+  const requestNotificationPermission = async () => {
 		try {
 			let notificationPermissionStatus = await Eitri.notification.checkPermission()
 
@@ -38,23 +53,6 @@ export default function Home() {
 		} catch (e) {
 			console.error('Erro ao solicitar permissão para notificação', e)
 		}
-	}
-
-	const startHome = async () => {
-		startConfigure()
-			.then(resolveRedirectAndCartAndCms)
-			.catch(e => {
-				console.error('Error startConfigure: ', e)
-			})
-
-		Eitri.navigation.setOnResumeListener(() => {
-			const currentTime = new Date().getTime()
-			setKey(currentTime)
-		})
-
-		const remoteConfig = await Eitri.environment.getRemoteConfigs()
-		const lang = remoteConfig?.storePreferences?.locale || 'pt-BR'
-		i18n.changeLanguage(lang)
 	}
 
 	const resolveRedirectAndCartAndCms = async () => {

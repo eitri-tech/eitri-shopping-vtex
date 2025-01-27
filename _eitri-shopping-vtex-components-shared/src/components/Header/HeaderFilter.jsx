@@ -1,13 +1,13 @@
 import Eitri from 'eitri-bifrost'
 
 export default function HeaderFilter(props) {
-	const { handleFilterModal, facetsModalReady, searchResults, hasFilters, iconColor } = props
+	const { handleFilterModal, facetsModalReady, hasFilters, iconColor } = props
 
 	return (
 		<Touchable
 			onPress={handleFilterModal}
 			position='relative'
-			opacity={facetsModalReady || searchResults.length > 0 ? 'solid' : 'light'}>
+			opacity={facetsModalReady ? 'solid' : 'light'}>
 			<View>
 				<Icon
 					color={iconColor}
