@@ -10,7 +10,7 @@
     "clarityId": "YOUR_CLARITY_ID",
     "autoTriggerGAEvents": true,
     "statusBarTextColor": "black",
-    "headerLogo": "",
+    "headerLogo": "https://console.eitri.tech/assets/logo-dark-CpI6qVKD.svg",
     "headerBackgroundColor": "secondary-500",
     "headerContentColor": "neutral-900",
     "productCard": {
