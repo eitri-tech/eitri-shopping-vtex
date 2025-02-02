@@ -1,14 +1,12 @@
 import Eitri from 'eitri-bifrost'
 
-export const openCart = async cart => {
+export const openCart = async () => {
 	try {
 		Eitri.nativeNavigation.open({
-			slug: 'cart',
-			initParams: { orderFormId: cart?.orderFormId }
+			slug: 'cart'
 		})
-		console.log('Navega para carrinho')
 	} catch (e) {
-		console.error('navigate to cart: Error trying to open cart', e)
+		console.error('Erro ao navegar para o carrinho', e)
 	}
 }
 

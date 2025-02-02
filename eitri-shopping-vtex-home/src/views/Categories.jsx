@@ -1,15 +1,14 @@
+import Eitri from 'eitri-bifrost'
 import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
 import { getCmsContent } from '../services/CmsService'
-import { getMappedComponent } from '../utils/getMappedComponent'
-import Eitri from 'eitri-bifrost'
-import { PROVIDER } from '../utils/Constants'
 import { useTranslation } from 'eitri-i18n'
+import CmsContentRender from "../components/CmsContentRender/CmsContentRender";
 
 export default function Categories() {
-	const [cmsContent, setCmsContent] = useState(null)
-	const [isLoading, setIsLoading] = useState(true)
+  const { t } = useTranslation()
 
-	const { t } = useTranslation()
+  const [cmsContent, setCmsContent] = useState(null)
+	const [isLoading, setIsLoading] = useState(true)
 
 	useEffect(() => {
 		loadCms()
@@ -17,20 +16,7 @@ export default function Categories() {
 
 	const loadCms = async () => {
 		const { sections } = await getCmsContent('categories', 'categorias')
-
-		if (sections && sections[0].provider === PROVIDER.DECO) {
-			const _sectionToCustom = sections?.find(
-				section => section?.metadata?.component === 'site/sections/Header/Header.tsx'
-			)
-
-			// Hack para tela de categorias
-			_sectionToCustom.metadata.component = 'site/sections/CustomDecoCategories.tsx'
-			_sectionToCustom.provider = PROVIDER.DECO
-			setCmsContent([_sectionToCustom])
-		} else {
-			setCmsContent(sections)
-		}
-
+    setCmsContent(sections)
 		setIsLoading(false)
 	}
 
@@ -51,12 +37,9 @@ export default function Categories() {
 				fullScreen
 				isLoading={isLoading}
 			/>
-			<View
-				paddingVertical='display'
-				direction='column'
-				gap='32px'>
-				{cmsContent?.map(content => getMappedComponent(content))}
-			</View>
+
+      <CmsContentRender cmsContent={cmsContent} />
+
 		</Window>
 	)
 }

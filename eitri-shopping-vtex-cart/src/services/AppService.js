@@ -12,5 +12,4 @@ export const setLanguage = (i18n) => {
   } catch (e) {
     console.error('Erro ao setar idioma', e)
   }
-
 }

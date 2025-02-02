@@ -1,5 +1,4 @@
 import { Vtex } from 'eitri-shopping-vtex-shared'
-import { cartShippingResolver } from '../utils/cartShippingResolver'
 
 export default async function setFreight(cart, shippingOptions) {
 	try {

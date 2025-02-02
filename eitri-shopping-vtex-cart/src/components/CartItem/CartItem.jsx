@@ -106,29 +106,6 @@ export default function CartItem(props) {
 							fontSize='medium'>
 							{formatAmountInCents(item.price, locale, currency)}
 						</Text>
-						{item?.offerings?.length > 0 &&
-							!message &&
-							item?.offerings
-								?.filter(o => !o.isBundled)
-								.map((offering, index) => (
-									<Touchable
-										key={offering.id + index}
-										onPress={() => onAddOfferingToCart(item.itemIndex, offering.id)}
-										borderWidth='hairline'
-										borderRadius='small'
-										padding='nano'
-										display='flex'
-										justifyContent='center'
-										alignItems='center'
-										borderColor='primary-700'>
-										<Text
-											fontSize='nano'
-											color='primary-700'
-											fontWeight='medium'>
-											{`${t('cartItem.txtAdd')} ${offering?.name} ${offering?.price ? formatAmountInCents(offering.price, locale, currency) : ''}`}
-										</Text>
-									</Touchable>
-								))}
 						<View
 							display='flex'
 							justifyContent='between'

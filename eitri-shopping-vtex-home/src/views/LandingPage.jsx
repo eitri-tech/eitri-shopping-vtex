@@ -1,16 +1,16 @@
-import Eitri from 'eitri-bifrost'
-import { openCart } from '../services/NavigationService'
 import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
-import { useLocalShoppingCart } from '../providers/LocalCart'
 import { getCmsContent } from '../services/CmsService'
-import { getMappedComponent } from '../utils/getMappedComponent'
-import { useTranslation } from 'eitri-i18n'
+import CmsContentRender from "../components/CmsContentRender/CmsContentRender";
 
 export default function LandingPage(props) {
-	const [cmsContent, setCmsContent] = useState(null)
+  const [cmsContent, setCmsContent] = useState(null)
 	const [isLoading, setIsLoading] = useState(true)
 
-	const { t } = useTranslation()
+  const pageTitle = props?.location?.state?.title?? ''
+
+  useEffect(() => {
+    loadCms()
+  }, [])
 
 	const loadCms = async () => {
 		try {
@@ -23,27 +23,14 @@ export default function LandingPage(props) {
 		}
 	}
 
-	useEffect(() => {
-		loadCms()
-	}, [])
-
-	const { cart } = useLocalShoppingCart()
-
-	const navigateCart = () => {
-		openCart(cart)
-	}
-
-	const navigateToSearch = () => {
-		Eitri.navigation.navigate({ path: 'Search' })
-	}
-
 	return (
 		<Window
 			bottomInset
 			topInset>
+
 			<HeaderTemplate
 				headerType={HEADER_TYPE.RETURN_AND_TEXT}
-				contentText={props?.location?.state?.pageTitle ?? ''}
+				contentText={pageTitle}
 			/>
 
 			<Loading
@@ -51,12 +38,8 @@ export default function LandingPage(props) {
 				isLoading={isLoading}
 			/>
 
-			<View
-				paddingVertical='large'
-				direction='column'
-				gap='32px'>
-				{cmsContent?.map(content => getMappedComponent(content))}
-			</View>
+      <CmsContentRender cmsContent={cmsContent} />
+
 		</Window>
 	)
 }
