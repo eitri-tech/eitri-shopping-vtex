@@ -16,7 +16,6 @@ export default function ProductCardWrapper(props) {
 	const [isOnWishlist, setIsOnWishlist] = useState(false)
 	const [wishListId, setWishListId] = useState(null)
 
-
 	useEffect(() => {
 		checkItemOnWishlist()
 	}, [])
@@ -116,31 +115,31 @@ export default function ProductCardWrapper(props) {
 
 	// Navigation
 
-  const onPressOnCard = () => {
-    openProduct(vtexProduct)
-  }
+	const onPressOnCard = () => {
+		openProduct(vtexProduct)
+	}
 
-  const onPressOnWishlist = () => {
-    if (loadingWishlistOp) return
-    if (isOnWishlist) {
-      onRemoveFromWishlist()
-    } else {
-      onAddToWishlist()
-    }
-  }
+	const onPressOnWishlist = () => {
+	if (loadingWishlistOp) return
+	if (isOnWishlist) {
+	  onRemoveFromWishlist()
+	} else {
+	  onAddToWishlist()
+	}
+	}
 
-  const onPressCartButton = () => {
-    if (App?.configs?.appConfigs?.productCard?.buyGoesToPDP) {
-      openProduct(vtexProduct)
-      return
-    }
-    if (loadingCartOp) return
-    if (isItemOnCart()) {
-      removeFromCart()
-    } else {
-      addToCart()
-    }
-  }
+	const onPressCartButton = () => {
+	if (App?.configs?.appConfigs?.productCard?.buyGoesToPDP) {
+	  openProduct(vtexProduct)
+	  return
+	}
+	if (loadingCartOp) return
+	if (isItemOnCart()) {
+	  removeFromCart()
+	} else {
+	  addToCart()
+	}
+	}
 
 
 	if (App?.configs?.appConfigs?.productCard?.style === 'fullImage') {
@@ -167,21 +166,21 @@ export default function ProductCardWrapper(props) {
 
 	return (
 		<ProductCardDefault
-      name={item?.nameComplete || item?.name}
-      image={item?.images?.[0]?.imageUrl}
-      badge={getBadge()}
-      listPrice={getListPrice()}
-      showListItem={App?.configs?.appConfigs?.productCard?.showListPrice ?? true}
-      price={formatPrice(sellerDefault?.commertialOffer.Price)}
-      installments={formatInstallments(sellerDefault)}
-      isInCart={isItemOnCart()}
-      isOnWishlist={isOnWishlist}
-      loadingWishlistOp={loadingWishlistOp}
-      loadingCartOp={loadingCartOp}
-      width={width}
-      onPressOnCard={onPressOnCard}
-      onPressCartButton={onPressCartButton}
-      onPressOnWishlist={onPressOnWishlist}
+		  name={item?.nameComplete || item?.name}
+		  image={item?.images?.[0]?.imageUrl}
+		  badge={getBadge()}
+		  listPrice={getListPrice()}
+		  showListItem={App?.configs?.appConfigs?.productCard?.showListPrice ?? true}
+		  price={formatPrice(sellerDefault?.commertialOffer.Price)}
+		  installments={formatInstallments(sellerDefault)}
+		  isInCart={isItemOnCart()}
+		  isOnWishlist={isOnWishlist}
+		  loadingWishlistOp={loadingWishlistOp}
+		  loadingCartOp={loadingCartOp}
+		  width={width}
+		  onPressOnCard={onPressOnCard}
+		  onPressCartButton={onPressCartButton}
+		  onPressOnWishlist={onPressOnWishlist}
 		/>
 	)
 }

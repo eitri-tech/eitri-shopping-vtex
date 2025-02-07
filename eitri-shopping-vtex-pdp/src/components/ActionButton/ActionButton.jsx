@@ -2,6 +2,7 @@ import { CustomButton } from 'eitri-shopping-vtex-components-shared'
 import { useTranslation } from 'eitri-i18n'
 import {useLocalShoppingCart} from "../../providers/LocalCart";
 import {openCart} from "../../services/NavigationService";
+import { formatAmount } from '../../utils/utils'
 
 export default function ActionButton (props) {
   const { addItem, cart } = useLocalShoppingCart()
@@ -35,13 +36,27 @@ export default function ActionButton (props) {
   }
 
   return (
-    <CustomButton
-      marginTop='large'
-      label={getButtonLabel()}
-      onPress={handleButtonClick}
-      isLoanding={isLoading}
-      backgroundColor={isAvailable ? 'primary-700' : 'neutral-300'}
-      block
-    />
+	  <View
+		  display='flex'
+		  paddingHorizontal='large'
+		  alignItems='center'
+		  maxWidth='100%'
+		  gap={32}
+		  justifyContent='center'>
+		  <View>
+			  <Text
+				  fontWeight='bold'
+				  fontSize='small'>
+				  {formatAmount(currentSku?.sellers[0]?.commertialOffer?.Price)}
+			  </Text>
+		  </View>
+		  <CustomButton
+			  label={getButtonLabel()}
+			  onPress={handleButtonClick}
+			  isLoading={isLoading}
+			  backgroundColor={isAvailable ? 'primary-700' : 'neutral-300'}
+			  borderRadius='none'
+		  />
+	  </View>
   )
 }

@@ -12,7 +12,7 @@ export default function SaveButton(props) {
 				display='flex'
 				borderWidth='hairline'
 				borderColor={isInWishlist ? 'primary-700' : 'neutral-500'}
-				borderRadius='pill'
+				borderRadius='small'
 				height='30px'
 				width='85px'
 				justifyContent='center'

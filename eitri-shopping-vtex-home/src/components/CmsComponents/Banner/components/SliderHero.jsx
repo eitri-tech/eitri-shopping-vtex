@@ -40,15 +40,15 @@ export default function SliderHero(props) {
 							key={slider.imageUrl}
 							onPress={() => onPress(slider)}
 							direction='row'
-							paddingHorizontal='large'
-							width='100vw'>
+							width='100%'
+							paddingHorizontal='large'>
 							<ImageView
 								backgroundColor='neutral-100'
 								grow={1}
 								src={slider.imageUrl}
 								width='100%'
+								maxWidth='100%'
 								aspectRatio={data.aspectRatio ?? '4:3'}
-								maxHeight='387px'
 								borderRadius='small'
 							/>
 						</Touchable>

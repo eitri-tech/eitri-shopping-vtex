@@ -206,14 +206,11 @@ export default function HeaderTemplate(props) {
 			)}
 			{headerType === HEADER_TYPE.RETURN_AND_TEXT && (
 				<>
-					{viewBackButton ? (
-						<HeaderReturn
-							iconColor={contentColor}
-							backgroundColor={backgroundColor}
-						/>
-					) : (
-						<View width={'20%'}></View>
-					)}
+					<HeaderReturn
+						iconColor={contentColor}
+						backgroundColor={backgroundColor}
+					/>
+
 					<HeaderText
 						contentColor={contentColor}
 						text={contentText}

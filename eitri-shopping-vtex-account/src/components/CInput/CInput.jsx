@@ -16,7 +16,7 @@ export default function CInput(props) {
 			alignItems='center'
 			color='neutral-500'
 			paddingHorizontal='small'
-			borderRadius='pill'>
+			borderRadius='small'>
 			{icon && (
 				<View>
 					<Image src={icon} />

@@ -68,13 +68,3 @@ export const savePageInCache = async (faststore, contentType, pageName, page) =>
 		console.error('Error trying save in cache', error)
 	}
 }
-
-export const getDecoContent = async pageName => {
-	const result = await Eitri.http.get(pageName)
-	return result.data.props.sections
-}
-
-export const getWakeContent = async pageName => {
-	const result = await Eitri.http.get(pageName)
-	return result.data.sections
-}

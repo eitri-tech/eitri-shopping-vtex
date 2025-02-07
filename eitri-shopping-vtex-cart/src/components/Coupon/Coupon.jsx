@@ -83,7 +83,7 @@ export default function Coupon(props) {
 								paddingHorizontal='small'
 								borderWidth='hairline'
 								borderColor='neutral-300'
-								borderRadius='medium'
+								borderRadius='small'
 								width='90%'>
 								<Text>{appliedCoupon}</Text>
 							</View>
@@ -105,7 +105,7 @@ export default function Coupon(props) {
 								paddingVertical='nano'
 								borderWidth='hairline'
 								borderColor='neutral-300'
-								borderRadius='pill'
+								borderRadius='small'
 								width='60vw'>
 								<Input
 									placeholder={t('coupon.labelInsertCode')}
@@ -125,7 +125,7 @@ export default function Coupon(props) {
 									borderColor='secondary-300'
 									justifyContent='center'
 									alignItems='center'
-									borderRadius='pill'>
+									borderRadius='small'>
 									{isLoading ? (
 										<Loading
 											width='30px'

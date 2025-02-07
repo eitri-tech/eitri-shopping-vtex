@@ -135,7 +135,7 @@ export default function CartSummary(props) {
 					alignItems='center'>
 					<CustomButton
 						marginTop='large'
-						borderRadius='pill'
+						borderRadius='small'
 						label={t('cartSummary.labelFinish')}
 						onPress={goToCheckout}
 						block

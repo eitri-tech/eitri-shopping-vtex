@@ -6,7 +6,7 @@ export default function CButton(props) {
 			<Touchable
 				backgroundColor={props.variant === 'outlined' ? 'transparent' : props.backgroundColor || 'primary-700'}
 				borderColor={props.backgroundColor || 'primary-700'}
-				borderRadius='pill'
+				borderRadius='small'
 				borderWidth='hairline'
 				fontSize='extra-small'
 				block
@@ -45,7 +45,7 @@ export default function CButton(props) {
 
 	return (
 		<Button
-			borderRadius='pill'
+			borderRadius='small'
 			fontSize='extra-small'
 			block
 			fontWeight='medium'

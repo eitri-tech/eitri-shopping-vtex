@@ -1,25 +1,27 @@
 import { App } from 'eitri-shopping-vtex-shared'
 import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
-import iconLogout from '../assets/icons/logout.svg'
-import Eitri from 'eitri-bifrost'
-import CButton from '../components/CButton/CButton'
 import { doLogout, getCustomerData, isLoggedIn } from '../services/CustomerService'
 import { navigate, PAGES } from '../services/NavigationService'
 import { sendPageView } from '../services/TrackingService'
 import { useTranslation } from 'eitri-i18n'
+import iconLogout from '../assets/icons/logout.svg'
+import Eitri from 'eitri-bifrost'
+import CButton from '../components/CButton/CButton'
 import ProfileCardButton from '../components/ProfileCardButton/ProfileCardButton'
+import { setLanguage, startConfigure } from '../services/AppService'
 
 export default function Home(props) {
-
-  const PAGE = 'Minha Conta'
+	const PAGE = 'Minha Conta'
 
 	const [isLoading, setIsLoading] = useState(true)
 	const [customerData, setCustomerData] = useState(props.customerData || {})
-	const { t } = useTranslation()
+	const { t, i18n } = useTranslation()
 
 	useEffect(() => {
 		const init = async () => {
-			await App.tryAutoConfigure({ verbose: false, gaVerbose: true })
+			await startConfigure()
+
+			setLanguage(i18n)
 
 			const initialInfos = await Eitri.getInitializationInfos()
 
@@ -60,7 +62,8 @@ export default function Home(props) {
 		<Window
 			bottomInset
 			topInset
-      title={PAGE}>
+			title={PAGE}>
+
 			<Loading
 				fullScreen
 				isLoading={isLoading}

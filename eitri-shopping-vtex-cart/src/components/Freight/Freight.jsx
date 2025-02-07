@@ -130,7 +130,7 @@ export default function Freight(props) {
 							paddingVertical='nano'
 							borderWidth='hairline'
 							borderColor='neutral-300'
-							borderRadius='pill'
+							borderRadius='small'
 							width='60vw'>
 							<MaskedInput
 								placeholder={t('freight.labelZipCode')}
@@ -153,7 +153,7 @@ export default function Freight(props) {
 								width='30vw'
 								borderWidth='hairline'
 								justifyContent='center'
-								borderRadius='pill'
+								borderRadius='small'
 								borderColor='secondary-300'
 								alignItems='center'>
 								{isLoading ? (
@@ -190,7 +190,7 @@ export default function Freight(props) {
 						paddingVertical='small'
 						borderWidth='hairline'
 						borderColor='neutral-300'
-						borderRadius='circular'
+						borderRadius='small'
 						alignItems='center'
 						justifyContent='between'>
 						{shipping?.options.map((item, index) => (

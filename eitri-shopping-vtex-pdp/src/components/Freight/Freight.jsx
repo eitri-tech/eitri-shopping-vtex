@@ -88,7 +88,7 @@ export default function Freight(props) {
 							height='50px'
 							borderWidth='hairline'
 							borderColor='neutral-300'
-							borderRadius='pill'
+							borderRadius='small'
 							grow={1}>
 							<MaskedInput
 								placeholder={t('freight.labelZipCode')}
@@ -108,7 +108,7 @@ export default function Freight(props) {
 						<Touchable
 							borderWidth='hairline'
 							borderColor='secondary-300'
-							borderRadius='pill'
+							borderRadius='small'
 							display='flex'
 							height='50px'
 							justifyContent='center'
@@ -142,7 +142,7 @@ export default function Freight(props) {
 								paddingVertical='small'
 								borderWidth='hairline'
 								borderColor='neutral-300'
-								borderRadius='medium'
+								borderRadius='small'
 								alignItems='center'
 								gap='10px'
 								justifyContent='between'>

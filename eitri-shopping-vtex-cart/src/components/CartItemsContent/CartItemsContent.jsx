@@ -1,13 +1,11 @@
 import CartItem from "../CartItem/CartItem";
 import {useLocalShoppingCart} from "../../providers/LocalCart";
 
-
 export default function CartItemsContent (props) {
   const { cart, changeQuantity, removeItem } = useLocalShoppingCart()
 
   const hasMessage = itemEan => {
     let message = cart.messages.filter(item => item.code === 'withoutStock' && item.fields.ean == itemEan)
-
     return message[0] || null
   }
 
@@ -15,7 +13,7 @@ export default function CartItemsContent (props) {
     try {
       changeQuantity(index, quantity)
     } catch (e) {
-      console.log('Error onChangeQuantityItem==>', e)
+      console.erro('Error onChangeQuantityItem==>', e)
     }
   }
 
@@ -33,7 +31,6 @@ export default function CartItemsContent (props) {
   const onRemoveOfferingFromCart = async (itemIndex, offeringId) => {
 
   }
-
 
   return (
     <View>

@@ -1,15 +1,11 @@
 import Eitri from 'eitri-bifrost'
-import { App, Vtex } from 'eitri-shopping-vtex-shared'
+import { Vtex } from 'eitri-shopping-vtex-shared'
 import { Loading, HeaderTemplate, HEADER_TYPE, Spacing } from 'eitri-shopping-vtex-components-shared'
 import { openCart } from '../services/NavigationService'
 import { useLocalShoppingCart } from '../providers/LocalCart'
 import { crash, crashLog, sendViewItem } from '../services/trackingService'
 import { getProductById, markLastViewedProduct } from '../services/productService'
-import {
-  addToWishlist,
-  productOnWishlist,
-  removeItemFromWishlist
-} from '../services/customerService'
+import { addToWishlist, productOnWishlist, removeItemFromWishlist } from '../services/customerService'
 import ImageCarousel from '../components/ImageCarousel/ImageCarousel'
 import MainDescription from '../components/MainDescription/MainDescription'
 import SkuSelector from '../components/SkuSelector/SkuSelector'
@@ -19,9 +15,13 @@ import DescriptionComponent from '../components/Description/DescriptionComponent
 import Reviews from '../components/Reviews/Reviews'
 import ActionButton from '../components/ActionButton/ActionButton'
 import RelatedProducts from '../components/RelatedProducts/RelatedProducts'
+import { setLanguage, startConfigure } from '../services/AppService'
+import { useTranslation } from 'eitri-i18n'
+import BottomFixed from '../components/BottomFixed/BottomFixed'
 
 export default function Home() {
 	const { startCart, cart } = useLocalShoppingCart()
+	const { i18n } = useTranslation()
 
 	const [product, setProduct] = useState(null)
 	const [isLoading, setIsLoading] = useState(null)
@@ -52,6 +52,7 @@ export default function Home() {
 		}
 
 		await loadConfigs()
+		setLanguage(i18n)
 
 		product = await loadProduct(startParams)
 		if (product) {
@@ -123,7 +124,7 @@ export default function Home() {
 
 	const loadConfigs = async () => {
 		try {
-			await App.tryAutoConfigure({ verbose: false })
+			await startConfigure()
 		} catch (e) {
 			crashLog('Erro ao buscar configurações', e)
 			crash()
@@ -145,9 +146,15 @@ export default function Home() {
 		setLoadingWishlist(false)
 	}
 
-	const onSkuChange = (variation, value) => {
-		const productSku = product.items.find(item => item[variation][0] === value)
-		setCurrentSku(productSku)
+	const onSkuChange = newDesiredVariations => {
+		const productSku = product.items.find(item => {
+			return newDesiredVariations.every(
+				newDesiredVariation => item[newDesiredVariation.variation][0] === newDesiredVariation.value
+			)
+		})
+		if (productSku) {
+			setCurrentSku(productSku)
+		}
 	}
 
 	return (
@@ -183,12 +190,6 @@ export default function Home() {
 							marginTop={'large'}
 						/>
 
-						<Spacing height='20px' />
-
-						<ActionButton currentSku={currentSku} />
-
-						<Spacing height='20px' />
-
 						<Freight currentSku={currentSku} />
 
 						<RichContent product={product} />
@@ -198,6 +199,10 @@ export default function Home() {
 						<Reviews />
 
 						{configLoaded && <RelatedProducts product={product} />}
+
+						<BottomFixed backgroundColor='accent-100'>
+							<ActionButton currentSku={currentSku} />
+						</BottomFixed>
 					</View>
 				</View>
 			)}
