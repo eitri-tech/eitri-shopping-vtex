@@ -24,14 +24,12 @@ export default function ModalConfirm(props) {
 					width='100%'
 					alignItems='center'
 					justfyContent='center'>
-					<Spacing height={10} />
 					<Text
 						textAlign='center'
 						fontSize='medium'
 						fontWeight='bold'>
 						{text}
 					</Text>
-					<Spacing height={25} />
 					<View width='100%'>
 						<CustomButton
 							marginTop='large'
@@ -39,13 +37,11 @@ export default function ModalConfirm(props) {
 							onPress={() => removeItem(true)}
 							block
 						/>
-						<Spacing height={15} />
 						<CustomButton
-							marginTop='large'
+							variant='outlined'
+							marginTop='small'
 							label={'Cancelar'}
 							onPress={() => removeItem(false)}
-							backgroundColor='accent-100'
-							color='primary-700'
 							block
 						/>
 					</View>

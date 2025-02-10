@@ -2,7 +2,7 @@ import ProductCard from '../../ProductCard/ProductCard'
 import ProductCardLoading from './ProductCardLoading'
 
 export default function ShelfOfProductsCarousel(props) {
-	const { isLoading, products, gap, locale, currency } = props
+	const { isLoading, products, gap, locale, currency, paddingHorizontal } = props
 	const [currentSlide, setCurrentSlide] = useState(0)
 	const [productsPage, setProductsPage] = useState([])
 
@@ -41,7 +41,7 @@ export default function ShelfOfProductsCarousel(props) {
 									justifyContent='center'>
 									<View
 										width='50%'
-										paddingLeft='large'
+										paddingLeft={paddingHorizontal || 'large'}
 										paddingRight='nano'>
 										<ProductCard
 											product={page[0]}
@@ -52,7 +52,7 @@ export default function ShelfOfProductsCarousel(props) {
 									{page.length > 1 ? (
 										<View
 											width='50%'
-											paddingRight='large'
+											paddingRight={paddingHorizontal || 'large'}
 											paddingLeft='nano'>
 											<ProductCard
 												product={page[1]}

@@ -1,9 +1,7 @@
 import mailIcon from '../../assets/icons/mail-01.svg'
-import CInput from '../../components/CInput/CInput'
-import CButton from '../../components/CButton/CButton'
 import BigTitle from '../../components/BigTitle/BigTitle'
 import { sendPasswordResetCode } from '../../services/CustomerService'
-import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
+import { Loading, HeaderTemplate, HEADER_TYPE, CustomButton, CustomInput } from 'eitri-shopping-vtex-components-shared'
 import Alert from '../../components/Alert/Alert'
 import { sendPageView } from '../../services/TrackingService'
 import { navigate, PAGES } from '../../services/NavigationService'
@@ -48,14 +46,14 @@ export default function PasswordReset(props) {
 
 			<HeaderTemplate headerType={HEADER_TYPE.TEXT} contentText={`${t('passwordReset.headerText')}`}/>
 
-			<View padding='giant'>
+			<View padding='large'>
 				<BigTitle
 					title={t('passwordReset.forgotPass')}
 					withBackAction
 				/>
 
 				<View marginTop='display'>
-					<CInput
+					<CustomInput
 						icon={mailIcon}
 						placeholder={t('passwordReset.setEmail')}
 						value={username}
@@ -68,9 +66,8 @@ export default function PasswordReset(props) {
 				</View>
 
 				<View marginTop='giant'>
-					<CButton
-						backgroundColor='secondary-300'
-						borderColor='secondary-300'
+					<CustomButton
+						width='100%'
 						label={t('passwordReset.sendButton')}
 						onPress={goToPasswordResetCode}
 					/>

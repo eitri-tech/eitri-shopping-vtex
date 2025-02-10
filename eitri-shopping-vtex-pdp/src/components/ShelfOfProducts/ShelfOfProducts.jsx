@@ -52,6 +52,7 @@ export default function ShelfOfProducts(props) {
 
 			{mode === 'carousel' && (
 				<ShelfOfProductsCarousel
+					paddingHorizontal={paddingHorizontal}
 					isLoading={isLoading}
 					products={products}
 					gap={gap}

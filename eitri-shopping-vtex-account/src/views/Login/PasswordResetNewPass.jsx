@@ -1,9 +1,6 @@
 import lockIcon from '../../assets/icons/lock.svg'
-import CButton from '../../components/CButton/CButton'
-import CInput from '../../components/CInput/CInput'
 import BigTitle from '../../components/BigTitle/BigTitle'
-import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
-import { setPassword } from '../../services/CustomerService'
+import { Loading, HeaderTemplate, HEADER_TYPE, CustomButton, CustomInput } from 'eitri-shopping-vtex-components-shared'
 import Alert from '../../components/Alert/Alert'
 import { navigate, PAGES } from '../../services/NavigationService'
 import { useTranslation } from 'eitri-i18n'
@@ -19,20 +16,44 @@ export default function PasswordResetNewPass(props) {
 
 	const { t } = useTranslation()
 
+	const requirements = [
+		{
+			text: t("passwordResetNewPass.passwordRequirementsCharacters"),
+			valid: newPassword.length >= 8
+		},
+		{
+			text: t("passwordResetNewPass.passwordRequirementsNumber"),
+			valid: /[0-9]/.test(newPassword)
+		},
+		{
+			text: t("passwordResetNewPass.passwordRequirementsUppercase"),
+			valid: /[A-Z]/.test(newPassword)
+		},
+		{
+			text: t("passwordResetNewPass.passwordRequirementsLowercase"),
+			valid: /[a-z]/.test(newPassword)
+		}
+	]
+
 	const confirmNewPassword = async () => {
 		try {
 			if (!email || !recoveryCode || !newPassword) {
 				return
 			}
 			setLoading(true)
-			await setPassword(email, recoveryCode, newPassword)
-			navigate(PAGES.HOME)
+			await sendPassword(email, recoveryCode, newPassword)
+			navigate('Home')
 			setLoading(false)
 		} catch (e) {
+			logError(PAGE, 'Erro ao redefinir senha', e)
 			setShowErrorAlert(true)
 			setLoading(false)
 		}
 	}
+
+	const allRequirementsMet = requirements.every(req => req.valid)
+	const passwordsMatch = newPassword === confirmPassword
+
 
 	return (
 		<Window topInset>
@@ -46,14 +67,14 @@ export default function PasswordResetNewPass(props) {
 				contentText={`${t('passwordResetNewPass.headerText')}`}
 			/>
 
-			<View padding='giant'>
+			<View padding='large'>
 				<BigTitle
 					title={t('passwordResetNewPass.forgotPass')}
 					withBackAction
 				/>
 
 				<View marginTop='large'>
-					<CInput
+					<CustomInput
 						autoFocus
 						icon={lockIcon}
 						type='password'
@@ -64,7 +85,7 @@ export default function PasswordResetNewPass(props) {
 				</View>
 
 				<View marginTop='large'>
-					<CInput
+					<CustomInput
 						icon={lockIcon}
 						type='password'
 						placeholder={t('passwordResetNewPass.confirmPass')}
@@ -73,14 +94,36 @@ export default function PasswordResetNewPass(props) {
 					/>
 				</View>
 
-				<View marginTop='giant'>
-					<CButton
+				<View marginTop='large'>
+					<Text fontWeight='bold'>{t("passwordResetNewPass.passwordRequirements")}</Text>
+					<View marginTop='quark'>
+						{requirements.map((req, index) => (
+							<View
+								key={req.text}
+								display='flex'
+								alignItems='center'
+								gap={6}>
+								<Icon
+									color={req.valid ? 'positive-700' : 'negative-700'}
+									width={16}
+									height={16}
+									iconKey={req.valid ? 'check' : 'x'}
+								/>
+								<Text
+									key={index}
+									color={req.valid ? 'positive-700' : 'negative-700'}>
+									{req.text}
+								</Text>
+							</View>
+						))}
+					</View>
+				</View>
+
+
+				<View marginTop='large'>
+					<CustomButton
+						width='100%'
 						disabled={!newPassword || newPassword !== confirmPassword}
-						backgroundColor={
-							newPassword && newPassword === confirmPassword ? 'secondary-300' : 'neutral-100'
-						}
-						borderColor={newPassword && newPassword === confirmPassword ? 'secondary-300' : 'neutral-500'}
-						color={newPassword && newPassword === confirmPassword ? '' : 'neutral-500'}
 						label={t('passwordResetNewPass.sendButton')}
 						onPress={confirmNewPassword}
 					/>

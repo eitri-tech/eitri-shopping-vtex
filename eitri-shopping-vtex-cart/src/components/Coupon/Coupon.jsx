@@ -1,5 +1,5 @@
 import Eitri from 'eitri-bifrost'
-import { Spacing, Loading } from 'eitri-shopping-vtex-components-shared'
+import { Spacing, Loading, CustomInput, CustomButton } from 'eitri-shopping-vtex-components-shared'
 import { useTranslation } from 'eitri-i18n'
 import {useLocalShoppingCart} from "../../providers/LocalCart";
 import {addCoupon, removeCoupon} from "../../services/cartService";
@@ -61,95 +61,67 @@ export default function Coupon(props) {
   if (!cart) return null
 
   return (
-		<View>
+		<View
+			paddingHorizontal='medium'>
+			<Text
+				fontSize='medium'
+				fontWeight='bold'>
+				{t('coupon.txtCoupon')}
+			</Text>
 			<View
-				paddingTop='medium'
-				paddingHorizontal='medium'>
-				<Text
-					fontSize='medium'
-					fontWeight='bold'>
-					{t('coupon.txtCoupon')}
-				</Text>
-				<View
-					display='flex'
-					justifyContent='between'
-					alignItems='center'>
-					{appliedCoupon ? (
-						<>
-							<View
-								display='flex'
-								marginVertical='small'
-								paddingVertical='medium'
-								paddingHorizontal='small'
-								borderWidth='hairline'
-								borderColor='neutral-300'
-								borderRadius='small'
-								width='90%'>
-								<Text>{appliedCoupon}</Text>
-							</View>
-							<Touchable onPress={onPressRemoveCoupon}>
-								<View paddingHorizontal='medium'>
-									<Icon
-										iconKey='trash-2'
-										color={'tertiary-500'}
-										width={30}
-									/>
-								</View>
-							</Touchable>
-						</>
-					) : (
-						<>
-							<View
-								display='flex'
-								marginVertical='small'
-								paddingVertical='nano'
-								borderWidth='hairline'
-								borderColor='neutral-300'
-								borderRadius='small'
-								width='60vw'>
-								<Input
-									placeholder={t('coupon.labelInsertCode')}
-									value={coupon}
-									borderColor='accent-100'
-									color='accent-100'
-									onChange={value => inputOnChange(value)}
-									borderHidden={true}
+				marginTop='extra-small'
+				display='flex'
+				gap={8}
+				justifyContent='between'
+				alignItems='center'>
+				{appliedCoupon ? (
+					<>
+						<View
+							display='flex'
+							marginVertical='small'
+							paddingVertical='medium'
+							paddingHorizontal='small'
+							borderWidth='hairline'
+							borderColor='neutral-300'
+							borderRadius='small'
+							width='90%'>
+							<Text>{appliedCoupon}</Text>
+						</View>
+						<Touchable onPress={onPressRemoveCoupon}>
+							<View paddingHorizontal='medium'>
+								<Icon
+									iconKey='trash-2'
+									color={'tertiary-500'}
+									width={30}
 								/>
 							</View>
-							<Touchable onPress={onPressAddCoupon}>
-								<View
-									display='flex'
-									height='50px'
-									width='30vw'
-									borderWidth='hairline'
-									borderColor='secondary-300'
-									justifyContent='center'
-									alignItems='center'
-									borderRadius='small'>
-									{isLoading ? (
-										<Loading
-											width='30px'
-											color='secondary-300'
-										/>
-									) : (
-										<Text
-											fontWeight='bold'
-											color={isLoading ? 'accent-100' : 'secondary-300'}>
-											{t('coupon.txtAdd')}
-										</Text>
-									)}
-								</View>
-							</Touchable>
-						</>
-					)}
-				</View>
-				{couponTextAlert && (
-					<View paddingHorizontal='medium'>
-						<Text color={invalidCoupon ? 'tertiary-500' : 'secondary-700'}>{couponTextAlert}</Text>
-					</View>
+						</Touchable>
+					</>
+				) : (
+					<>
+						<CustomInput
+							width='60%'
+							placeholder={t('coupon.labelInsertCode')}
+							value={coupon}
+							onChange={value => inputOnChange(value)}
+							maxLength={9}
+						/>
+						<CustomButton
+							variant='outlined'
+							onPress={onPressAddCoupon}
+							isLoading={isLoading}
+							label={t('coupon.txtAdd')}
+							width='40%'
+						/>
+					</>
 				)}
-				<Spacing />
 			</View>
+			{couponTextAlert && (
+				<View paddingHorizontal='medium'>
+					<Text color={invalidCoupon ? 'tertiary-500' : 'secondary-700'}>{couponTextAlert}</Text>
+				</View>
+			)}
+			<Spacing />
 		</View>
 	)
 }

@@ -1,14 +1,14 @@
 import { useLocalShoppingCart } from '../providers/LocalCart'
 import Eitri from 'eitri-bifrost'
-import { App } from 'eitri-shopping-vtex-shared'
 import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
 import { saveCartIdOnStorage } from '../services/cartService'
 import { useTranslation } from 'eitri-i18n'
+import { setLanguage, startConfigure } from '../services/AppService'
 
 export default function Home() {
 	const { startCart } = useLocalShoppingCart()
 
-	const { t } = useTranslation()
+	const { t, i18n } = useTranslation()
 
 	useEffect(() => {
 		startHome()
@@ -48,7 +48,8 @@ export default function Home() {
 
 	const loadConfigs = async () => {
 		try {
-			await App.tryAutoConfigure({ verbose: false })
+			await startConfigure()
+			setLanguage(i18n)
 		} catch (e) {
 			console.log('Error ao buscar configurações', e)
 		}

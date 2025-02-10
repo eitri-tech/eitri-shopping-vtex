@@ -1,6 +1,5 @@
 import Eitri from 'eitri-bifrost'
-import { CustomButton, Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
-import CheckoutInput from '../components/Checkout/CheckoutInput'
+import { CustomButton, Loading, HeaderTemplate, HEADER_TYPE, CustomInput } from 'eitri-shopping-vtex-components-shared'
 import ShippingMethods from '../components/Methods/ShippingMethods'
 import { useLocalShoppingCart } from '../providers/LocalCart'
 import { sendPageView } from '../services/trackingService'
@@ -157,270 +156,23 @@ export default function AddNewShippingAddress(props) {
 	}
 
 	return (
-		<Window bottomInset topInset>
+		<Window
+			bottomInset
+			topInset>
 			<Loading
 				fullScreen
 				isLoading={isLoading}
 			/>
 
-			<View
-				direction={'column'}
-				minHeight={'100vh'}>
-
-				<HeaderTemplate
-					headerType={HEADER_TYPE.RETURN_AND_TEXT}
-					viewBackButton={true}
-					contentText={t('addNewShippingAddress.title')}
-				/>
+			<HeaderTemplate
+				headerType={HEADER_TYPE.RETURN_AND_TEXT}
+				viewBackButton={true}
+				contentText={t('addNewShippingAddress.title')}
+			/>
+			<View padding='large'>
 				<View
-					padding='small'
-					grow='1'
 					direction='column'
-					justifyContent='between'>
-					<View
-						direction='column'
-						padding='small'
-						borderRadius='small'
-						gap={16}>
-						<View
-							display='flex'
-							gap={16}
-							alignItems='end'>
-							<CheckoutInput
-								label={t('addNewShippingAddress.txtCalculate')}
-								type='number'
-								inputMode='numeric'
-								placeholder='12345-678'
-								value={address?.postalCode}
-								onChange={value => onChangePostalCodeInput(value)}
-								autoFocus={isPristine}
-							/>
-							<Touchable
-								height='37px'
-								onPress={submitZipCode}
-								display='flex'
-								justifyContent='center'
-								alignItems='center'
-								backgroundColor='primary-700'
-								paddingHorizontal='small'
-								borderRadius='medium'>
-								<Text
-									color='background-color'
-									fontWeight='bold'>
-									OK
-								</Text>
-							</Touchable>
-						</View>
-
-						{isLoading && (
-							<View>
-								<Text>Aguarde...</Text>
-							</View>
-						)}
-
-						{addressFound && (
-							<>
-								{customLogisticInfo && (
-									<ShippingMethods
-										onSelectCustomLogistiInfoOption={onSelectCustomLogistiInfoOption}
-										customLogisticInfo={customLogisticInfo}
-									/>
-								)}
-
-								{currentDeliveryIsPickUp() ? (
-									<View>
-										<Text
-											fontWeight='bold'
-											fontSize='extra-small'
-											marginBottom='nano'>
-											{t('addNewShippingAddress.txtPickupAddress')}
-										</Text>
-										<View
-											width='100%'
-											direction='column'
-											borderRadius='small'
-											borderWidth='hairline'
-											borderColor='neutral-700'
-											gap={10}
-											padding='small'>
-											<Text
-												fontSize='extra-small'
-												color='neutral-900'>
-												{getPickupAddress()}
-											</Text>
-										</View>
-									</View>
-								) : (
-									<>
-										{seeCompactedMode &&
-											address?.street &&
-											address?.neighborhood &&
-											address?.city &&
-											address?.state ? (
-											<>
-												<View
-													width='100%'
-													direction='column'
-													borderRadius='small'
-													borderWidth='hairline'
-													borderColor='neutral-700'
-													gap={10}
-													padding='small'>
-													<Text
-														fontSize='extra-small'
-														color='neutral-900'>
-														{`${address?.street}`}
-													</Text>
-													<Text
-														fontSize='extra-small'
-														color='neutral-900'>{`${address?.neighborhood}, ${address?.city} - ${address?.state}`}</Text>
-													<Text
-														fontSize='extra-small'
-														color='neutral-900'>{`${address?.postalCode}`}</Text>
-
-													<View
-														display={'flex'}
-														justifyContent={'end'}>
-														<Touchable onPress={() => setSeeCompactedMode(false)}>
-															<Text
-																fontWeight={'bold'}
-																color={'primary-500'}>
-																{t('addNewShippingAddress.txtEdit')}
-															</Text>
-														</Touchable>
-													</View>
-												</View>
-
-												<View
-													direction='row'
-													gap={16}>
-													<View width='50%'>
-														<CheckoutInput
-															label={t('addNewShippingAddress.frmNumber')}
-															placeholder={''}
-															value={address?.number || ''}
-															onChange={text => handleAddressChange('number', text)}
-														/>
-													</View>
-													<View width='50%'>
-														<CheckoutInput
-															label={t('addNewShippingAddress.frmComplement')}
-															placeholder={''}
-															value={address?.complement || ''}
-															onChange={text => handleAddressChange('complement', text)}
-														/>
-													</View>
-												</View>
-												<View
-													direction='row'
-													gap={16}>
-													<View width='100%'>
-														<CheckoutInput
-															label={t('addNewShippingAddress.frmReference')}
-															placeholder={''}
-															value={address?.reference || ''}
-															onChange={text => handleAddressChange('reference', text)}
-														/>
-													</View>
-												</View>
-												<View>
-													<CheckoutInput
-														placeholder={t('addNewShippingAddress.frmReceiveName')}
-														label={t('addNewShippingAddress.frmReceiveName')}
-														value={address?.receiverName || ''}
-														onChange={text => handleAddressChange('receiverName', text)}
-													/>
-												</View>
-											</>
-										) : (
-											<>
-												<View>
-													<CheckoutInput
-														label={t('addNewShippingAddress.frmStreet')}
-														placeholder={''}
-														value={address?.street || ''}
-														onChange={text => handleAddressChange('street', text)}
-													/>
-												</View>
-
-												<View
-													direction='row'
-													gap={16}>
-													<View width='50%'>
-														<CheckoutInput
-															label={t('addNewShippingAddress.frmNumber')}
-															placeholder={''}
-															value={address?.number || ''}
-															onChange={text => handleAddressChange('number', text)}
-														/>
-													</View>
-													<View width='50%'>
-														<CheckoutInput
-															label={t('addNewShippingAddress.frmComplement')}
-															placeholder={''}
-															value={address?.complement || ''}
-															onChange={text => handleAddressChange('complement', text)}
-														/>
-													</View>
-												</View>
-
-												<View>
-													<CheckoutInput
-														label={t('addNewShippingAddress.frmNeighborhood')}
-														placeholder={''}
-														value={address.neighborhood || ''}
-														onChange={text => handleAddressChange('neighborhood', text)}
-													/>
-												</View>
-
-												<View
-													direction='row'
-													gap={16}>
-													<View width='50%'>
-														<CheckoutInput
-															label={t('addNewShippingAddress.frmCity')}
-															placeholder={''}
-															value={address.city || ''}
-															onChange={text => handleAddressChange('city', text)}
-														/>
-													</View>
-													<View width='50%'>
-														<CheckoutInput
-															label={t('addNewShippingAddress.frmState')}
-															placeholder={''}
-															value={address?.state || ''}
-															onChange={text => handleAddressChange('state', text)}
-														/>
-													</View>
-												</View>
-												<View>
-													<CheckoutInput
-														placeholder={t('addNewShippingAddress.frmReceiveName')}
-														label={t('addNewShippingAddress.frmReceiveName')}
-														value={address?.receiverName || ''}
-														onChange={text => handleAddressChange('receiverName', text)}
-													/>
-												</View>
-											</>
-										)}
-									</>
-								)}
-
-								{/*<View sendFocusToInput direction="row" alignItems="center" justifyContent="between">*/}
-								{/*  <Text fontSize="extra-small" fontWeight="bold">*/}
-								{/*    Salvar esse endereço*/}
-								{/*  </Text>*/}
-								{/*  <Checkbox
-                {/*    name="saveAddress"*/}
-								{/*    checked={shouldSaveAddress}*/}
-								{/*    onChange={({value, checked}) => {*/}
-								{/*      setShouldSaveAddress((value) => !value);*/}
-								{/*    }}*/}
-								{/*  />*/}
-								{/*</View>*/}
-							</>
-						)}
-					</View>
+					gap={16}>
 					{adressError && (
 						<Text
 							marginTop='nano'
@@ -428,12 +180,232 @@ export default function AddNewShippingAddress(props) {
 							{adressError}
 						</Text>
 					)}
+
+					<View
+						display='flex'
+						gap={8}
+						alignItems='end'>
+						<CustomInput
+							label={t('addNewShippingAddress.txtCalculate')}
+							type='number'
+							inputMode='numeric'
+							placeholder='12345-678'
+							height='37px'
+							value={address?.postalCode}
+							onChange={value => onChangePostalCodeInput(value)}
+							autoFocus={isPristine}
+						/>
+						<CustomButton
+							height='37px'
+							width='50px'
+							label='OK'
+							onPress={submitZipCode}
+							display='flex'
+							justifyContent='center'
+						/>
+					</View>
+
+					{isLoading && (
+						<View>
+							<Text>Aguarde...</Text>
+						</View>
+					)}
+
+					{addressFound && (
+						<>
+							{customLogisticInfo && (
+								<ShippingMethods
+									onSelectCustomLogistiInfoOption={onSelectCustomLogistiInfoOption}
+									customLogisticInfo={customLogisticInfo}
+								/>
+							)}
+
+							{currentDeliveryIsPickUp() ? (
+								<View>
+									<Text
+										fontWeight='bold'
+										fontSize='extra-small'
+										marginBottom='nano'>
+										{t('addNewShippingAddress.txtPickupAddress')}
+									</Text>
+									<View
+										width='100%'
+										direction='column'
+										borderRadius='small'
+										borderWidth='hairline'
+										borderColor='neutral-700'
+										gap={10}
+										padding='small'>
+										<Text
+											fontSize='extra-small'
+											color='neutral-900'>
+											{getPickupAddress()}
+										</Text>
+									</View>
+								</View>
+							) : (
+								<>
+									{seeCompactedMode &&
+									address?.street &&
+									address?.neighborhood &&
+									address?.city &&
+									address?.state ? (
+										<>
+											<View
+												width='100%'
+												direction='column'
+												borderRadius='small'
+												borderWidth='hairline'
+												borderColor='neutral-700'
+												gap={10}
+												padding='small'>
+												<Text
+													fontSize='extra-small'
+													color='neutral-900'>
+													{`${address?.street}`}
+												</Text>
+												<Text
+													fontSize='extra-small'
+													color='neutral-900'>{`${address?.neighborhood}, ${address?.city} - ${address?.state}`}</Text>
+												<Text
+													fontSize='extra-small'
+													color='neutral-900'>{`${address?.postalCode}`}</Text>
+
+												<View
+													display={'flex'}
+													justifyContent={'end'}>
+													<Touchable onPress={() => setSeeCompactedMode(false)}>
+														<Text
+															fontWeight={'bold'}
+															color={'primary-500'}>
+															{t('addNewShippingAddress.txtEdit')}
+														</Text>
+													</Touchable>
+												</View>
+											</View>
+
+											<View
+												direction='row'
+												gap={16}>
+												<View width='50%'>
+													<CustomInput
+														label={t('addNewShippingAddress.frmNumber')}
+														placeholder={''}
+														value={address?.number || ''}
+														onChange={text => handleAddressChange('number', text)}
+													/>
+												</View>
+												<View width='50%'>
+													<CustomInput
+														label={t('addNewShippingAddress.frmComplement')}
+														placeholder={''}
+														value={address?.complement || ''}
+														onChange={text => handleAddressChange('complement', text)}
+													/>
+												</View>
+											</View>
+											<View
+												direction='row'
+												gap={16}>
+												<View width='100%'>
+													<CustomInput
+														label={t('addNewShippingAddress.frmReference')}
+														placeholder={''}
+														value={address?.reference || ''}
+														onChange={text => handleAddressChange('reference', text)}
+													/>
+												</View>
+											</View>
+											<View>
+												<CustomInput
+													placeholder={t('addNewShippingAddress.frmReceiveName')}
+													label={t('addNewShippingAddress.frmReceiveName')}
+													value={address?.receiverName || ''}
+													onChange={text => handleAddressChange('receiverName', text)}
+												/>
+											</View>
+										</>
+									) : (
+										<>
+											<View>
+												<CustomInput
+													label={t('addNewShippingAddress.frmStreet')}
+													placeholder={''}
+													value={address?.street || ''}
+													onChange={text => handleAddressChange('street', text)}
+												/>
+											</View>
+
+											<View
+												direction='row'
+												gap={16}>
+												<View width='50%'>
+													<CustomInput
+														label={t('addNewShippingAddress.frmNumber')}
+														placeholder={''}
+														value={address?.number || ''}
+														onChange={text => handleAddressChange('number', text)}
+													/>
+												</View>
+												<View width='50%'>
+													<CustomInput
+														label={t('addNewShippingAddress.frmComplement')}
+														placeholder={''}
+														value={address?.complement || ''}
+														onChange={text => handleAddressChange('complement', text)}
+													/>
+												</View>
+											</View>
+
+											<View>
+												<CustomInput
+													label={t('addNewShippingAddress.frmNeighborhood')}
+													placeholder={''}
+													value={address.neighborhood || ''}
+													onChange={text => handleAddressChange('neighborhood', text)}
+												/>
+											</View>
+
+											<View
+												direction='row'
+												gap={16}>
+												<View width='50%'>
+													<CustomInput
+														label={t('addNewShippingAddress.frmCity')}
+														placeholder={''}
+														value={address.city || ''}
+														onChange={text => handleAddressChange('city', text)}
+													/>
+												</View>
+												<View width='50%'>
+													<CustomInput
+														label={t('addNewShippingAddress.frmState')}
+														placeholder={''}
+														value={address?.state || ''}
+														onChange={text => handleAddressChange('state', text)}
+													/>
+												</View>
+											</View>
+											<View>
+												<CustomInput
+													placeholder={t('addNewShippingAddress.frmReceiveName')}
+													label={t('addNewShippingAddress.frmReceiveName')}
+													value={address?.receiverName || ''}
+													onChange={text => handleAddressChange('receiverName', text)}
+												/>
+											</View>
+										</>
+									)}
+								</>
+							)}
+						</>
+					)}
+
 					<CustomButton
-						borderRadius='pill'
-						marginVertical='large'
+						width='100%'
+						marginTop='large'
 						label={t('addNewShippingAddress.labelButton')}
 						fontSize='medium'
-						block
 						disabled={!isValidAddress()}
 						onPress={submit}
 					/>

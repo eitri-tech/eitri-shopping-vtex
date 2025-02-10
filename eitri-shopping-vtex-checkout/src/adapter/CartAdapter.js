@@ -4,6 +4,9 @@ import { calculateDiscount, formatAmountInCents } from '../utils/utils'
 export default function adaptCart(cart) {
 	if (!cart) return null
 	const cartFinalValue = calculateCartFinalValue(cart)
+
+	const giftCardsValue = cart.paymentData?.giftCards?.reduce((acc, giftCard) => acc + giftCard.value, 0) ?? 0
+
 	return {
 		...cart,
 		orderFormId: cart.orderFormId,
@@ -15,8 +18,11 @@ export default function adaptCart(cart) {
 		formattedValueWithoutDiscount: formatAmountInCents(cart.value),
 		items: processItems(cart.items, cart.sellers, cart.messages),
 		shipping: cartShippingResolver(cart),
-		clientProfileData: structuredClone(cart.clientProfileData),
+		clientProfileData: JSON.parse(JSON.stringify(cart.clientProfileData)),
 		isReadyToPay: validatePaymentReady(cart),
+		payOnlyInGiftCard: giftCardsValue >= cart.value,
+		giftCardValue: giftCardsValue,
+		formattedGiftCardValue: (giftCardsValue / 100).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }),
 		paymentSystems: processPaymentSystems(cart),
 		payments: cart.paymentData?.payments.map(payment => {
 			const paymentSystem = cart.paymentData?.paymentSystems?.find(ps => ps.stringId === payment.paymentSystem)
@@ -105,7 +111,7 @@ function processItems(items, sellers, messages) {
 }
 
 function processPaymentSystems(cart) {
-	const paymentData = structuredClone(cart.paymentData)
+	const paymentData = JSON.parse(JSON.stringify(cart.paymentData))
 
 	return paymentData?.paymentSystems?.reduce((acc, paymentSystem) => {
 		const group = acc?.find(group => group.groupName === paymentSystem.groupName)
@@ -152,7 +158,13 @@ function processPaymentSystems(cart) {
 }
 
 function validatePaymentReady(cart) {
-	return cart.paymentData?.payments?.length > 0 && cart.clientProfileData?.email && cart.shippingData?.address
+	const giftCardsValue = cart.paymentData?.giftCards?.reduce((acc, giftCard) => acc + giftCard.value, 0) ?? 0
+
+	return (
+		(cart.paymentData?.payments?.length > 0 || giftCardsValue >= cart.value) &&
+		cart.clientProfileData?.email &&
+		cart.shippingData?.address
+	)
 }
 
 function calculateCartFinalValue(cart) {

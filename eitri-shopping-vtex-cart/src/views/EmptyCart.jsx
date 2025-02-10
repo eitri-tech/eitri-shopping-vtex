@@ -1,6 +1,7 @@
 import Eitri from 'eitri-bifrost'
 import { useTranslation } from 'eitri-i18n'
 import iconCart from '../assets/images/cart-01.svg'
+import { CustomButton } from 'eitri-shopping-vtex-components-shared'
 
 export default function EmptyCart(props) {
 	const showCloseButton = props?.location?.state?.showCloseButton
@@ -53,7 +54,7 @@ export default function EmptyCart(props) {
 						</Text>
 					</View>
 					{showCloseButton && (
-						<Button
+						<CustomButton
 							wide
 							label={t('emptyCart.labelButton')}
 							onPress={closeEitriApp}

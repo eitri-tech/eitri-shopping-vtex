@@ -3,8 +3,7 @@ import CardIcon from '../Icons/CardIcons/CardIcon'
 import { useLocalShoppingCart } from '../../providers/LocalCart'
 import GroupsWrapper from './GroupsWrapper'
 import Card from '../Icons/MethodIcons/Card'
-import CheckoutInput from '../Checkout/CheckoutInput'
-import { useTranslation } from 'eitri-i18n'
+import { CustomInput } from 'eitri-shopping-vtex-components-shared'
 
 export default function CreditCard(props) {
 	const { cart, selectedPaymentData, setSelectedPaymentData } = useLocalShoppingCart()
@@ -13,8 +12,12 @@ export default function CreditCard(props) {
 
 	const [billingAddressSame, setBillingAddressSame] = useState(true)
 
-	const { t } = useTranslation()
-	
+	useEffect(() => {
+		if (cart?.payments && cart.payments.length > 0 && cart.payments[0].groupName === groupName) {
+			onSelectThisGroup()
+		}
+	}, [])
+
 	useEffect(() => {
 		if (selectedPaymentData?.cardInfo?.cardNumber && selectedPaymentData?.cardInfo?.cardNumber.length > 15) {
 			const paymentSystem = paymentSystems?.find(method => {
@@ -38,7 +41,7 @@ export default function CreditCard(props) {
 	useEffect(() => {
 		const { cardNumber, holderName, expirationDate, securityCode } = selectedPaymentData?.cardInfo ?? {}
 		const { street, number, city, neighborhood, state, country, postalCode } =
-			selectedPaymentData?.billingAddress ?? {}
+		selectedPaymentData?.billingAddress ?? {}
 
 		if (
 			cardNumber &&
@@ -62,9 +65,9 @@ export default function CreditCard(props) {
 				isLuhnValid: null,
 				isRegexValid: null,
 				paymentSystem: selectedPaymentData?.paymentSystem?.stringId,
-				referenceValue: selectedPaymentData?.cardInfo?.installment?.value,
+				referenceValue: selectedPaymentData?.cardInfo?.installment?.value ?? cart?.value,
 				tokenId: null,
-				value: selectedPaymentData?.cardInfo?.installment?.total
+				value: selectedPaymentData?.cardInfo?.installment?.total ?? cart?.value
 			}
 
 			setSelectedPaymentData({ ...selectedPaymentData, payload, isReadyToPay: true })
@@ -134,7 +137,7 @@ export default function CreditCard(props) {
 
 	return (
 		<GroupsWrapper
-			title={t('creditCard.title')}
+			title='Cartão de Crédito'
 			icon={<Card />}
 			onPress={onSelectThisGroup}
 			isChecked={groupName === selectedPaymentData?.groupName}>
@@ -143,8 +146,7 @@ export default function CreditCard(props) {
 				<View
 					display='flex'
 					justifyContent='between'
-					marginTop='extra-small'
-					gap={12}>
+					marginTop='extra-small'>
 					{paymentSystems.map(system => {
 						return (
 							<View
@@ -152,24 +154,18 @@ export default function CreditCard(props) {
 								grow={1}
 								direction='column'
 								width={100 / paymentSystems.length + '%'}
-								maxWidth={'20%'}
+								maxWidth={100 / paymentSystems.length + '%'}
 								gap={5}
 								alignItems='center'>
 								<View
 									height={34}
-									elevation='low'
-									borderRadius='small'
 									justifyContent='center'
 									display='flex'
 									width='100%'
+									padding='quark'
 									alignItems='center'>
 									<CardIcon iconKey={system.name} />
 								</View>
-								<Text
-									fontSize='quark'
-									textAlign='center'>
-									{system.name}
-								</Text>
 							</View>
 						)
 					})}
@@ -182,17 +178,17 @@ export default function CreditCard(props) {
 				direction='column'
 				marginTop='small'
 				paddingHorizontal='extra-small'>
-				<CheckoutInput
+				<CustomInput
 					fontSize='extra-small'
-					placeholder={t('creditCard.labelCardNumber')}
+					placeholder={'Número do cartão'}
 					value={selectedPaymentData?.cardInfo?.cardNumber}
 					inputMode='numeric'
 					onChange={text => handleCardDataChange('cardNumber', text)}
 					mask='9999 9999 9999 9999'
 				/>
-				<CheckoutInput
+				<CustomInput
 					showClearInput={false}
-					placeholder={t('creditCard.labelName')}
+					placeholder={'Nome do titular'}
 					value={selectedPaymentData?.cardInfo?.holderName}
 					onChange={text => handleCardDataChange('holderName', text)}
 				/>
@@ -200,60 +196,57 @@ export default function CreditCard(props) {
 					display='flex'
 					gap={5}
 					direction='row'>
-					<View
-						direction='row'
-						display='flex'
-						gap={5}>
+
 						<View
-							width='80%'
+							width='100%'
 							direction='row'
 							display='flex'
 							gap={5}>
-							<CheckoutInput
-								placeholder={t('creditCard.labelValidity')}
+							<CustomInput
+								placeholder={'Validade'}
 								value={selectedPaymentData?.cardInfo?.expirationDate}
 								onChange={text => handleCardDataChange('expirationDate', text)}
 								inputMode='numeric'
 								mask='99/99'
+								width='35%'
 							/>
-							<CheckoutInput
-								placeholder={t('creditCard.labelCvv')}
+							<CustomInput
+								placeholder={'CVV'}
 								value={selectedPaymentData?.cardInfo?.securityCode}
 								onChange={text => handleCardDataChange('securityCode', text)}
 								inputMode='numeric'
 								mask='999'
+								width='35%'
 							/>
+							<View
+								height={48}
+								overflow='hidden'
+								elevation='low'
+								borderRadius='small'
+								width='30%'
+								alignItems='center'
+								justifyContent='center'
+								direction='column'>
+								{selectedPaymentData?.cardInfo?.cardNumber?.length < 15 ? (
+									<Text
+										marginHorizontal='small'
+										fontSize='small'>
+										Bandeira
+									</Text>
+								) : (
+									<View
+										position='relative'
+										top={2}>
+										<CardIcon iconKey={selectedPaymentData?.paymentSystem?.name} />
+									</View>
+								)}
+							</View>
 						</View>
-						<View
-							height={34}
-							overflow='hidden'
-							elevation='low'
-							borderRadius='small'
-							minWidth='20%'
-							alignItems='center'
-							justifyContent='center'
-							direction='column'
-							marginHorizontal='nano'>
-							{selectedPaymentData?.cardInfo?.cardNumber?.length < 15 ? (
-								<Text
-									marginHorizontal='small'
-									fontSize='small'>
-									{t('creditCard.labelBrand')}
-								</Text>
-							) : (
-								<View
-									position='relative'
-									top={2}>
-									<CardIcon iconKey={selectedPaymentData?.paymentSystem?.name} />
-								</View>
-							)}
-						</View>
-					</View>
 				</View>
 				<View>
 					<Dropdown
 						required={true}
-						placeholder={t('creditCard.labelInstallment')}
+						placeholder='Parcelamento'
 						onChange={selectInstallment}
 						value={selectedPaymentData?.cardInfo?.installment?.label}>
 						{selectedPaymentData?.paymentSystem?.installments?.map((option, index) => (
@@ -266,7 +259,7 @@ export default function CreditCard(props) {
 					</Dropdown>
 				</View>
 				<View marginVertical='nano'>
-					<Text fontWeight='bold'>{t('creditCard.labelBillingAddress')}</Text>
+					<Text fontWeight='bold'>Endereço de cobrança:</Text>
 					{cart.shipping?.address && (
 						<View
 							marginVertical='nano'
@@ -280,7 +273,7 @@ export default function CreditCard(props) {
 								checked={billingAddressSame}
 								onChange={checkBillingAddressSame}
 							/>
-							<Text>{t('creditCard.infoBillingAddress')}</Text>
+							<Text>{`Seu endereço de fatura é o mesmo da entrega`}</Text>
 						</View>
 					)}
 					{!billingAddressSame && (
@@ -288,18 +281,18 @@ export default function CreditCard(props) {
 							gap={8}
 							direction='column'>
 							<View>
-								<CheckoutInput
+								<CustomInput
 									inputMode='numeric'
 									maxLength={8}
-									placeholder={t('creditCard.labelZipCode')}
+									placeholder='12345-678'
 									value={selectedPaymentData?.billingAddress?.postalCode}
 									onChange={text => handleAddressChange('postalCode', text)}
 									width='40%'
 								/>
 							</View>
 							<View>
-								<CheckoutInput
-									placeholder={t('creditCard.labelAddress')}
+								<CustomInput
+									placeholder={'Rua/ Avenida'}
 									value={selectedPaymentData?.billingAddress?.street}
 									onChange={text => handleAddressChange('street', text)}
 								/>
@@ -309,23 +302,23 @@ export default function CreditCard(props) {
 								direction='row'
 								gap={16}>
 								<View width='50%'>
-									<CheckoutInput
-										placeholder={t('creditCard.labelNumber')}
+									<CustomInput
+										placeholder={'Número'}
 										value={selectedPaymentData?.billingAddress?.number}
 										onChange={text => handleAddressChange('number', text)}
 									/>
 								</View>
 								<View width='50%'>
-									<CheckoutInput
-										placeholder={t('creditCard.labelComplement')}
+									<CustomInput
+										placeholder={'Complemento'}
 										value={selectedPaymentData?.billingAddress?.complement}
 										onChange={text => handleAddressChange('complement', text)}
 									/>
 								</View>
 							</View>
 							<View>
-								<CheckoutInput
-									placeholder={t('creditCard.labelNeighborhood')}
+								<CustomInput
+									placeholder={'Bairro'}
 									value={selectedPaymentData?.billingAddress?.neighborhood}
 									onChange={text => handleAddressChange('neighborhood', text)}
 								/>
@@ -334,15 +327,15 @@ export default function CreditCard(props) {
 								direction='row'
 								gap={16}>
 								<View width='50%'>
-									<CheckoutInput
-										placeholder={t('creditCard.labelCity')}
+									<CustomInput
+										placeholder={'Cidade'}
 										value={selectedPaymentData?.billingAddress?.city}
 										onChange={text => handleAddressChange('city', text)}
 									/>
 								</View>
 								<View width='50%'>
-									<CheckoutInput
-										placeholder={t('creditCard.labelState')}
+									<CustomInput
+										placeholder={'Estado'}
 										value={selectedPaymentData?.billingAddress?.state}
 										onChange={text => handleAddressChange('state', text)}
 									/>

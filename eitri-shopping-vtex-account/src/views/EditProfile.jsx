@@ -1,10 +1,8 @@
-import CInput from '../components/CInput/CInput'
 import formatDate from '../utils/Date'
-import CButton from '../components/CButton/CButton'
 import { getCustomerData, setCustomerData } from '../services/CustomerService'
 import { sendPageView } from '../services/TrackingService'
 import Eitri from 'eitri-bifrost'
-import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
+import { CustomButton, CustomInput, HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
 
 export default function EditProfile(props) {
 	const [user, setUser] = useState({})
@@ -121,13 +119,13 @@ export default function EditProfile(props) {
 						marginTop='nano'
 						display='flex'
 						gap='6px'>
-						<CInput
+						<CustomInput
 							backgroundColor='background-color'
 							placeholder='Nome'
 							value={user?.firstName || ''}
 							onChange={value => handleInputChange('firstName', value)}
 						/>
-						<CInput
+						<CustomInput
 							backgroundColor='background-color'
 							placeholder='Sobrenome'
 							value={user?.lastName || ''}
@@ -144,7 +142,7 @@ export default function EditProfile(props) {
 						fontSize='extra-small'>
 						Data de nascimento
 					</Text>
-					<CInput
+					<CustomInput
 						backgroundColor='background-color'
 						placeholder='DD/MM/AAAA'
 						inputMode='numeric'
@@ -162,7 +160,7 @@ export default function EditProfile(props) {
 						fontSize='extra-small'>
 						Telefone
 					</Text>
-					<CInput
+					<CustomInput
 						backgroundColor='background-color'
 						placeholder='(99) 99999-9999'
 						value={user?.homePhone?.replace('+55', '') || ''}
@@ -222,7 +220,7 @@ export default function EditProfile(props) {
 						fontSize='extra-small'>
 						CPF
 					</Text>
-					<CInput
+					<CustomInput
 						backgroundColor='background-color'
 						placeholder='000.000.000-00'
 						value={user.document || ''}
@@ -233,7 +231,8 @@ export default function EditProfile(props) {
 				</View>
 
 				<View>
-					<CButton
+					<CustomButton
+						width='100%'
 						label='Salvar'
 						onPress={handleSave}
 					/>

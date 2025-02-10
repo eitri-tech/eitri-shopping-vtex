@@ -1,8 +1,6 @@
 import Eitri from 'eitri-bifrost'
-import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
+import { CustomButton, CustomInput, HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
 import userIcon from '../../assets/icons/user.svg'
-import CInput from '../../components/CInput/CInput'
-import CButton from '../../components/CButton/CButton'
 import CCheckbox from '../../components/CCheckbox/CCheckbox'
 import { sendPageView } from '../../services/TrackingService'
 import { getStorePreferences } from '../../services/StoreService'
@@ -21,7 +19,7 @@ export default function SignUp(props) {
 	const [timeOutToResentEmail, setTimeOutToResentEmail] = useState(0)
 	const [loadingSendingCode, setLoadingSendingCode] = useState(false)
 
-	const TIME_TO_RESEND_EMAIL = 60	
+	const TIME_TO_RESEND_EMAIL = 60
 	const resendCode = timeOutToResentEmail > 0
 
 	const sendAccessKey = async () => {
@@ -47,7 +45,7 @@ export default function SignUp(props) {
 			setAlertMessage('Necessário aceitar os termos')
 			setShowLoginErrorAlert(true)
 		}
-		
+
 	}
 
 	const loginWithEmailAndAccessKey = async () => {
@@ -56,7 +54,7 @@ export default function SignUp(props) {
 			if (status >= 500) return 'ServerError'
 			return 'ExpiredCredentials'
 		})
-		
+
 		if (loggedIn === 'WrongCredentials') {
 			setAlertMessage('Token incorreto')
 			setShowLoginErrorAlert(true)
@@ -110,7 +108,7 @@ export default function SignUp(props) {
 				contentText={'Registrar'}
 			/>
 
-			<View padding='giant'>
+			<View padding='large'>
 				<Text
 					block
 					fontWeight='bold'
@@ -119,7 +117,7 @@ export default function SignUp(props) {
 				</Text>
 
 				<View marginTop='display'>
-					<CInput
+					<CustomInput
 						icon={userIcon}
 						value={email}
 						type='email'
@@ -142,7 +140,7 @@ export default function SignUp(props) {
 					{emailCodeSent && (
 						<>
 							<View marginTop='large'>
-								<CInput
+								<CustomInput
 									label={'Código de verificação'}
 									placeholder='Código de verificação'
 									inputMode='numeric'
@@ -153,9 +151,7 @@ export default function SignUp(props) {
 							</View>
 
 							<View marginTop='large'>
-								<CButton
-									backgroundColor={!email || !verificationCode ? '' : 'secondary-300'}
-									borderColor={!email || !verificationCode ? '' : 'secondary-300'}
+								<CustomButton
 									label='Login'
 									onPress={loginWithEmailAndAccessKey}
 									disabled={!email || !verificationCode}
@@ -165,14 +161,8 @@ export default function SignUp(props) {
 					)}
 
 					<View marginTop='large'>
-						<CButton
-							backgroundColor={
-								!resendCode || !email || loadingSendingCode ? 'secondary-300' : ''
-							}
-							borderColor={
-								!resendCode || !email || loadingSendingCode ? 'secondary-300' : ''
-							}
-							color={(emailCodeSent && resendCode) ? 'neutral-500' : 'accent-100'}
+						<CustomButton
+							width='100%'
 							label={
 								!emailCodeSent
 									? `Enviar código`
@@ -185,12 +175,10 @@ export default function SignUp(props) {
 					</View>
 
 					<View marginTop='large'>
-						<CButton
-							borderColor='secondary-300'
-							color='secondary-300'
+						<CustomButton
 							variant='outlined'
 							label='Voltar'
-							onPress={() => back()}
+							onPress={back}
 						/>
 					</View>
 				</View>

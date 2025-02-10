@@ -1,9 +1,12 @@
-import ProductCardWrapper from "./components/ProductCardWrapper";
+import ProductCardWrapper from './components/ProductCardWrapper'
 
-export default function ProductCard (props) {
-  const { product, width } = props
+export default function ProductCard(props) {
+	const { product, width } = props
 
-  return (
-    <ProductCardWrapper vtexProduct={product} width={width || '50%'}/>
-  )
+	return (
+		<ProductCardWrapper
+			vtexProduct={product}
+			width={width}
+		/>
+	)
 }

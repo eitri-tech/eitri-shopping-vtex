@@ -1,11 +1,10 @@
 import Eitri from 'eitri-bifrost'
 import { Vtex } from 'eitri-shopping-vtex-shared'
-import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
+import { Loading, HeaderTemplate, HEADER_TYPE, CustomButton } from 'eitri-shopping-vtex-components-shared'
 import formatDate, { formatDateDaysMonthYear } from '../utils/Date'
 import OrderListDetails from '../components/OrderList/OrderListDetails'
 import OrderProductCard from '../components/OrderList/OrderProductCard'
 import NoItem from '../components/NoItem/NoItem'
-import CButton from '../components/CButton/CButton'
 import { sendPageView } from '../services/TrackingService'
 
 export default function OrderList(props) {
@@ -138,7 +137,8 @@ export default function OrderList(props) {
 											<View
 												marginTop='small'
 												padding='small'>
-												<CButton
+												<CustomButton
+													width='100%'
 													label={'Ver detalhes do pedido'}
 													onPress={() =>
 														Eitri.navigation.navigate({

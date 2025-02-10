@@ -1,26 +1,24 @@
-import { Loading } from 'eitri-shopping-vtex-components-shared'
-import WishlistIcon from '../../../WishlistIcon/WishlistIcon'
-import { useTranslation } from 'eitri-i18n'
+import WishlistIcon from './components/WishlistIcon'
+import Loading from '../Loading/Loading'
 
 export default function ProductCardDefault(props) {
 	const {
-    listPrice,
-    image,
-    name,
-    price,
-    width,
-    installments,
-    isInCart,
-    loadingCartOp,
-    loadingWishlistOp,
-    isOnWishlist,
-    badge,
-    onPressOnCard,
-    onPressCartButton,
-    onPressOnWishlist
+		listPrice,
+		image,
+		name,
+		price,
+		width,
+		installments,
+		loadingCartOp,
+		loadingWishlistOp,
+		isOnWishlist,
+		showListItem,
+		actionLabel,
+		badge,
+		onPressOnCard,
+		onPressCartButton,
+		onPressOnWishlist
 	} = props
-
-	const { t } = useTranslation()
 
 	return (
 		<View
@@ -143,7 +141,7 @@ export default function ProductCardDefault(props) {
 							color='background-color'
 							fontWeight='medium'
 							fontSize='extra-small'>
-							{isInCart ? t('productCardVertical.cart') : t('productCardVertical.buy')}
+							{actionLabel}
 						</Text>
 					)}
 				</Touchable>

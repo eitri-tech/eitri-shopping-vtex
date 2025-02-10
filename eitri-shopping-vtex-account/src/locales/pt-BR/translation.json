@@ -30,7 +30,12 @@
 		"newPass": "Nova senha",
 		"confirmPass": "Confirme a senha",
 		"sendButton": "Continuar",
-		"messageError": "Houve um erro ao redefinir a senha. Tente novamente mais tarde."
+		"messageError": "Houve um erro ao redefinir a senha. Tente novamente mais tarde.",
+        "passwordRequirements": "Requisitos de senha",
+        "passwordRequirementsCharacters": "Mínimo de 8 caracteres",
+        "passwordRequirementsNumber": "Pelo menos um número",
+        "passwordRequirementsUppercase": "Pelo menos uma letra maiúscula",
+        "passwordRequirementsLowercase": "Pelo menos uma letra minúscula"
 	},
 	"signIn": {
 		"errosSendAccess": "erro ao enviar email",

@@ -1,6 +1,7 @@
 import Eitri from 'eitri-bifrost'
 import { useTranslation } from 'eitri-i18n'
 import fetchFreight from '../../services/freightService'
+import { CustomButton, CustomInput } from 'eitri-shopping-vtex-components-shared'
 
 export default function Freight(props) {
 	const { currentSku } = props
@@ -77,51 +78,28 @@ export default function Freight(props) {
 					<Text fontSize='extra-small'>{t('freight.txtCalculateDeadline')}</Text>
 
 					<View
+						marginTop='small'
 						display='flex'
 						justifyContent='between'
 						gap={12}
+						width='100%'
 						alignItems='center'>
-						<View
-							display='flex'
-							marginVertical='small'
-							paddingVertical='nano'
-							height='50px'
-							borderWidth='hairline'
-							borderColor='neutral-300'
-							borderRadius='small'
-							grow={1}>
-							<MaskedInput
-								placeholder={t('freight.labelZipCode')}
-								value={zipCode}
-								maxLength={9}
-								mask='99999-999'
-								inputMode='numeric'
-								color='accent-100'
-								borderColor='accent-100'
-								showSearchButton={false}
-								showClearInput={false}
-								borderHidden={true}
-								onChange={onInputZipCode}
-							/>
-						</View>
+						<CustomInput
+							placeholder={t('freight.labelZipCode')}
+							value={zipCode}
+							maxLength={9}
+							mask='99999-999'
+							inputMode='numeric'
+							onChange={onInputZipCode}
+							width='70%'
+						/>
 
-						<Touchable
-							borderWidth='hairline'
-							borderColor='secondary-300'
-							borderRadius='small'
-							display='flex'
-							height='50px'
-							justifyContent='center'
-							paddingHorizontal='extra-large'
-							alignItems='center'
-							grow={1}
-							onPress={() => handleFreight(zipCode)}>
-							<Text
-								fontWeight='bold'
-								color='secondary-300'>
-								{t('freight.labelCalculate')}
-							</Text>
-						</Touchable>
+						<CustomButton
+							variant='outlined'
+							width='30%'
+							label={t('freight.labelCalculate')}
+							onPress={() => handleFreight(zipCode)}
+						/>
 					</View>
 
 					{loading && (
