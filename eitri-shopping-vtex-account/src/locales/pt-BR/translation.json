@@ -7,7 +7,7 @@
 		"labelMyAccount": "Minha conta",
 		"labelConfig": "Informações pessoais e configurações",
 		"labelMyOrders": "Meus pedidos",
-		"labelHistoryOders": "Confira todo o histórico dos seus pedidos",
+		"labelHistoryOders": "Confira todo o histórico dos seus pedidos"
 	},
 	"passwordReset": {
 		"messageRecovery": "* Vamos te mandar uma mensagem com um código para recuperar senha",
@@ -22,7 +22,7 @@
 		"messageEmail": "Digite sual senha de 6 dígitos enviado para o email",
 		"sendButton": "Continuar",
 		"headerText": "Senha",
-		"forgotPass": "Esqueceu a senha?",
+		"forgotPass": "Esqueceu a senha?"
 	},
 	"passwordResetNewPass": {
 		"headerText": "Senha",
@@ -31,6 +31,11 @@
 		"confirmPass": "Confirme a senha",
 		"sendButton": "Continuar",
 		"messageError": "Houve um erro ao redefinir a senha. Tente novamente mais tarde.",
+        "passwordRequirements": "Requisitos de senha",
+        "passwordRequirementsCharacters": "Mínimo de 8 caracteres",
+        "passwordRequirementsNumber": "Pelo menos um número",
+        "passwordRequirementsUppercase": "Pelo menos uma letra maiúscula",
+        "passwordRequirementsLowercase": "Pelo menos uma letra minúscula"
 	},
 	"signIn": {
 		"errosSendAccess": "erro ao enviar email",

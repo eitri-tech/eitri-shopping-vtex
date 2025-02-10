@@ -1,6 +1,5 @@
-import { Loading } from 'eitri-shopping-vtex-components-shared'
-import WishlistIcon from '../../../WishlistIcon/WishlistIcon'
-import { useTranslation } from 'eitri-i18n'
+import WishlistIcon from './components/WishlistIcon'
+import Loading from '../Loading/Loading'
 
 export default function ProductCardFullImage(props) {
 	const {
@@ -10,18 +9,15 @@ export default function ProductCardFullImage(props) {
 		price,
 		width,
 		installments,
-		isInCart,
 		loadingCartOp,
 		loadingWishlistOp,
 		isOnWishlist,
 		showListItem,
-    onPressOnCard,
-    onPressCartButton,
-    onPressOnWishlist
+		actionLabel,
+		onPressOnCard,
+		onPressCartButton,
+		onPressOnWishlist
 	} = props
-
-	const { t } = useTranslation()
-
 
 	return (
 		<View
@@ -151,7 +147,7 @@ export default function ProductCardFullImage(props) {
 							color='background-color'
 							fontWeight='medium'
 							fontSize='extra-small'>
-							{isInCart ? t('productCardVertical.cart') : t('productCardVertical.buy')}
+							{actionLabel}
 						</Text>
 					)}
 				</Touchable>

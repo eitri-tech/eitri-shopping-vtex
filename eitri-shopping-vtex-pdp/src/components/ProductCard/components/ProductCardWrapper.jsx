@@ -1,10 +1,10 @@
-import ProductCardDefault from './cards/ProductCardDefault'
 import { useLocalShoppingCart } from '../../../providers/LocalCart'
 import { openProduct } from '../../../services/NavigationService'
-import {addToWishlist, productOnWishlist, removeItemFromWishlist} from '../../../services/customerService'
+import { addToWishlist, productOnWishlist, removeItemFromWishlist } from '../../../services/CustomerService'
 import { formatPrice } from '../../../utils/utils'
 import { App } from 'eitri-shopping-vtex-shared'
-import ProductCardFullImage from './cards/ProductCardFullImage'
+import { ProductCardFullImage, ProductCardDefault } from 'eitri-shopping-vtex-components-shared'
+import { useTranslation } from 'eitri-i18n'
 
 export default function ProductCardWrapper(props) {
 	const { vtexProduct, width } = props
@@ -16,6 +16,7 @@ export default function ProductCardWrapper(props) {
 	const [isOnWishlist, setIsOnWishlist] = useState(false)
 	const [wishListId, setWishListId] = useState(null)
 
+	const { t } = useTranslation()
 
 	useEffect(() => {
 		checkItemOnWishlist()
@@ -65,9 +66,9 @@ export default function ProductCardWrapper(props) {
 	const getBadge = () => {
 		const price = sellerDefault?.commertialOffer?.Price
 		const listPrice = sellerDefault?.commertialOffer?.ListPrice
-
-		if (price !== listPrice) {
+		if (price < listPrice) {
 			const discount = ((listPrice - price) / listPrice) * 100
+			if (discount < 1) return ''
 			return `${discount.toFixed(0)}% off`
 		} else {
 			return ''
@@ -116,32 +117,31 @@ export default function ProductCardWrapper(props) {
 
 	// Navigation
 
-  const onPressOnCard = () => {
-    openProduct(vtexProduct)
-  }
+	const onPressOnCard = () => {
+		openProduct(vtexProduct)
+	}
 
-  const onPressOnWishlist = () => {
-    if (loadingWishlistOp) return
-    if (isOnWishlist) {
-      onRemoveFromWishlist()
-    } else {
-      onAddToWishlist()
-    }
-  }
+	const onPressOnWishlist = () => {
+		if (loadingWishlistOp) return
+		if (isOnWishlist) {
+			onRemoveFromWishlist()
+		} else {
+			onAddToWishlist()
+		}
+	}
 
-  const onPressCartButton = () => {
-    if (App?.configs?.appConfigs?.productCard?.buyGoesToPDP) {
-      openProduct(vtexProduct)
-      return
-    }
-    if (loadingCartOp) return
-    if (isItemOnCart()) {
-      removeFromCart()
-    } else {
-      addToCart()
-    }
-  }
-
+	const onPressCartButton = () => {
+		if (App?.configs?.appConfigs?.productCard?.buyGoesToPDP) {
+			openProduct(vtexProduct)
+			return
+		}
+		if (loadingCartOp) return
+		if (isItemOnCart()) {
+			removeFromCart()
+		} else {
+			addToCart()
+		}
+	}
 
 	if (App?.configs?.appConfigs?.productCard?.style === 'fullImage') {
 		return (
@@ -150,38 +150,40 @@ export default function ProductCardWrapper(props) {
 				image={item?.images?.[0]?.imageUrl}
 				badge={getBadge()}
 				listPrice={getListPrice()}
-        showListItem={App?.configs?.appConfigs?.productCard?.showListPrice ?? true}
+				showListItem={App?.configs?.appConfigs?.productCard?.showListPrice ?? true}
 				price={formatPrice(sellerDefault?.commertialOffer.Price)}
 				installments={formatInstallments(sellerDefault)}
-        isInCart={isItemOnCart()}
-        isOnWishlist={isOnWishlist}
-        loadingWishlistOp={loadingWishlistOp}
-        loadingCartOp={loadingCartOp}
+				isInCart={isItemOnCart()}
+				isOnWishlist={isOnWishlist}
+				loadingWishlistOp={loadingWishlistOp}
+				loadingCartOp={loadingCartOp}
+				actionLabel={isItemOnCart() ? t('productCardVertical.cart') : t('productCardVertical.buy')}
 				width={width}
-        onPressOnCard={onPressOnCard}
-        onPressCartButton={onPressCartButton}
-        onPressOnWishlist={onPressOnWishlist}
+				onPressOnCard={onPressOnCard}
+				onPressCartButton={onPressCartButton}
+				onPressOnWishlist={onPressOnWishlist}
 			/>
 		)
 	}
 
 	return (
 		<ProductCardDefault
-      name={item?.nameComplete || item?.name}
-      image={item?.images?.[0]?.imageUrl}
-      badge={getBadge()}
-      listPrice={getListPrice()}
-      showListItem={App?.configs?.appConfigs?.productCard?.showListPrice ?? true}
-      price={formatPrice(sellerDefault?.commertialOffer.Price)}
-      installments={formatInstallments(sellerDefault)}
-      isInCart={isItemOnCart()}
-      isOnWishlist={isOnWishlist}
-      loadingWishlistOp={loadingWishlistOp}
-      loadingCartOp={loadingCartOp}
-      width={width}
-      onPressOnCard={onPressOnCard}
-      onPressCartButton={onPressCartButton}
-      onPressOnWishlist={onPressOnWishlist}
+			name={item?.nameComplete || item?.name}
+			image={item?.images?.[0]?.imageUrl}
+			badge={getBadge()}
+			listPrice={getListPrice()}
+			showListItem={App?.configs?.appConfigs?.productCard?.showListPrice ?? true}
+			price={formatPrice(sellerDefault?.commertialOffer.Price)}
+			installments={formatInstallments(sellerDefault)}
+			isInCart={isItemOnCart()}
+			actionLabel={isItemOnCart() ? t('productCardVertical.cart') : t('productCardVertical.buy')}
+			isOnWishlist={isOnWishlist}
+			loadingWishlistOp={loadingWishlistOp}
+			loadingCartOp={loadingCartOp}
+			width={width}
+			onPressOnCard={onPressOnCard}
+			onPressCartButton={onPressCartButton}
+			onPressOnWishlist={onPressOnWishlist}
 		/>
 	)
 }

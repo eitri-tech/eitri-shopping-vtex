@@ -1,15 +1,21 @@
+import Eitri from 'eitri-bifrost'
 import { useTranslation } from 'eitri-i18n'
+import iconCart from '../assets/images/cart-01.svg'
+import { CustomButton } from 'eitri-shopping-vtex-components-shared'
 
 export default function EmptyCart(props) {
-	const { icon, buttonPress, buttonLabel } = props
+	const showCloseButton = props?.location?.state?.showCloseButton
 
 	const { t } = useTranslation()
 
+	const closeEitriApp = () => {
+		Eitri.navigation.close()
+	}
+
 	return (
-		<View
-			direction='column'
-			alignItems='center'
-			grow='1'>
+		<Window
+			bottomInset
+			topInset>
 			<View
 				grow='1'
 				direction='column'
@@ -21,10 +27,10 @@ export default function EmptyCart(props) {
 					direction='column'
 					alignItems='center'
 					justifyContent='center'
-					gap='25px'
+					gap='20px'
 					marginBottom='medium'>
 					<Image
-						src={icon}
+						src={iconCart}
 						width={'50px'}
 					/>
 					<View
@@ -47,8 +53,15 @@ export default function EmptyCart(props) {
 							{t('emptyCart.txtMessageList')}
 						</Text>
 					</View>
+					{showCloseButton && (
+						<CustomButton
+							wide
+							label={t('emptyCart.labelButton')}
+							onPress={closeEitriApp}
+						/>
+					)}
 				</View>
 			</View>
-		</View>
+		</Window>
 	)
 }

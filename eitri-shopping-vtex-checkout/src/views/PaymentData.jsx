@@ -4,6 +4,7 @@ import { useLocalShoppingCart } from '../providers/LocalCart'
 import PaymentMethods from '../components/Methods/PaymentMethods'
 import { sendPageView } from '../services/trackingService'
 import { useTranslation } from 'eitri-i18n'
+import GiftCardInput from '../components/GiftCardInput/GiftCardInput'
 
 export default function PaymentData(props) {
 	const { cart, selectedPaymentData, setPaymentOption } = useLocalShoppingCart()
@@ -34,22 +35,15 @@ export default function PaymentData(props) {
 
 	const handlePaymentOptionsChange = async () => {
 		let tempGiftCard = []
-		try {
-			// if acontece pois a Vtex obriga a mandar como payload ambos payments e giftCards.
-			//Dessa forma, giftCard estava indo duas vezes (no seu componente e posteriormente aqui) e por isso,
-			//teve que ser feito essa lógica de esvaziar primeiro antes de enviar.
-			if (cart.giftCards.length > 0) {
-				tempGiftCard = cart.giftCards
-				await setPaymentOption({ giftCards: [] })
-			}
-			const payload = {
-				payments: selectedPaymentData.payload ? [selectedPaymentData.payload] : [],
-				giftCards: tempGiftCard
-			}
-			await setPaymentOption(payload)
-		} catch (error) {
-			console.error('handlePaymentOptionsChange Error', error)
+		if (cart.giftCards.length > 0) {
+			tempGiftCard = cart.giftCards
+			await setPaymentOption({ giftCards: [] })
 		}
+		const payload = {
+			payments: selectedPaymentData?.payload && !cart.payOnlyInGiftCard ? [selectedPaymentData.payload] : [],
+			giftCards: tempGiftCard
+		}
+		await setPaymentOption(payload)
 	}
 
 	if (!cart) {
@@ -91,12 +85,9 @@ export default function PaymentData(props) {
 					</Text>
 				</View>
 
-				{/*Tem que entender algumas coisas antes de liberar. O carrinho tem um cookie de auth, quando o carrinho é atualizado da ruim*/}
-				{/*<View marginVertical='extra-small'>*/}
-				{/*	/!*<GiftCardInput *!/*/}
-				{/*	<GiftCardInput onPressAddGiftCard={handlePaymentOptionsChange} />*/}
-				{/*	/!*	currentGiftCard={''}*!/*/}
-				{/*</View>*/}
+				<View marginVertical='extra-small'>
+					<GiftCardInput onPressAddGiftCard={handlePaymentOptionsChange} />
+				</View>
 
 				<View
 					display='flex'
@@ -109,9 +100,7 @@ export default function PaymentData(props) {
 						marginHorizontal='nano'
 						marginVertical='small'>
 						<CustomButton
-							borderRadius='pill'
 							disabled={!selectedPaymentData?.isReadyToPay}
-							block
 							label={t('paymentData.labelButton')}
 							onPress={submitPaymentSystemSelected}
 						/>

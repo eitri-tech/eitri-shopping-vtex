@@ -132,13 +132,13 @@ export default function CartSummary(props) {
 					display='flex'
 					width='100vw'
 					justifyContent='center'
+					paddingHorizontal='large'
 					alignItems='center'>
 					<CustomButton
 						marginTop='large'
-						borderRadius='pill'
+						borderRadius='small'
 						label={t('cartSummary.labelFinish')}
 						onPress={goToCheckout}
-						block
 					/>
 				</View>
 				<Spacing height={'16px'} />

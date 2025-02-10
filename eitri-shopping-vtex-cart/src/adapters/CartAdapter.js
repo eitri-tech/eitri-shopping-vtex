@@ -1,4 +1,4 @@
-import { cartShippingResolver } from '../utils/cartShippingResolver'
+import { cartShippingResolver } from './helpers/cartShippingResolver'
 import { calculateDiscount, formatAmountInCents } from '../utils/utils'
 
 export default function adaptCart(cart) {

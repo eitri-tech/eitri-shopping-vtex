@@ -1,6 +1,7 @@
 import ProductCarousel from "../ProductCarousel/ProductCarousel";
 import { useTranslation } from 'eitri-i18n'
 import {getWhoSawAlsoSaw} from "../../services/productService";
+import ShelfOfProducts from '../ShelfOfProducts/ShelfOfProducts'
 
 export default function RelatedProducts (props) {
 
@@ -27,13 +28,11 @@ export default function RelatedProducts (props) {
   if (!relatedProducts) return null;
 
   return (
-    <View paddingVertical='small'>
-      <Text
-        fontSize='large'
-        fontWeight='bold'>
-        {t('productBasicTemplate.txtWhoSaw')}
-      </Text>
-      <ProductCarousel products={relatedProducts} />
-    </View>
+      <ShelfOfProducts
+		  title={t('productBasicTemplate.txtWhoSaw')}
+		  mode='carousel'
+		  gap='16px'
+		  products={relatedProducts}
+	  />
   )
 }

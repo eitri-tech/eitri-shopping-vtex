@@ -27,45 +27,7 @@ export const getCmsContent = async (contentType, pageName) => {
 		} else {
 			return null
 		}
-
-		// const { providerInfo } = await Eitri.environment.getRemoteConfigs()
-		//
-		// if (providerInfo.wakeCmsUrl) {
-		// 	const sections = await getWakeContent(providerInfo.wakeCmsUrl)
-		// 	const result = sections?.map(section => {
-		// 		return { ...section, provider: PROVIDER.WAKE }
-		// 	})
-		// 	return { sections: result || null, settings: {} }
-		// } else if (providerInfo.decoCms || providerInfo.decoCmsUrl) {
-		// 	const sections = await getDecoContent(providerInfo.decoCms || providerInfo.decoCmsUrl)
-		// 	const result = sections?.map(section => {
-		// 		return { ...section, provider: PROVIDER.DECO }
-		// 	})
-		// 	return { sections: result || null, settings: {} }
-		// } else {
-		// 	const cachedPage = await loadPageFromCache(providerInfo.faststore, dataCms.contentType, dataCms.pageName)
-		//
-		// 	if (cachedPage) {
-		// 		loadVtexCmsPage(providerInfo.faststore, dataCms.contentType, dataCms.pageName)
-		// 			.then(page => {
-		// 				if (page) {
-		// 					savePageInCache(providerInfo.faststore, dataCms.contentType, dataCms.pageName, page)
-		// 				}
-		// 			})
-		// 			.catch(e => {})
-		//
-		// 		return cachedPage
-		// 	}
-		//
-		// 	const page = await loadVtexCmsPage(providerInfo.faststore, dataCms.contentType, dataCms.pageName)
-		// 	if (page) {
-		// 		savePageInCache(providerInfo.faststore, dataCms.contentType, dataCms.pageName, page)
-		// 		return { sections: page.sections, settings: page.settings }
-		// 	} else {
-		// 		return null
-		// 	}
-		// }
-	} catch (e) {
+  } catch (e) {
 		console.error('Error trying get content', e)
 	}
 
@@ -101,19 +63,8 @@ export const loadPageFromCache = async (faststore, contentType, pageName) => {
 export const savePageInCache = async (faststore, contentType, pageName, page) => {
 	try {
 		const cacheKey = `${faststore}_${contentType}_${pageName}`
-		console.log('Salvando no cache...', cacheKey)
 		Eitri.sharedStorage.setItemJson(cacheKey, { cachedIn: new Date().toISOString(), ...page })
 	} catch (error) {
 		console.error('Error trying save in cache', error)
 	}
-}
-
-export const getDecoContent = async pageName => {
-	const result = await Eitri.http.get(pageName)
-	return result.data.props.sections
-}
-
-export const getWakeContent = async pageName => {
-	const result = await Eitri.http.get(pageName)
-	return result.data.sections
 }

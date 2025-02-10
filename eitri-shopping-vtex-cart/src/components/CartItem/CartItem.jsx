@@ -8,7 +8,16 @@ import { useTranslation } from 'eitri-i18n'
 import { formatAmountInCents } from '../../utils/utils'
 
 export default function CartItem(props) {
-	const { item, onChangeQuantityItem, message, handleRemoveCartItem, onAddOfferingToCart, onRemoveOfferingFromCart, locale, currency } = props
+	const {
+		item,
+		onChangeQuantityItem,
+		message,
+		handleRemoveCartItem,
+		onAddOfferingToCart,
+		onRemoveOfferingFromCart,
+		locale,
+		currency
+	} = props
 	const [loadingWishlist, setLoadingWishlist] = useState(false)
 	const [wishlistId, setWishlistId] = useState('')
 	const [showModalRemoveItem, setShowModalRemoveItem] = useState(false)
@@ -74,16 +83,16 @@ export default function CartItem(props) {
 				<View
 					display='flex'
 					justifyContent='center'
-					alignItems='center'>
+					alignItems='start'>
 					<View
 						display='flex'
 						alignItems='center'
 						justifyContent='center'
-						width='30%'>
+						maxWidth='30%'>
 						<Image
 							borderRadius='small'
-							height='100px'
 							maxHeight='100px'
+							maxWidth='100%'
 							src={resizedImageUrl}
 						/>
 					</View>

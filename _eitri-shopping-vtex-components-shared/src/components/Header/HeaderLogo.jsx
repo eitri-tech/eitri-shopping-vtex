@@ -3,12 +3,14 @@ export default function HeaderLogo(props) {
 
 	return (
 		<View
-			height='100%'
+			height={50}
+			width={150}
 			display='flex'
 			alignItems='center'>
 			<Image
 				src={src}
-				height={height || 50}
+				maxWidth='100%'
+				maxHeight={'100%'}
 			/>
 		</View>
 	)

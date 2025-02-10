@@ -1,39 +1,37 @@
+import Eitri from 'eitri-bifrost'
 import { Vtex } from 'eitri-shopping-vtex-shared'
 import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
-
 import {
-	getPossibleByFacets,
-	getProductsByFacets,
-	getProductsByLagacySearch,
-	mountLegacyPath
-} from '../services/ProductService'
-import SearchResults from '../components/PageSearchComponents/SearchResults'
-import Eitri from 'eitri-bifrost'
+  mountLegacyPath,
+  getProductsByLagacySearch,
+  getProductsService } from '../services/ProductService'
 import { useTranslation } from 'eitri-i18n'
+
+import SearchResults from '../components/PageSearchComponents/SearchResults'
 import FacetsModal from '../components/FacetsModal/FacetsModal'
+import InfiniteScroll from "../components/InfiniteScroll/InfiniteScroll";
 
 export default function ProductCatalog(props) {
-	const [scrollEnded, setScrollEnded] = useState(false)
 
-	const [initialLoading, setInitialLoading] = useState(true)
+  const { t } = useTranslation()
+
+  const [initialLoading, setInitialLoading] = useState(true)
 	const [productLoading, setProductLoading] = useState(false)
 
 	const [windowFilter, setWindowFilter] = useState(false)
+	const [facetsModalReady, setFacetsModalReady] = useState(false)
 
 	const [products, setProducts] = useState([])
-	const [filterFacets, setFilterFacets] = useState(null)
-	const [initialFilters, setInitialFilters] = useState(null)
-	const [hasFilters, setHasFilters] = useState(false)
 
-	const [appliedFacets, setAppliedFacets] = useState([]) // Filtros efetivamente usados na busca
-	const [currentPage, setCurrentPage] = useState(1)
-	const [currencyProps, setCurrencyProps] = useState({})
+  const [hasFilters, setHasFilters] = useState(false)
 
+  const [initialFilters, setInitialFilters] = useState(null)
+  const [appliedFacets, setAppliedFacets] = useState([]) // Filtros efetivamente usados na busca
+
+  const [currentPage, setCurrentPage] = useState(1)
 	const [pagesHasEnded, setPageHasEnded] = useState(false)
 
 	const [viewBackButton, setViewBackButton] = useState(true)
-
-	const { t } = useTranslation()
 
 	const legacySearch = Vtex?.configs?.searchOptions?.legacySearch
 
@@ -42,8 +40,6 @@ export default function ProductCatalog(props) {
 			setViewBackButton(JSON.parse(props?.location?.state?.backButton))
 		}
 
-		configLanguage()
-
 		if (legacySearch) {
 			setLegacySearchAndGetProducts().catch(e => {
 				console.error('setLegacySearchAndGetProducts', e)
@@ -51,34 +47,24 @@ export default function ProductCatalog(props) {
 		} else {
 			setSearchAndGetProducts()
 		}
-	}, [])
 
-	useEffect(() => {
-		Eitri.eventBus.subscribe({
-			channel: 'onUserTappedActiveTab',
-			callback: _ => {
-				Eitri.navigation.back()
-			}
-		})
-		const handleScroll = () => {
-			if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) {
-				setScrollEnded(true)
-			}
-		}
-		window.addEventListener('scroll', handleScroll)
-		return () => {
-			window.removeEventListener('scroll', handleScroll)
-		}
-	}, [])
+    Eitri.eventBus.subscribe({
+      channel: 'onUserTappedActiveTab',
+      callback: _ => {
+        Eitri.navigation.back()
+      }
+    })
 
-	useEffect(() => {
-		if (!productLoading && scrollEnded && !pagesHasEnded) {
-			const newPage = currentPage + 1
-			setCurrentPage(newPage)
-			getProducts(appliedFacets, newPage)
-		}
-		setScrollEnded(false)
-	}, [scrollEnded])
+  }, [])
+
+
+  const onScrollEnd = async () => {
+    if (!productLoading && !pagesHasEnded) {
+      const newPage = currentPage + 1
+      setCurrentPage(newPage)
+      getProducts(appliedFacets, newPage)
+    }
+  }
 
 	const getProducts = async (appliedFacets, newPage) => {
 		if (legacySearch) {
@@ -93,13 +79,10 @@ export default function ProductCatalog(props) {
 			? parsePropsParams(props?.location?.state?.facets)
 			: props?.location?.state?.params
 
-		params.sort = parseSortString(params.sort)
-
 		setAppliedFacets(params)
 		setInitialFilters(params)
 
 		await _getProductsByFacets(params, currentPage)
-		loadFacetsOptions(params)
 
 		setInitialLoading(false)
 	}
@@ -159,13 +142,6 @@ export default function ProductCatalog(props) {
 		setProductLoading(false)
 	}
 
-	const configLanguage = async () => {
-		const remoteConfig = await Eitri.environment.getRemoteConfigs()
-		const locale = remoteConfig?.storePreferences?.locale || 'pt-BR'
-		const currency = remoteConfig?.storePreferences?.currencyCode || 'BRL'
-		setCurrencyProps({ locale, currency })
-	}
-
 	const parsePropsParams = input => {
 		if (!input) return {}
 
@@ -181,58 +157,21 @@ export default function ProductCatalog(props) {
 		return { facets: result }
 	}
 
-	const loadFacetsOptions = async selectedFacets => {
-		const facetsPath = selectedFacets?.facets?.map(facet => `${facet.key}/${facet.value}`).join('/')
-		const facets = await getPossibleByFacets(facetsPath, {
-			query: selectedFacets?.query || selectedFacets?.q || ''
-		})
-
-		setFilterFacets(generateFilters(facets))
-	}
-
 	const _getProductsByFacets = async (selectedFacets, page) => {
 		if (productLoading || pagesHasEnded) return
 
 		setProductLoading(true)
 
-		const facetsPath = selectedFacets?.facets?.map(facet => `${facet.key}/${facet.value}`).join('/')
+    const result = await getProductsService(selectedFacets, page)
 
-		const result = await getProductsByFacets(facetsPath, {
-			sort: selectedFacets.sort,
-			query: selectedFacets?.query || selectedFacets?.q || '',
-			page: page
-		})
 		if (result.products.length === 0) {
 			setProductLoading(false)
 			setPageHasEnded(true)
 			return
 		}
+
 		setProducts(prev => [...prev, ...result.products])
 		setProductLoading(false)
-	}
-
-	const parseSortString = sort => {
-		if (sort?.indexOf(':') > -1) return sort
-		switch (sort) {
-			case 'OrderByTopSaleDESC':
-				return 'orders:desc'
-			case 'OrderByReleaseDateDESC':
-				return 'release:desc'
-			case 'OrderByBestDiscountDESC':
-				return 'discount:desc'
-			case 'OrderByPriceDESC':
-				return 'price:desc'
-			case 'OrderByPriceASC':
-				return 'price:asc'
-			case 'OrderByNameASC':
-				return 'name:asc'
-			case 'OrderByNameDESC':
-				return 'name:desc'
-			case 'OrderByScoreDESC':
-				return 'score:desc'
-			default:
-				return 'orders:desc'
-		}
 	}
 
 	const handleFilterModal = () => {
@@ -241,34 +180,6 @@ export default function ProductCatalog(props) {
 
 	const goToSearch = () => {
 		Eitri.navigation.navigate({ path: 'Search' })
-	}
-
-	// TODO internacionalizar valor financeiro
-	const generateFilters = facetQueryResult => {
-		return facetQueryResult.facets
-			.filter(facet => !facet.hidden)
-			.map(facet => {
-				if (facet.type === 'PRICERANGE') {
-					return {
-						...facet,
-						values: facet.values.map(value => {
-							return {
-								...value,
-								name: `De ${value?.range?.from?.toLocaleString('pt-br', {
-									style: 'currency',
-									currency: 'BRL'
-								})} à ${value.range.to.toLocaleString('pt-br', {
-									style: 'currency',
-									currency: 'BRL'
-								})}`,
-								value: `${value.range.from}:${value.range.to}`
-							}
-						})
-					}
-				} else {
-					return facet
-				}
-			})
 	}
 
 	const filterProductsSubmit = async filters => {
@@ -284,48 +195,35 @@ export default function ProductCatalog(props) {
 		<Window
 			topInset
 			bottomInset>
-			<>
-				<HeaderTemplate
-					headerType={HEADER_TYPE.RETURN_TEXT_FILTER_AND_SEARCH_ICON}
-					scrollEffect={true}
-					viewBackButton={viewBackButton}
-					contentText={props?.location?.state?.title || t('productCatalog.title')}
-					filterFacets={filterFacets}
-					handleFilterModal={handleFilterModal}
-					navigateToSearch={goToSearch}
-					searchResults={products}
-					hasFilters={hasFilters}
-				/>
 
-				{initialLoading ? (
-					<View
-						padding={'large'}
-						display='flex'
-						alignItems='center'
-						justifyContent='center'>
-						<Loading />
-					</View>
-				) : (
-					<View padding={'large'}>
-						<SearchResults
-							searchResults={products}
-							isLoading={productLoading}
-							locale={currencyProps.locale}
-							currency={currencyProps.currency}
-						/>
-					</View>
-				)}
-			</>
+      <HeaderTemplate
+        headerType={HEADER_TYPE.RETURN_TEXT_FILTER_AND_SEARCH_ICON}
+        scrollEffect={true}
+        viewBackButton={viewBackButton}
+        contentText={props?.location?.state?.title || t('productCatalog.title')}
+        hasFilters={hasFilters}
+        facetsModalReady={facetsModalReady}
+        handleFilterModal={handleFilterModal}
+        navigateToSearch={goToSearch}
+      />
 
-			{windowFilter && (
-				<FacetsModal
-					initialFilters={initialFilters}
-					onReady={() => setFacetsModalReady(true)}
-					onApplyFilters={filterProductsSubmit}
-					show={windowFilter}
-					onClose={() => setWindowFilter(false)}
-				/>
-			)}
+      <Loading isLoading={initialLoading} fullScreen />
+
+      {
+        !initialLoading && (
+          <InfiniteScroll padding={'small'} onScrollEnd={onScrollEnd}>
+            <SearchResults searchResults={products} isLoading={productLoading} />
+          </InfiniteScroll>
+        )
+      }
+
+      <FacetsModal
+        initialFilters={initialFilters}
+        onReady={() => setFacetsModalReady(true)}
+        onApplyFilters={filterProductsSubmit}
+        show={windowFilter}
+        onClose={() => setWindowFilter(false)}
+      />
 		</Window>
 	)
 }

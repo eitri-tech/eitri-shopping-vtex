@@ -3,7 +3,7 @@ import Information from './Information'
 import Supplier from './Supplier'
 
 export default function DescriptionComponent(props) {
-	const { product } = props
+	const { product, ...rest } = props
 
 	const buildSpecifications = product => {
 		let result = {}
@@ -33,7 +33,7 @@ export default function DescriptionComponent(props) {
 	const especifications = buildSpecifications(product)
 
 	return (
-		<View>
+		<View {...rest}>
 			{product?.description && <Description description={product?.description} />}
 
 			{especifications && <Information specifications={especifications} />}

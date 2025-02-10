@@ -1,37 +1,53 @@
-import AlertItem from "../AlertItem/AlertItem";
 import { useTranslation } from 'eitri-i18n'
-import {useLocalShoppingCart} from "../../providers/LocalCart";
+import { useLocalShoppingCart } from '../../providers/LocalCart'
 
-export default function InstallmentsMsg (props) {
+export default function InstallmentsMsg(props) {
+	const { cart } = useLocalShoppingCart()
+	const { t } = useTranslation()
 
-  const { cart } = useLocalShoppingCart()
-  const { t } = useTranslation()
+	const findMaxInstallments = installmentOptions => {
+		let maxInstallments = 0
 
-  const findMaxInstallments = installmentOptions => {
-    let maxInstallments = 0
+		installmentOptions?.forEach(option => {
+			option.installments.forEach(installment => {
+				if (installment.count > maxInstallments) {
+					maxInstallments = installment.count
+				}
+			})
+		})
 
-    installmentOptions?.forEach(option => {
-      option.installments.forEach(installment => {
-        if (installment.count > maxInstallments) {
-          maxInstallments = installment.count
-        }
-      })
-    })
+		return maxInstallments
+	}
 
-    return maxInstallments
-  }
+	const maxInstallments = findMaxInstallments(cart?.paymentData?.installmentOptions)
 
-  const maxInstallments = findMaxInstallments(cart?.paymentData?.installmentOptions)
+	if (!maxInstallments || maxInstallments < 2) {
+		return null
+	}
 
-  return (
-    <>
-      {maxInstallments > 1 && (
-        <AlertItem
-          iconAlert={'credit-card'}
-          textAlert={`${t('cart.labelInstalmentUntil')} ${maxInstallments}x`}
-        />
-      )}
-    </>
-
-  )
+	return (
+		<View
+			display='flex'
+			backgroundColor={'primary-100'}
+			justifyContent='center'
+			alignItems='center'>
+			<View
+				color={'primary-100'}
+				contentColor>
+				<Icon
+					color={'primary-100'}
+					contentColor
+					iconKey={'credit-card'}
+					height={20}
+				/>
+			</View>
+			<Text
+				color={'primary-100'}
+				contentColor
+				paddingLeft='nano'
+				paddingVertical='nano'>
+				{`${t('cart.labelInstalmentUntil')} ${maxInstallments}x`}
+			</Text>
+		</View>
+	)
 }

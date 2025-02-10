@@ -25,7 +25,6 @@ export default function HeaderTemplate(props) {
 		handleShare,
 		labelSearch,
 		facetsModalReady,
-		searchResults,
 		hasFilters,
 		logo,
 		children
@@ -150,15 +149,12 @@ export default function HeaderTemplate(props) {
 					<View
 						display='flex'
 						gap={16}>
-						{filterFacets && (
-							<HeaderFilter
-								iconColor={contentColor}
-								handleFilterModal={handleFilterModal}
-								facetsModalReady={facetsModalReady}
-								searchResults={searchResults}
-								hasFilters={hasFilters}
-							/>
-						)}
+            <HeaderFilter
+              iconColor={contentColor}
+              handleFilterModal={handleFilterModal}
+              facetsModalReady={facetsModalReady}
+              hasFilters={hasFilters}
+            />
 						<HeaderSearchIcon
 							iconColor={contentColor}
 							navigateToSearch={navigateToSearch}
@@ -169,15 +165,12 @@ export default function HeaderTemplate(props) {
 			{headerType === HEADER_TYPE.SEARCH_INPUT_AND_FILTER && (
 				<>
 					{children}
-					{filterFacets && (
-						<HeaderFilter
-							iconColor={contentColor}
-							handleFilterModal={handleFilterModal}
-							facetsModalReady={facetsModalReady}
-							searchResults={searchResults}
-							hasFilters={hasFilters}
-						/>
-					)}
+          <HeaderFilter
+            iconColor={contentColor}
+            handleFilterModal={handleFilterModal}
+            facetsModalReady={facetsModalReady}
+            hasFilters={hasFilters}
+          />
 				</>
 			)}
 			{headerType === HEADER_TYPE.RETURN_SHARE_AND_CART && (
@@ -213,14 +206,11 @@ export default function HeaderTemplate(props) {
 			)}
 			{headerType === HEADER_TYPE.RETURN_AND_TEXT && (
 				<>
-					{viewBackButton ? (
-						<HeaderReturn
-							iconColor={contentColor}
-							backgroundColor={backgroundColor}
-						/>
-					) : (
-						<View width={'20%'}></View>
-					)}
+					<HeaderReturn
+						iconColor={contentColor}
+						backgroundColor={backgroundColor}
+					/>
+
 					<HeaderText
 						contentColor={contentColor}
 						text={contentText}

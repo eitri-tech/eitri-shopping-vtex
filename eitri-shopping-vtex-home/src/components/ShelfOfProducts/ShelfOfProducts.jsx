@@ -6,23 +6,11 @@ import { useTranslation } from 'eitri-i18n'
 
 export default function ShelfOfProducts(props) {
 	const { products, title, gap, paddingHorizontal, isLoading, mode, searchParams, ...rest } = props
-	const [currencyProps, setCurrencyProps] = useState({})
 
 	const { t } = useTranslation()
 
 	const seeMore = () => {
 		Eitri.navigation.navigate({ path: 'ProductCatalog', state: { params: searchParams, title: title } })
-	}
-
-	useEffect(() => {
-		configLanguage()
-	}, [])
-
-	const configLanguage = async () => {
-		const remoteConfig = await Eitri.environment.getRemoteConfigs()
-		const locale = remoteConfig?.storePreferences?.locale || 'pt-BR'
-		const currency = remoteConfig?.storePreferences?.currencyCode || 'BRL'
-		setCurrencyProps({ locale, currency })
 	}
 
 	return (
@@ -67,8 +55,6 @@ export default function ShelfOfProducts(props) {
 					isLoading={isLoading}
 					products={products}
 					gap={gap}
-					locale={currencyProps.locale}
-					currency={currencyProps.currency}
 				/>
 			)}
 
@@ -143,8 +129,6 @@ export default function ShelfOfProducts(props) {
                   product={product}
 									key={product?.productId}
 									width='188px'
-									locale={currencyProps.locale}
-									currency={currencyProps.currency}
 								/>
 							</View>
 						))}

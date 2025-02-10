@@ -3,6 +3,7 @@ import Mastercard from './Networks/Mastercard'
 import AmericanExpress from './Networks/AmericanExpress'
 import Hipercard from './Networks/Hipercard'
 import Elo from './Networks/Elo'
+import Diners from './Networks/Diners'
 
 export default function CardIcon(props) {
 	const iconKey = props.iconKey
@@ -21,6 +22,10 @@ export default function CardIcon(props) {
 	}
 	if (iconKey === 'Elo') {
 		return <Elo />
+	}
+
+	if (iconKey === 'Diners') {
+		return <Diners />
 	}
 
 	return ''

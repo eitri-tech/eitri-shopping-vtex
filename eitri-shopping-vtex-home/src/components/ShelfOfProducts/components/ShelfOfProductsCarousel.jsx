@@ -44,7 +44,7 @@ export default function ShelfOfProductsCarousel(props) {
 										paddingLeft='large'
 										paddingRight='nano'>
 										<ProductCard
-                      product={page[0]}
+											product={page[0]}
 											locale={locale}
 											currency={currency}
 										/>

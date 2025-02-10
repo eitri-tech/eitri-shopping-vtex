@@ -1,51 +1,36 @@
-import Eitri from 'eitri-bifrost'
-import { openCart } from '../services/NavigationService'
 import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
-import { useLocalShoppingCart } from '../providers/LocalCart'
 import { getCmsContent } from '../services/CmsService'
-import { getMappedComponent } from '../utils/getMappedComponent'
-import { useTranslation } from 'eitri-i18n'
+import CmsContentRender from "../components/CmsContentRender/CmsContentRender";
 
 export default function LandingPage(props) {
-	const [cmsContent, setCmsContent] = useState(null)
-	const [ladingPageLogo, setLadingPageLogo] = useState('')
+  const [cmsContent, setCmsContent] = useState(null)
 	const [isLoading, setIsLoading] = useState(true)
 
-	const { t } = useTranslation()
+  const pageTitle = props?.location?.state?.title?? ''
+
+  useEffect(() => {
+    loadCms()
+  }, [])
 
 	const loadCms = async () => {
 		try {
 			const landingPageName = props?.location?.state?.landingPageName
-			const { sections, settings } = await getCmsContent( 'landingPage', landingPageName)
+			const { sections } = await getCmsContent( 'landingPage', landingPageName)
 			setCmsContent(sections)
-			setLadingPageLogo(settings?.imageLogo?.logoUrl)
 			setIsLoading(false)
 		} catch (e) {
 			setIsLoading(false)
 		}
 	}
 
-	useEffect(() => {
-		loadCms()
-	}, [])
-
-	const { cart } = useLocalShoppingCart()
-
-	const navigateCart = () => {
-		openCart(cart)
-	}
-
-	const navigateToSearch = () => {
-		Eitri.navigation.navigate({ path: 'Search' })
-	}
-
 	return (
 		<Window
 			bottomInset
 			topInset>
+
 			<HeaderTemplate
 				headerType={HEADER_TYPE.RETURN_AND_TEXT}
-				contentText={props?.location?.state?.pageTitle ?? ''}
+				contentText={pageTitle}
 			/>
 
 			<Loading
@@ -53,25 +38,8 @@ export default function LandingPage(props) {
 				isLoading={isLoading}
 			/>
 
-			<View
-				paddingVertical='large'
-				direction='column'
-				gap='32px'>
-				{ladingPageLogo && (
-					<View
-						width='100%'
-						display='flex'
-						alignItems='center'
-						justifyContent='center'>
-						<Image
-							src={ladingPageLogo}
-							maxHeight='52px'
-						/>
-					</View>
-				)}
+      <CmsContentRender cmsContent={cmsContent} />
 
-				{cmsContent?.map(content => getMappedComponent(content))}
-			</View>
 		</Window>
 	)
 }

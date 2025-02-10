@@ -1,6 +1,5 @@
 import Eitri from 'eitri-bifrost'
-import CheckoutInput from '../components/Checkout/CheckoutInput'
-import { CustomButton, Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
+import { CustomButton, Loading, HeaderTemplate, HEADER_TYPE, CustomInput } from 'eitri-shopping-vtex-components-shared'
 import { useLocalShoppingCart } from '../providers/LocalCart'
 import { getUserByEmail, registerToNotify } from '../services/cartService'
 import { sendPageView } from '../services/trackingService'
@@ -247,7 +246,8 @@ export default function PersonalData() {
 							gap={'8px'}
 							width={'100%'}
 							alignItems={'end'}>
-							<CheckoutInput
+							<CustomInput
+								width='100%'
 								autoFocus={true}
 								label={t('personalData.frmEmail')}
 								showClearInput={false}
@@ -259,23 +259,16 @@ export default function PersonalData() {
 								placeholder={t('personalData.placeholderEmail')}
 								inputMode={'email'}
 							/>
-							<Touchable
-								backgroundColor={'primary-700'}
-								borderRadius={'small'}
-								padding={'extra-small'}
-								onPress={findUserByEmail}>
-								<Text
-									fontWeight={'bold'}
-									fontSize={'nano'}
-									color={'neutral-100'}>
-									OK
-								</Text>
-							</Touchable>
+							<CustomButton
+								width='50px'
+								label='OK'
+								onPress={findUserByEmail}
+							/>
 						</View>
 
 						{userDataVerified &&
 							personalInputOptions.map(inputOption => (
-								<CheckoutInput
+								<CustomInput
 									autoFocus={inputOption.autoFocus}
 									key={inputOption.label}
 									label={inputOption.title}
@@ -296,24 +289,28 @@ export default function PersonalData() {
 								justifyContent='center'
 								alignItems='center'
 								direction='column'>
-								<Button
+								<Touchable
 									block={false}
 									backgroundColor='none'
 									label={
 										isLegalPerson ? t('personalData.labelPerson') : t('personalData.labelCorporate')
 									}
-									color='primary-900'
-									variant='text'
-									textDecoration='underline'
-									onPress={handleLegalPerson}
-								/>
+									onPress={handleLegalPerson}>
+									<Text
+										color={'primary-900'}
+										fontWeight='bold'>
+										{isLegalPerson
+											? t('personalData.labelPerson')
+											: t('personalData.labelCorporate')}
+									</Text>
+								</Touchable>
 							</View>
 						)}
 
 						{userDataVerified &&
 							isLegalPerson &&
 							corporateInputOptions.map(inputOption => (
-								<CheckoutInput
+								<CustomInput
 									key={inputOption.label}
 									label={inputOption.title}
 									showClearInput={false}
@@ -343,9 +340,7 @@ export default function PersonalData() {
 					paddingHorizontal='extra-small'
 					marginTop='small'>
 					<CustomButton
-						borderRadius='pill'
 						disabled={!handleDataFilled()}
-						block
 						label={t('personalData.labelButton')}
 						onPress={setUserData}
 					/>

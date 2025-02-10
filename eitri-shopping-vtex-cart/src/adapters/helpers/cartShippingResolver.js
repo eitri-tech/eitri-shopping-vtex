@@ -1,4 +1,4 @@
-import { addDaysToDate, formatAmountInCents, formatDate } from './utils'
+import { addDaysToDate, formatAmountInCents, formatDate } from '../../utils/utils'
 
 export const cartShippingResolver = cart => {
 	try {

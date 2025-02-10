@@ -30,7 +30,12 @@
 		"newPass": "New Password",
 		"confirmPass": "Confirm Password",
 		"sendButton": "Continue",
-		"messageError": "There was an error resetting the password. Please try again later."
+		"messageError": "There was an error resetting the password. Please try again later.",
+        "passwordRequirements": "Password requirements",
+        "passwordRequirementsCharacters": "Minimum of 8 characters",
+        "passwordRequirementsNumber": "At least one number",
+        "passwordRequirementsUppercase": "At least one uppercase letter",
+        "passwordRequirementsLowercase": "At least one lowercase letter"
 	},
 	"signIn": {
 		"errosSendAccess": "error sending email",

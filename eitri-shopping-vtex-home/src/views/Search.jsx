@@ -1,35 +1,30 @@
 import Eitri from 'eitri-bifrost'
 import { Vtex } from 'eitri-shopping-vtex-shared'
 import { HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-vtex-components-shared'
-import { getProductsByFacets, getProductsByLagacySearch, mountLegacyPath } from '../services/ProductService'
+import {
+  mountLegacyPath,
+  getProductsByLagacySearch,
+  getProductsService } from '../services/ProductService'
 import SearchInput from '../components/SearchInput/SearchInput'
 import PristineView from '../components/PageSearchComponents/PristineView'
 import SearchResults from '../components/PageSearchComponents/SearchResults'
 import FacetsModal from '../components/FacetsModal/FacetsModal'
-import { useLocalShoppingCart } from '../providers/LocalCart'
+import InfiniteScroll from "../components/InfiniteScroll/InfiniteScroll";
 
 export default function Search(props) {
-	const incomingSearchTerm = props?.history?.location?.state?.searchTerm || props?.location?.state?.searchTerm
 
-	const { setShowModalPreSale } = useLocalShoppingCart()
+  const incomingSearchTerm = props?.history?.location?.state?.searchTerm || props?.location?.state?.searchTerm
 
-	const [isProductLoading, setIsProductLoading] = useState(false)
+  const [isProductLoading, setIsProductLoading] = useState(false)
 	const [page, setPage] = useState(1)
 	const [searchResults, setSearchResults] = useState([])
 	const [isPristine, setIsPristine] = useState(true)
-	const [scrollEnded, setScrollEnded] = useState(false)
-
 	const [initialFilters, setInitialFilters] = useState(null)
-
 	const [pagesHasEnded, setPageHasEnded] = useState(false)
-
 	const [showFilterModal, setShowFilterModal] = useState(false)
 	const [facetsModalReady, setFacetsModalReady] = useState(false)
-
 	const [appliedFacets, setAppliedFacets] = useState([])
-
 	const [hasFilters, setHasFilters] = useState(false)
-
 	const legacySearch = Vtex?.configs?.searchOptions?.legacySearch
 
 	useEffect(() => {
@@ -49,26 +44,13 @@ export default function Search(props) {
 		})
 	}, [])
 
-	useEffect(() => {
-		const handleScroll = () => {
-			if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) {
-				setScrollEnded(true)
-			}
-		}
-		window.addEventListener('scroll', handleScroll)
-		return () => {
-			window.removeEventListener('scroll', handleScroll)
-		}
-	}, [])
-
-	useEffect(() => {
-		if (!isProductLoading && scrollEnded && !pagesHasEnded) {
-			const newPage = page + 1
-			setPage(newPage)
-			getProducts(appliedFacets, newPage)
-		}
-		setScrollEnded(false)
-	}, [scrollEnded])
+  const onScrollEnd = async () => {
+    if (!isProductLoading && !pagesHasEnded) {
+      const newPage = page + 1
+      setPage(newPage)
+      getProducts(appliedFacets, newPage)
+    }
+  }
 
 	const getProducts = async (appliedFacets, newPage) => {
 		if (legacySearch) {
@@ -87,7 +69,6 @@ export default function Search(props) {
 
 		setAppliedFacets(params)
 		setInitialFilters(params)
-
 		setIsPristine(false)
 
 		_getProductsByFacets(params, 1)
@@ -117,7 +98,6 @@ export default function Search(props) {
 					setInitialFilters(params)
 					setSearchResults([])
 					setIsPristine(false)
-					setScrollEnded(false)
 					setPageHasEnded(false)
 					setPage(1)
 					_getProductsByFacets(params, page)
@@ -155,16 +135,11 @@ export default function Search(props) {
 
 	const _getProductsByFacets = async (selectedFacets, page) => {
 		setIsProductLoading(true)
-		const facetsPath = selectedFacets?.facets?.map(facet => `${facet.key}/${facet.value}`).join('/')
-		const options = {
-			query: selectedFacets?.query || selectedFacets?.q || '',
-			page: page,
-			sort: selectedFacets.sort || 'score:desc'
-		}
 
 		try {
-			const result = await getProductsByFacets(facetsPath ?? '', options)
-			if (result.products.length === 0) {
+			const result = await getProductsService(selectedFacets, page)
+
+      if (result.products.length === 0) {
 				setIsProductLoading(false)
 				setPageHasEnded(true)
 				return
@@ -173,7 +148,7 @@ export default function Search(props) {
 			setSearchResults(prev => [...prev, ...result.products])
 			setIsProductLoading(false)
 		} catch (e) {
-			console.log('erro', e)
+			console.error('Erro ao buscar produtos', e)
 		}
 	}
 
@@ -181,13 +156,8 @@ export default function Search(props) {
 		setPage(1)
 		setSearchResults(_ => [])
 		setShowFilterModal(false)
-		setScrollEnded(false)
 		setHasFilters(JSON.stringify(initialFilters?.facets) !== JSON.stringify(filters?.facets))
 		_getProductsByFacets(filters, 1)
-	}
-
-	const navigateBack = () => {
-		setShowModalPreSale(false)
 	}
 
 	const handleFilterModal = () => {
@@ -203,28 +173,27 @@ export default function Search(props) {
 				headerType={HEADER_TYPE.SEARCH_INPUT_AND_FILTER}
 				scrollEffect={true}
 				filterFacets={initialFilters}
-				searchResults={searchResults}
 				facetsModalReady={facetsModalReady}
 				hasFilters={hasFilters}
 				handleFilterModal={handleFilterModal}>
 				<SearchInput
 					incomingValue={incomingSearchTerm}
 					onSubmit={handleSearchSubmit}
-					navigateBack={navigateBack}
 				/>
 			</HeaderTemplate>
 			{isPristine ? (
 				<PristineView />
 			) : (
-				<View padding={'small'}>
-					<SearchResults
-						searchResults={searchResults}
-						isLoading={isProductLoading}
-					/>
-				</View>
+        <InfiniteScroll padding={'small'} onScrollEnd={onScrollEnd}>
+            <SearchResults
+              searchResults={searchResults}
+              isLoading={isProductLoading}
+            />
+        </InfiniteScroll>
+
 			)}
 
-			{initialFilters?.query && (
+			{initialFilters && (
 				<FacetsModal
 					initialFilters={initialFilters}
 					onReady={() => setFacetsModalReady(true)}

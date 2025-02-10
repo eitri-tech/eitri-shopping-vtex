@@ -1,7 +1,5 @@
-import CButton from '../../components/CButton/CButton'
-import CodeInput from '../../components/PasswordResetCode/CodeInput'
 import BigTitle from '../../components/BigTitle/BigTitle'
-import { HEADER_TYPE, HeaderTemplate } from 'eitri-shopping-vtex-components-shared'
+import { HEADER_TYPE, HeaderTemplate, CustomButton } from 'eitri-shopping-vtex-components-shared'
 import { navigate, PAGES } from '../../services/NavigationService'
 import { useTranslation } from 'eitri-i18n'
 
@@ -13,7 +11,7 @@ export default function PasswordResetCode(props) {
 	const email = props?.location?.state?.email
 
 	const { t } = useTranslation()
-	
+
 	const goToPasswordNewPass = () => {
 		if (recoveryCode.length !== RECOVERY_CODE_LENGTH) {
 			return
@@ -32,7 +30,7 @@ export default function PasswordResetCode(props) {
 				contentText={`${t('passwordResetCode.headerText')}`}
 			/>
 
-			<View padding='giant'>
+			<View padding='large'>
 				<BigTitle
 					title={t('passwordResetCode.forgotPass')}
 					withBackAction
@@ -47,17 +45,16 @@ export default function PasswordResetCode(props) {
 
 				<View marginTop='large'>
 					<CodeInput
-						length={6}
-						onFill={onCodeFilled}
+						autoSubmit
+						maxLength={6}
+						onChange={onCodeFilled}
+						accept='numbers'
 					/>
 				</View>
 
 				<View marginTop='giant'>
-					<CButton
+					<CustomButton
 						disabled={recoveryCode.length !== RECOVERY_CODE_LENGTH}
-						backgroundColor={recoveryCode.length === RECOVERY_CODE_LENGTH ? 'secondary-300' : 'neutral-100'}
-						borderColor={recoveryCode.length === RECOVERY_CODE_LENGTH ? 'secondary-300' : 'neutral-500'}
-						color={recoveryCode.length === RECOVERY_CODE_LENGTH ? '' : 'neutral-500'}
 						label={t('passwordResetCode.sendButton')}
 						onPress={goToPasswordNewPass}
 					/>

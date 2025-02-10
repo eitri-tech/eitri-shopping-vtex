@@ -1,9 +1,7 @@
 import userIcon from '../../assets/icons/user.svg'
 import lockIcon from '../../assets/icons/lock.svg'
-import CInput from '../../components/CInput/CInput'
-import CButton from '../../components/CButton/CButton'
 import Eitri from 'eitri-bifrost'
-import { Loading, HeaderTemplate, HEADER_TYPE } from 'eitri-shopping-vtex-components-shared'
+import { Loading, HeaderTemplate, HEADER_TYPE, CustomButton, CustomInput } from 'eitri-shopping-vtex-components-shared'
 import {
 	doLogin,
 	getCustomerData,
@@ -143,7 +141,7 @@ export default function SignIn(props) {
 				contentText={`${t('signIn.headerText')}`}
 			/>
 
-			<View padding='giant'>
+			<View padding='large'>
 				<Text
 					block
 					fontWeight='bold'
@@ -154,7 +152,7 @@ export default function SignIn(props) {
 				{loginMode === LOGIN_WITH_EMAIL_AND_PASSWORD && (
 					<>
 						<View marginTop='display'>
-							<CInput
+							<CustomInput
 								icon={userIcon}
 								value={username}
 								placeholder={t('signIn.formName')}
@@ -163,7 +161,7 @@ export default function SignIn(props) {
 						</View>
 
 						<View marginTop='large'>
-							<CInput
+							<CustomInput
 								placeholder={t('signIn.formPass')}
 								icon={lockIcon}
 								value={password}
@@ -173,18 +171,16 @@ export default function SignIn(props) {
 						</View>
 
 						<View marginTop='large'>
-							<CButton
-								backgroundColor='secondary-300'
-								borderColor='secondary-300'
+							<CustomButton
+								width='100%'
 								label={t('signIn.labelButton')}
 								onPress={handleLogin}
 							/>
 						</View>
 
 						<View marginTop='large'>
-							<CButton
-								borderColor='secondary-300'
-								color='secondary-300'
+							<CustomButton
+								width='100%'
 								variant='outlined'
 								label={t('signIn.labelAccessWithCode')}
 								onPress={() => setLoginMethod(LOGIN_WITH_EMAIL_AND_ACCESS_KEY)}
@@ -192,14 +188,13 @@ export default function SignIn(props) {
 						</View>
 
 						<View
-							marginTop='large'
+							marginTop='display'
 							display='flex'
 							justifyContent='center'>
 							<Touchable onPress={goToPasswordReset}>
 								<Text
 									block
-									color='primary-500'
-									textDecoration='underline'>
+									color='primary-500'>
 									{t('signIn.forgotPass')}
 								</Text>
 							</Touchable>
@@ -211,8 +206,7 @@ export default function SignIn(props) {
 							<Touchable onPress={() => { navigate(PAGES.SIGNUP) }}>
 								<Text
 									block
-									color='primary-500'
-									textDecoration='underline'>
+									color='primary-500'>
 									{t('signIn.noRegister')}
 								</Text>
 							</Touchable>
@@ -222,7 +216,7 @@ export default function SignIn(props) {
 
 				{loginMode === LOGIN_WITH_EMAIL_AND_ACCESS_KEY && (
 					<View marginTop='display'>
-						<CInput
+						<CustomInput
 							icon={userIcon}
 							value={username}
 							type='email'
@@ -237,7 +231,7 @@ export default function SignIn(props) {
 						{emailCodeSent && (
 							<>
 								<View marginTop='large'>
-									<CInput
+									<CustomInput
 										label={t('signIn.formCodeVerification')}
 										placeholder={t('signIn.formCodeVerification')}
 										inputMode='numeric'
@@ -248,9 +242,7 @@ export default function SignIn(props) {
 								</View>
 
 								<View marginTop='large'>
-									<CButton
-										backgroundColor={!username || !verificationCode ? '' : 'secondary-300'}
-										borderColor={!username || !verificationCode ? '' : 'secondary-300'}
+									<CustomButton
 										label={t('signIn.labelButton')}
 										onPress={loginWithEmailAndAccessKey}
 										disabled={!username || !verificationCode}
@@ -260,14 +252,7 @@ export default function SignIn(props) {
 						)}
 
 						<View marginTop='large'>
-							<CButton
-								backgroundColor={
-									!resendCode || !username || loadingSendingCode ? 'secondary-300' : ''
-								}
-								borderColor={
-									!resendCode || !username || loadingSendingCode ? 'secondary-300' : ''
-								}
-								color={(emailCodeSent && resendCode) ? 'neutral-500' : 'accent-100'}
+							<CustomButton
 								label={
 									!emailCodeSent
 										? t('signIn.textSendCode')
@@ -280,9 +265,7 @@ export default function SignIn(props) {
 						</View>
 
 						<View marginTop='large'>
-							<CButton
-								borderColor='secondary-300'
-								color='secondary-300'
+							<CustomButton
 								variant='outlined'
 								label={t('signIn.labelLoginWithPass')}
 								onPress={() => setLoginMethod(LOGIN_WITH_EMAIL_AND_PASSWORD)}
@@ -291,33 +274,6 @@ export default function SignIn(props) {
 					</View>
 				)}
 
-				{/* <View marginTop='large'>
-					<CCheckbox
-						renderMode='toggle'
-						label='Lembrar de mim'
-						checked={rememberMe}
-						onChange={() => setRememberMe(!rememberMe)}
-					/>
-				</View> */}
-
-				{/*			<View marginTop='giant'>
-					<View
-						height='1px'
-						backgroundColor='neutral-300'
-						width='100%'
-					/>
-				</View>*/}
-				{/*
-				<View
-					marginTop='large'
-					display='flex'
-					justifyContent='center'
-					marginBottom="giant"
-					>
-					<Text>Ou</Text>
-				</View>
-
-				<SocialLogin marginTop='extra-large' />*/}
 			</View>
 
 			<Alert
