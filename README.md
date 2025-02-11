@@ -24,7 +24,7 @@ Com o **Eitri Shopping Vtex**, você tem total controle sobre seu aplicativo, ec
 
 3. Crie sua aplicação:
    ```bash
-   eitri create-app <nome_da_aplicacao>
+   eitri app create <nome_da_aplicacao>
 
 
 # Como configurar sua Aplicação?
@@ -36,7 +36,6 @@ Configurar sua Aplicação é simples e rápido. Siga os passos abaixo para conf
 3. Escolha o aplicativo que deseja personalizar.
 4. No menu lateral esquerdo, clique em **"Seus ambientes"**.
 5. Clique em **"Configurar"** para configurar o ambiente desejado.
-6. Clique em **"Configurar"** para configurar o ambiente desejado.
 6. Clique em **Editar Configurações**.
 7. Realize as alterações desejadas no Json.
 8. Clique em **"Atualizar"** para finalizar.
