@@ -1,18 +1,47 @@
 import Eitri from "eitri-bifrost";
-import ErrorImage from '../../assets/images/error_eitri.svg';
-import { Text, View, Touchable, Image } from "eitri-luminus";
+import { Text, View, Touchable } from "eitri-luminus";
 
+/**
+ * Função de Erro Genérico.
+ * 
+ * @param {function} onRetryPress Função a ser executada ao pressionar o botão TENTAR NOVAMENTE.
+ * 
+ */
 export default function GenericError(props) {
     const {
-        title,
-        bodyText,
-        retryButtonLabel,
         onRetryPress = null
     } = props
 
-    function goBack(){
+    const [appSlug, setAppSlug] = useState('')
+
+    async function getConfigs() {
+        try {
+            const configs = await Eitri.getConfigs()
+            setAppSlug(configs?.miniAppData?.slug)
+        } catch (error) {
+            console.error("@Shared.GenericError.getConfigs", error)
+        }
+    }
+    getConfigs()
+
+    function onCancelPress() {
         Eitri.navigation.back()
     }
+
+
+    const options = {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'America/Sao_Paulo',
+        hour12: false,
+    };
+
+    const formatter = new Intl.DateTimeFormat('pt-BR', options);
+    const formattedDateHour = formatter.format(new Date()).replace(',', ' às ').replace(' ', ' ');
+
 
     return (
         <View
@@ -25,11 +54,23 @@ export default function GenericError(props) {
                 justifyContent='center'
                 alignItems='center'
                 paddingHorizontal='nano'
-                height= '100%'>
-                <Image
-                    src={ErrorImage}
-                    width='100%'
-                />
+                height='100%'>
+                <View width='100vw' justifyContent='center' alignItems='center' display="flex" marginBottom="large">
+                    <View
+                        customColor='#F8FAFC'
+                        display="flex"
+                        padding='nano'
+                        justifyContent='center'
+                        alignItems='center'
+                        borderRadius='pill'
+                        width='30%'
+                        height='15vh'
+                    >
+                        <Text fontSize="jumbo" fontWeight='bold' textAlign='center'>
+                            !
+                        </Text>
+                    </View>
+                </View>
                 <View
                     direction='column'
                     gap={8}
@@ -39,46 +80,57 @@ export default function GenericError(props) {
                     <Text
                         fontWeight='bold'
                         color='primary-base'
-                        fontSize='medium'>
-                        {title || "Erro inesperado"}
+                        fontSize='medium'
+                        textAlign='center'>
+                        Não foi possível continuar
                     </Text>
                     <Text
                         color='neutral-light'
-                        fontSize='body-small'>
-                        {bodyText || "Ops, ocorreu um erro inesperado. Tente novamente ou retorne mais tarde."}
+                        fontSize='body-small'
+                        textAlign='center'
+                    >
+                        Verifique a conexão com a internet do seu dispositivo ou atualizações do aplicativo
                     </Text>
                 </View>
             </View>
             <View
                 width='100%'
                 position='absolute'
-                bottom='8%'
+                bottom='6%'
                 display='flex'
-                justifyContent='evenly'
+                direction='column'
+                justifyContent='center'
                 alignItems='center'
             >
+
                 <Touchable
                     borderRadius="small"
-                    width="40%"
-                    onPress={goBack}
+                    width="70%"
+                    onPress={onRetryPress}
+                    opacity="light"
+                    customColor="#000"
+                    padding="extra-small"
+                    justifyContent="center"
+                >
+                    <Text textAlign='center' color="neutral-100"> TENTAR NOVAMENTE</Text>
+                </Touchable>
+                <Touchable
+                    borderRadius="small"
+                    width="70%"
+                    onPress={onCancelPress}
                     customColor="#FFF"
                     padding="extra-small"
                     justifyContent="center"
-                    borderColor="#000"
-                    borderWidth="hairline"
+                    borderColor="transparent"
                 >
-                    <Text textAlign='center' color="title"  fontWeight="bold">Voltar</Text>
+                    <Text textAlign='center' color="title" fontWeight="bold"> CANCELAR</Text>
                 </Touchable>
-                <Touchable
-                    borderRadius="small"
-                    width="40%"
-                    onPress={onRetryPress}
-                    customColor="#212121"
-                    padding="extra-small"
-                    justifyContent="center"
-                >
-                    <Text textAlign='center' color="neutral-100">{retryButtonLabel || "Tentar novamente"}</Text>
-                </Touchable>
+                <Text textAlign='center' marginTop="small">
+                    {formattedDateHour}
+                </Text>
+                <Text textAlign='center'>
+                    {appSlug ?? ''}
+                </Text>
             </View>
         </View>
 
