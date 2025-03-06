@@ -6,6 +6,7 @@ import { useTranslation } from 'eitri-i18n'
 import iconLogout from '../assets/icons/logout.svg'
 import Eitri from 'eitri-bifrost'
 import ProfileCardButton from '../components/ProfileCardButton/ProfileCardButton'
+import PoweredBy from '../components/PoweredBy/PoweredBy'
 import { setLanguage, startConfigure } from '../services/AppService'
 
 export default function Home(props) {
@@ -165,6 +166,10 @@ export default function Home(props) {
 					iconJustify='between'
 					onPress={_doLogout}
 				/>
+			</View>
+			<View>
+				<PoweredBy marginBottom='small' />
+				<View bottomInset />
 			</View>
 		</Window>
 	)
