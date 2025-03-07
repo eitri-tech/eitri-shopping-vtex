@@ -7,7 +7,7 @@
     "vtexCmsUrl": "https://euentregobr.myvtex.com"
   },
   "appConfigs": {
-    "clarityId": "YOUR_CLARITY_ID",
+    "clarityId": "",
     "autoTriggerGAEvents": true,
     "statusBarTextColor": "black",
     "headerLogo": "https://console.eitri.tech/assets/logo-dark-CpI6qVKD.svg",
