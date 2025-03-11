@@ -140,12 +140,8 @@ export default function Home() {
 		setLoadingWishlist(false)
 	}
 
-	const onSkuChange = newDesiredVariations => {
-		const productSku = product.items.find(item => {
-			return newDesiredVariations.every(
-				newDesiredVariation => item[newDesiredVariation.variation][0] === newDesiredVariation.value
-			)
-		})
+	const onSkuChange = skuId => {
+		const productSku = product.items.find(item => item.itemId === skuId)
 		if (productSku) {
 			setCurrentSku(productSku)
 		}
