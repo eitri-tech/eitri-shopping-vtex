@@ -1,7 +1,13 @@
 import ImplementationInterface from '../PaymentsGroups/ImplementationInterface'
+import { paymentSystemResolver } from '../../utils/paymentSystemResolver'
+import { useLocalShoppingCart } from '../../providers/LocalCart'
 
 export default function PaymentMethods(props) {
-	const { paymentSystems } = props
+
+	const { cart } = useLocalShoppingCart()
+
+	const paymentSystems = paymentSystemResolver(cart)
+
 	return (
 		<View
 			width='100%'

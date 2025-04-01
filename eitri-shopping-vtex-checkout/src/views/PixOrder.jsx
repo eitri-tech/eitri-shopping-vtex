@@ -16,8 +16,10 @@ export default function PixOrder(props) {
 	const { t } = useTranslation()
 
 	useEffect(() => {
-		if (props.location?.state?.pixData) {
-			const appPayload = JSON.parse(props.location?.state?.pixData)
+		if (props.location?.state?.paymentResult) {
+			const result = props.location?.state?.paymentResult
+
+			const appPayload = JSON.parse(result.paymentAuthorizationAppCollection[0].appPayload)
 
 			setPixPayload(appPayload)
 
@@ -32,7 +34,7 @@ export default function PixOrder(props) {
 				clearInterval(interval)
 			}
 		}
-	}, [props.location?.state?.pixData])
+	}, [props.location?.state?.paymentResult])
 
 	useEffect(() => {
 		if (timeOut <= 0) {

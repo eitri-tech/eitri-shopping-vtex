@@ -11,13 +11,14 @@ import { requestLogin } from '../services/navigationService'
 import { sendPageView } from '../services/trackingService'
 import { useTranslation } from 'eitri-i18n'
 
+let interval
+
 export default function FinishCart() {
 	const { cart, selectedPaymentData, startCart, cartIsLoading } = useLocalShoppingCart()
+	const { t } = useTranslation()
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [error, setError] = useState({ state: false, message: '' })
-	const [recaptchaIsReady, setRecaptchaIsReady] = useState(false)
-	const [currencyProps, setCurrencyProps] = useState({})
 	const [unavailableItems, setUnavailableItems] = useState([])
 
 	const recaptchaRef = useRef()
@@ -25,23 +26,6 @@ export default function FinishCart() {
 	const RECAPTCHA_SITE_KEY = '6LcKXBMqAAAAAKsqevXXI4ZWr1enrPNrf25pmUs-'
 
 	let captchaToken = null
-
-	let interval
-
-	const { t } = useTranslation()
-
-	useEffect(() => {
-		if (recaptchaIsReady) {
-			;(async () => {
-				captchaToken = await recaptchaRef?.current?.getRecaptchaToken()
-				interval = setInterval(async () => {
-					captchaToken = await recaptchaRef?.current?.getRecaptchaToken()
-				}, 60000)
-			})()
-		}
-
-		return () => clearInterval(interval)
-	}, [recaptchaIsReady])
 
 	useEffect(() => {
 		if (cart && cart?.items?.length > 0) {
@@ -51,23 +35,12 @@ export default function FinishCart() {
 			}
 		}
 		sendPageView('Home')
-	}, [cart])
-
-	useEffect(() => {
-		configLanguage()
-	}, [])
-
-	const configLanguage = async () => {
-		try {
-			const remoteConfig = await Eitri.environment.getRemoteConfigs()
-			const locale = remoteConfig?.storePreferences?.locale || 'pt-BR'
-			const currency = remoteConfig?.storePreferences?.currencyCode || 'BRL'
-
-			setCurrencyProps({ locale, currency })
-		} catch (e) {
-			console.error('Erro ao buscar configurações', e)
+		return () => {
+			if (interval) {
+				clearInterval(interval)
+			}
 		}
-	}
+	}, [cart])
 
 	const navigateToEditor = (path, canOpenWithoutLogin) => {
 		if (canOpenWithoutLogin) {
@@ -99,12 +72,18 @@ export default function FinishCart() {
 
 			if (paymentResult.status === 'completed') {
 				clearCart()
-				Eitri.navigation.navigate({ path: '../OrderCompleted', state: { orderId: paymentResult.orderId } })
+				Eitri.navigation.navigate({ path: 'OrderCompleted', state: { orderId: paymentResult.orderId } })
+				return
 			}
 
-			if (paymentResult.status === 'waiting_pix_payment') {
-				Eitri.navigation.navigate({ path: '../PixOrder', state: { pixData: paymentResult.pixData } })
+			if (paymentResult?.paymentAuthorizationAppCollection?.[0]?.appName === 'vtex.pix-payment') {
+				Eitri.navigation.navigate({ path: 'PixOrder', state: { paymentResult } })
+				return
 			}
+
+			Eitri.navigation.navigate({ path: 'ExternalProviderOrder', state: { paymentResult } })
+
+
 		} catch (error) {
 			console.log('Erro no runPaymentScript', error)
 			setError({
@@ -118,6 +97,13 @@ export default function FinishCart() {
 				setError({ state: false, message: '' })
 			}, tenSeconds)
 		}
+	}
+
+	const onRecaptchaReady = async () => {
+		captchaToken = await recaptchaRef?.current?.getRecaptchaToken()
+		interval = setInterval(async () => {
+			captchaToken = await recaptchaRef?.current?.getRecaptchaToken()
+		}, 60000)
 	}
 
 	return (
@@ -173,7 +159,7 @@ export default function FinishCart() {
 						<Text
 							fontWeight='bold'
 							color='primary-700'>
-							{`${t('finishCart.txtTotal')} ${formatAmountInCents(cart.netValue || cart.value, currencyProps.locale, currencyProps.currency)}`}
+							{`${t('finishCart.txtTotal')} ${formatAmountInCents(cart.netValue || cart.value)}`}
 						</Text>
 					</View>
 
@@ -239,7 +225,7 @@ export default function FinishCart() {
 			<Recaptcha
 				ref={recaptchaRef}
 				siteKey={RECAPTCHA_SITE_KEY}
-				onRecaptchaReady={() => setRecaptchaIsReady(true)}
+				onRecaptchaReady={onRecaptchaReady}
 			/>
 		</Window>
 	)

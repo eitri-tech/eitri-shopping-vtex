@@ -1,7 +1,7 @@
 import { useLocalShoppingCart } from '../providers/LocalCart'
 import Eitri from 'eitri-bifrost'
 import { HEADER_TYPE, HeaderTemplate, Loading } from 'eitri-shopping-vtex-components-shared'
-import { saveCartIdOnStorage } from '../services/cartService'
+import { cartHasCustomerData, saveCartIdOnStorage } from '../services/cartService'
 import { useTranslation } from 'eitri-i18n'
 import { setLanguage, startConfigure } from '../services/AppService'
 
@@ -11,13 +11,8 @@ export default function Home() {
 	const { t, i18n } = useTranslation()
 
 	useEffect(() => {
-		startHome()
+		loadConfigs().then(loadCart)
 	}, [])
-
-	const startHome = async () => {
-		await loadConfigs()
-		loadCart()
-	}
 
 	const loadCart = async () => {
 		const startParams = await Eitri.getInitializationInfos()
@@ -28,21 +23,16 @@ export default function Home() {
 
 		const cart = await startCart()
 
-		if (cart && cart?.items?.length > 0) {
-			if (
-				!cart.clientProfileData ||
-				!cart.clientProfileData?.email ||
-				!cart.clientProfileData?.firstName ||
-				!cart.clientProfileData?.lastName ||
-				!cart.clientProfileData?.document ||
-				!cart.clientProfileData?.phone
-			) {
-				Eitri.navigation.navigate({ path: 'PersonalData', state: { cart: cart }, replace: true })
-			} else {
-				Eitri.navigation.navigate({ path: 'FinishCart', replace: true })
-			}
-		} else {
+		handleNavigation(cart)
+	}
+
+	const handleNavigation = (cart) => {
+		if (!cart || cart.items.length === 0) {
 			Eitri.navigation.navigate({ path: 'EmptyCart', replace: true })
+		} else if (cartHasCustomerData(cart)) {
+			Eitri.navigation.navigate({ path: 'FinishCart', replace: true })
+		} else {
+			Eitri.navigation.navigate({ path: 'PersonalData', replace: true })
 		}
 	}
 

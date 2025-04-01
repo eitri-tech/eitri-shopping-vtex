@@ -1,5 +1,5 @@
 export default function GroupsWrapper(props) {
-	const { title, icon, isChecked, children, onPress } = props
+	const { title, icon, isChecked, children, imageUrl, onPress } = props
 
 	return (
 		<Touchable
@@ -26,7 +26,14 @@ export default function GroupsWrapper(props) {
 						<Text fontSize='extra-small'>{title}</Text>
 					</View>
 
-					<View>{icon}</View>
+					{imageUrl ? (
+						<Image
+							src={imageUrl}
+							maxWidth='24px'
+						/>
+					) : (
+						<View>{icon}</View>
+					)}
 				</View>
 			</View>
 			{children && isChecked && <View marginTop='large'>{children}</View>}

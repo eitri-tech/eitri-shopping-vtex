@@ -13,34 +13,18 @@ export const getCart = async () => {
 
 export const startPayment = async (selectedPaymentData, recaptchaToken, siteKey) => {
 	try {
-		const cart = await Vtex.cart.getCartIfExists() // TODO: Evitar buscar o carrinho de novo
+		const cart = await Vtex.cart.getCartIfExists()
 
 		if (!cart) {
 			return
 		}
 
-		let result
-
 		if (selectedPaymentData?.groupName === 'creditCardPaymentGroup') {
 			const cardInfo = selectedPaymentData.cardInfo
 			cardInfo.billingAddress = selectedPaymentData.billingAddress
-			result = await Vtex.checkout.pay(cart, cardInfo, recaptchaToken, siteKey)
+			return await Vtex.checkout.pay(cart, cardInfo, recaptchaToken, siteKey)
 		} else {
-			result = await Vtex.checkout.pay(cart)
-		}
-
-		if (result.ok || (result.status === 204 && result.statusText === 'No Content')) {
-			return {
-				orderId: result.orderGroup,
-				status: 'completed'
-			}
-		}
-
-		if (result.pix) {
-			return {
-				pixData: result.pixData,
-				status: 'waiting_pix_payment'
-			}
+			return await Vtex.checkout.pay(cart)
 		}
 	} catch (error) {
 		console.log('Erro ao iniciar pagamento', error)
@@ -79,4 +63,15 @@ export const registerToNotify = async userProfileId => {
 	} catch (e) {
 		console.log('erro on registerToNotify', e)
 	}
+}
+
+export const cartHasCustomerData = cart => {
+	return (
+		cart.clientProfileData &&
+		cart.clientProfileData.email &&
+		cart.clientProfileData.firstName &&
+		cart.clientProfileData.lastName &&
+		cart.clientProfileData.document &&
+		cart.clientProfileData.phone
+	)
 }

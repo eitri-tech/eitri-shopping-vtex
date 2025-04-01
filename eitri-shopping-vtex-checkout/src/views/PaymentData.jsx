@@ -8,23 +8,14 @@ import GiftCardInput from '../components/GiftCardInput/GiftCardInput'
 
 export default function PaymentData(props) {
 	const { cart, selectedPaymentData, setPaymentOption } = useLocalShoppingCart()
-	const [isLoading, setIsLoading] = useState(false)
-
 	const { t } = useTranslation()
+
+	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
 		sendPageView('Dados de pagamento')
 	}, [])
 
-	// TODO ver cenário onde o carrinho já vem com um metodo de pagamento. Para evitar que o usuário tenha que selecionar novamente
-	// useEffect(() => {
-	// 	if (!selectedPaymentData) {
-	// 		const currentGroup = cart?.paymentSystems.find(system => system.isCurrentPaymentSystemGroup)
-	// 		if (currentGroup) {
-	// 			setSelectedPaymentData({ groupName: currentGroup.groupName })
-	// 		}
-	// 	}
-	// }, [cart])
 
 	const submitPaymentSystemSelected = async () => {
 		setIsLoading(true)
@@ -94,17 +85,16 @@ export default function PaymentData(props) {
 					gap={16}
 					direction='column'
 					marginTop='large'>
-					<PaymentMethods paymentSystems={cart?.paymentSystems} />
 
-					<View
+					<PaymentMethods />
+
+					<CustomButton
 						marginHorizontal='nano'
-						marginVertical='small'>
-						<CustomButton
-							disabled={!selectedPaymentData?.isReadyToPay}
-							label={t('paymentData.labelButton')}
-							onPress={submitPaymentSystemSelected}
-						/>
-					</View>
+						marginVertical='small'
+						disabled={!selectedPaymentData?.isReadyToPay}
+						label={t('paymentData.labelButton')}
+						onPress={submitPaymentSystemSelected}
+					/>
 				</View>
 			</View>
 		</Window>

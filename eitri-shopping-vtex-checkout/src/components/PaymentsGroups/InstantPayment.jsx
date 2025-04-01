@@ -20,7 +20,7 @@ export default function InstantPayment(props) {
 				installmentsInterestRate: paymentSystems[0].installments[0]?.interestRate,
 				accountId: null,
 				tokenId: null,
-				installments: `${paymentSystems[0].installments[0]?.count}`, //TODO: NÃO ESTÁ RECEBENDO COMO NUMERO
+				installments: `${paymentSystems[0].installments[0]?.count}`,
 				referenceValue: paymentSystems[0].installments[0]?.value,
 				value: paymentSystems[0].installments[0]?.total,
 				isRegexValid: true

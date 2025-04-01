@@ -2,7 +2,7 @@ import Pix from './MethodIcons/Pix'
 import Boleto from './MethodIcons/Boleto'
 import Card from './MethodIcons/Card'
 
-export default function NonCardIcon(props) {
+export default function MethodIcon(props) {
 	const method = props.iconKey
 
 	if (method === 'Boleto Bancário') {
