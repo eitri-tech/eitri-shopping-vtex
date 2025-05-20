@@ -57,6 +57,7 @@ export default function EmptyCart(props) {
 						<CustomButton
 							wide
 							label={t('emptyCart.labelButton')}
+							labelColor='neutral-500'
 							onPress={closeEitriApp}
 						/>
 					)}
