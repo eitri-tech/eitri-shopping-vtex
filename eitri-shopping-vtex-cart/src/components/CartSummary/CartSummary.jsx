@@ -138,6 +138,7 @@ export default function CartSummary(props) {
 						marginTop='large'
 						borderRadius='small'
 						label={t('cartSummary.labelFinish')}
+						labelColor='neutral-500'
 						onPress={goToCheckout}
 					/>
 				</View>
