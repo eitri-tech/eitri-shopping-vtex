@@ -1,7 +1,8 @@
+
 import Loading from '../Loading/Loading'
 
 export default function CustomButton(props) {
-	const { disabled, color, backgroundColor, variant, label, onPress, isLoading, width, borderRadius, ...rest } = props
+	const { disabled, color, backgroundColor, variant, label, onPress, isLoading, width, borderRadius, labelColor, ...rest } = props
 
 	const _onPress = () => {
 		if (!disabled && onPress && typeof onPress === 'function') {
@@ -19,6 +20,11 @@ export default function CustomButton(props) {
 	const _borderColor = (() => {
 		return isLoading || disabled ? 'neutral-100' : backgroundColor || 'primary-700'
 	})()
+
+	const _labelColor = (() => {
+		return isLoading || disabled ? 'neutral-100' : labelColor || 'primary-700'
+	})()
+
 
 	return (
 		<Touchable
@@ -40,7 +46,7 @@ export default function CustomButton(props) {
 				<Text
 					contentColor={variant !== 'outlined'}
 					fontWeight='bold'
-					color={_borderColor}>
+					color={_labelColor}>
 					{label}
 				</Text>
 			)}

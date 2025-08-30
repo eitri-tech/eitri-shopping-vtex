@@ -55,6 +55,7 @@ export default function ActionButton (props) {
 			  onPress={handleButtonClick}
 			  isLoading={isLoading}
 			  backgroundColor={isAvailable ? 'primary-700' : 'neutral-300'}
+        labelColor={isAvailable ? 'neutral-500' : 'neutral-300'}
 			  borderRadius='none'
 		  />
 	  </View>
